@@ -1,0 +1,30 @@
+//
+//  MenuDao.h
+//  muic_v2
+//
+//  Created by pawit on 8/30/2557 BE.
+//  Copyright (c) 2557 muic. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#import <sqlite3.h>
+#import "ModelMenu.h"
+
+@interface MenuDao : NSObject{
+    sqlite3 *db;
+    
+    NSString *databaseName;
+    NSString *databasePath;
+}
+
++(id)MenuDao;
+
+- (void) initDatabase;
+- (BOOL) saveModel:(ModelMenu*)model;
+- (BOOL) updateModel:(ModelMenu*)model;
+- (BOOL) deleteModel:(ModelMenu*)model;
+- (NSMutableArray *) getMenu:(ModelMenu*)model;
+- (NSMutableArray *) getAll;
+- (NSArray *) getSingle:(NSInteger) id;
+@end
