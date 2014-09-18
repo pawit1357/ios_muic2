@@ -13,7 +13,7 @@
 #import "Modelapp.h"
 #import "ModelBanner.h"
 #import "ModelMenu.h"
-
+#import "MainViewController.h"
 
 @interface MenuController ()
 
@@ -23,6 +23,7 @@
 
 @synthesize appList,src,bannerList;
 
+int selectedRow;
 
 - (void)viewDidLoad
 {
@@ -148,9 +149,19 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    selectedRow = indexPath.row;
+    NSLog(@"selected row %d",selectedRow);
+    
+    
+}
+
+
+
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if([segue.identifier isEqualToString:@"showDetail"]){
+    if([segue.identifier isEqualToString:@"modalListApp"]){
         //NSIndexPath *indexPath = [ self.tableView indexPathForSelectedRow];
         //ModelApp *app= (ModelApp *)[self.appList objectAtIndex[indexPath]];
         //ModelApp *app = self.appList[indexPath.row];
