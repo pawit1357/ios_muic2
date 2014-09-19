@@ -10,10 +10,14 @@
 
 @implementation AppDelegate
 
+@synthesize selectedApp;
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [NSThread sleepForTimeInterval:3.0];
     // Override point for customization after application launch.
+    self.selectedApp = 1;
     return YES;
 }
 							

@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController
+@interface MainViewController: UIViewController<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *svBanner;
+@property (strong, nonatomic) IBOutlet UIView *vMain;
+@property (weak, nonatomic) IBOutlet UITableView *tvContent;
+
+@property (strong, nonatomic) NSMutableArray *bannerList;
+@property (strong, nonatomic) NSMutableArray *contentList;
+@property (strong, nonatomic) NSArray *appInfo;
+
+- (void)setupScrollView:(UIScrollView*)svMain ;
 
 @end

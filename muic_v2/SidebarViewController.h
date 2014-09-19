@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SidebarViewController : UITableViewController
+@interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 
+
+
+@property (weak, nonatomic) IBOutlet UITableView *tvMenuList;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *cvAppList;
+@property (strong, nonatomic) NSMutableArray *menuList;
+@property (strong, nonatomic) NSMutableArray *appList;
 @end
