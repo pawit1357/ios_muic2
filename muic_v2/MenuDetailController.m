@@ -8,6 +8,9 @@
 
 #import "MenuDetailController.h"
 #import "SWRevealViewController.h"
+#import "ModelContent.h"
+#import "Modelmenu.h"
+#import "ContentDao.h"
 
 @interface MenuDetailController ()
 
@@ -16,19 +19,53 @@
 @implementation MenuDetailController
 
 
+-(void) seContentItem:(id)newContentItem{
+    
+    if(_contentItem != newContentItem){
+        _contentItem = newContentItem;
+    }
+    
+
+    [self prepareContent];
+}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    //_slideButtonBack.target = self.revealViewController;
-    //_slideButtonBack.action = @selector(revealToggle:);
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
+    backButton.target = self.revealViewController;
+    //backButton.action = @selector(revealToggle:);
+    self.navigationItem.leftBarButtonItem= backButton;
     
-    // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
+    
+    [self prepareContent];
+    
+}
 
+- (void) prepareContent{
+    if(_contentItem){
+        
+        ModelContent *content = (ModelContent*)_contentItem;
+        self.title = content.title;
+
+
+            
+            //ModelContent *content = (ModelContent*)[contents objectAtIndex:0];
+            NSLog(@">>>>%@",content.description);
+            
+            NSString *embedHTML =[NSString stringWithFormat: @"<html><head></head><body>%@</p></body></html>",content.description];
+            
+            self.wvContent.userInteractionEnabled = NO;
+            self.wvContent.opaque = NO;
+            self.wvContent.backgroundColor = [UIColor clearColor];
+            [self.wvContent loadHTMLString: embedHTML baseURL: nil];
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning

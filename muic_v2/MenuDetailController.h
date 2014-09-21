@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ModelContent.h"
 
 @interface MenuDetailController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UIWebView *wvContent;
+
+@property (strong, nonatomic) ModelContent *contentItem;
 
 
 @end

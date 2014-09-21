@@ -39,7 +39,7 @@
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
-    [self prepareContents];
+    [self prepareContent];
     [self setupScrollView:svBanner];
 
     UIPageControl *pgCtr = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 120, 280, 36)];
@@ -57,9 +57,15 @@
     
 }
 
--(void)prepareContents{
+-(void)prepareContent{
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
-    self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getAll];
+    
+    AppDelegate *a = DELEGATE;
+    //ModelContent *content = [[ModelContent alloc] init];
+    //content.app_id = a.selectedApp;
+    
+    //148,159,176,183
+    //self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:content];
 }
 /*
 - (void) apopbuttonPressed:(id) sender
