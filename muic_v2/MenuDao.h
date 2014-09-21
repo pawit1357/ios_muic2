@@ -24,7 +24,8 @@
 - (BOOL) saveModel:(ModelMenu*)model;
 - (BOOL) updateModel:(ModelMenu*)model;
 - (BOOL) deleteModel:(ModelMenu*)model;
-- (NSMutableArray *) getMenu:(ModelMenu*)model;
+- (NSMutableArray *) getChildMenu:(ModelMenu*)model;
+- (NSMutableArray *) getAllMainMenu;
 - (NSMutableArray *) getAll;
 - (NSArray *) getSingle:(NSInteger) id;
 @end

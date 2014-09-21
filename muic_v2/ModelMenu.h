@@ -19,6 +19,7 @@
     NSInteger type;
     NSInteger order;
     NSString * status;
+    NSString * description;
 
 }
 @property (nonatomic, assign) NSInteger id;
@@ -29,6 +30,7 @@
 @property (nonatomic, assign) NSInteger type;
 @property (nonatomic, assign) NSInteger order;
 @property (nonatomic, retain) NSString *status;
+@property (nonatomic, retain) NSString *description;
 
 
 @end

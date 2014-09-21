@@ -145,7 +145,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type from tb_menu where status='A' order by menu_order asc";
+        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1 order by menu_order asc";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -159,7 +159,7 @@ static MenuDao *_menuDao = nil;
                 model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
                 model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
                 model.type= sqlite3_column_int(statement,5);
-                
+                                model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
@@ -169,7 +169,8 @@ static MenuDao *_menuDao = nil;
     
     return resultList;
 }
-- (NSMutableArray *) getMenu:(ModelMenu *)model
+
+- (NSMutableArray *) getAllMainMenu
 {
     NSMutableArray *resultList = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
@@ -177,7 +178,40 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type from tb_menu where status='A' and app_id=%d and parent=%d order by menu_order asc",model.app_id,model.parent];
+        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1 and parent = -1 order by menu_order asc";
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelMenu *model = [[ModelMenu alloc] init];
+                model.id= sqlite3_column_int(statement, 0);
+                model.app_id= sqlite3_column_int(statement, 1);
+                model.parent= sqlite3_column_int(statement, 2);
+                model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.type= sqlite3_column_int(statement,5);
+                                model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(db);
+    }
+    
+    return resultList;
+}
+
+- (NSMutableArray *) getChildMenu:(ModelMenu *)model
+{
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=%d order by menu_order asc",model.parent];
         NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
@@ -193,7 +227,7 @@ static MenuDao *_menuDao = nil;
                 model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
                 model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
                 model.type= sqlite3_column_int(statement,5);
-                
+                model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);

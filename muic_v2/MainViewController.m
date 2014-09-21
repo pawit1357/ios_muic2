@@ -8,7 +8,6 @@
 
 #import "MainViewController.h"
 #import "SWRevealViewController.h"
-#import "ModalAppListController.h"
 #import "ModelApp.h"
 #import "BannerDao.h"
 #import "AppDelegate.h"
@@ -59,26 +58,10 @@
 
 -(void)prepareContent{
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
+    self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
     
-    AppDelegate *a = DELEGATE;
-    //ModelContent *content = [[ModelContent alloc] init];
-    //content.app_id = a.selectedApp;
-    
-    //148,159,176,183
-    //self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:content];
+    self.svBanner.userInteractionEnabled = NO;
 }
-/*
-- (void) apopbuttonPressed:(id) sender
-{
-    NSLog(@"pressed");
-}
- */
-/*
--(void) setAppInfo:(id)newAppInfo{
-    
-    self.appInfo = newAppInfo;
-}
-*/
 
 - (void)didReceiveMemoryWarning
 {
@@ -142,14 +125,6 @@
         [scrMain scrollRectToVisible:CGRectMake(0, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
         pgCtr.currentPage=0;
     }
-    
-    //AppDelegate *a = DELEGATE;
-    //NSLog(@"value of variable str : %d",a.selectedApp );
-    
-    
-    //ModelApp *app = (ModelApp*)self.appInfo;
-    //self.lbInfo.text =[NSString stringWithFormat:@"Selected %d",a.selectedApp];
-    //NSLog(@"----->%@", app.name);
 }
 
 
@@ -165,18 +140,28 @@
 {
     
     static NSString *simpleTableIdentifier = @"Cell";
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
+    // Configure the cell...
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
     
 	ModelContent *app= (ModelContent *)[self.contentList objectAtIndex:indexPath.row];
     
+
     cell.textLabel.text = app.title;
-    cell.detailTextLabel.text = app.description;
-    //cell.imageView.image = [UIImage imageNamed:app.image_url];
+    cell.detailTextLabel.text = app.title;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // retrive image on global queue
+        UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:app.image_url]]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.imageView.image =img;
+        });
+    });
     
     return cell;
 }

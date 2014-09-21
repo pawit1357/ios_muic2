@@ -255,6 +255,62 @@ static ContentDao * _contentDao = nil;
     return resultList;
 }
 
+- (NSMutableArray *) getNews{
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A' and menu_id in (SELECT id FROM tb_menu where status='A' and menu_type in (1,2)) order by app_id";
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelContent *model = [[ModelContent alloc] init];
+                model.id = sqlite3_column_int(statement, 0);
+                model.app_id = sqlite3_column_int(statement, 1);
+                model.menu_id = sqlite3_column_int(statement, 2);
+                
+                if ( sqlite3_column_type(statement, 3) != SQLITE_NULL )
+                {
+                    model.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                }else{
+                    model.title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 4) != SQLITE_NULL )
+                {
+                    model.sub_title =[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                }else{
+                    model.sub_title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 5) != SQLITE_NULL )
+                {
+                    model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                }else{
+                    model.description = @" ";
+                }
+                if ( sqlite3_column_type(statement, 6) != SQLITE_NULL )
+                {
+                    model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                }else{
+                    model.image_url = @" ";
+                }
+                
+                
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+        sqlite3_close(db);
+    }
+    
+    return resultList;
+}
 - (NSArray *) getSingle:(NSInteger)id
 {
     NSMutableArray *resultList = [self getAll];

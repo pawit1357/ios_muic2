@@ -10,6 +10,6 @@
 
 @implementation ModelMenu
 
-@synthesize id,app_id,parent,name,icon,type,order,status;
+@synthesize id,app_id,parent,name,icon,type,order,status,description;
 
 @end

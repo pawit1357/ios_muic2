@@ -24,6 +24,7 @@
 - (BOOL) updateModel:(ModelContent*)model;
 - (BOOL) deleteModel:(ModelContent*)model;
 - (NSMutableArray *) getAll;
+- (NSMutableArray *) getNews;
 - (NSArray *) getSingle:(NSInteger) id;
 
 - (NSMutableArray *) getMenuContent:(int) menu_id;

@@ -9,7 +9,6 @@
 #import "MenuDetailController.h"
 #import "SWRevealViewController.h"
 #import "ModelContent.h"
-#import "Modelmenu.h"
 #import "ContentDao.h"
 
 @interface MenuDetailController ()
@@ -60,9 +59,10 @@
             
             NSString *embedHTML =[NSString stringWithFormat: @"<html><head></head><body>%@</p></body></html>",content.description];
             
-            self.wvContent.userInteractionEnabled = NO;
-            self.wvContent.opaque = NO;
-            self.wvContent.backgroundColor = [UIColor clearColor];
+            //self.wvContent.userInteractionEnabled = NO;
+            //self.wvContent.opaque = NO;
+            //self.wvContent.backgroundColor = [UIColor clearColor];
+            self.wvContent.scrollView.scrollEnabled = TRUE;
             [self.wvContent loadHTMLString: embedHTML baseURL: nil];
         
     }

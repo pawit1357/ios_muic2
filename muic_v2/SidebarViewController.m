@@ -10,9 +10,9 @@
 #import "SWRevealViewController.h"
 #import "ModelMenu.h"
 #import "Menudao.h"
-#import "AppDelegate.h"
-#import "AppDao.h"
-#import "modelapp.h"
+//#import "AppDelegate.h"
+//#import "AppDao.h"
+//#import "modelapp.h"
 #import "Modelcontent.h"
 #import "ContentDao.h"
 
@@ -26,7 +26,7 @@
 
 @implementation SidebarViewController
 
-@synthesize menuList,tvMenuList,cvAppList,appList;
+@synthesize menuList,tvMenuList;
 
 int currentMenuId = 0;
 
@@ -52,12 +52,7 @@ int currentMenuId = 0;
 
 -(void) prepareData{
     
-    AppDelegate *a = DELEGATE;
-    ModelMenu *menu = [[ModelMenu alloc] init];
-    menu.app_id = a.selectedApp;
-    menu.parent = -1;
-    self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getMenu:menu];
-    self.appList  = (NSMutableArray*)[[AppDao AppDao] getAll];
+    self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getAllMainMenu];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
@@ -146,7 +141,7 @@ int currentMenuId = 0;
             ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
     
             cell.textLabel.text = menu.name;
-            cell.detailTextLabel.text = menu.name;
+            cell.detailTextLabel.text = menu.description;
             cell.imageView.image = [UIImage imageNamed:menu.icon];
         }
     
@@ -157,13 +152,11 @@ int currentMenuId = 0;
 {
     if( indexPath.row < self.menuList.count){
         
-        AppDelegate *a = DELEGATE;
         ModelMenu *m= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
         
         ModelMenu *menu = [[ModelMenu alloc] init];
-        menu.app_id = a.selectedApp;
         menu.parent = m.id;
-        self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getMenu:menu];
+        self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:menu];
         if ([self.menuList count] == 0) {
             
             currentMenuId = m.id;
@@ -174,7 +167,7 @@ int currentMenuId = 0;
         [self.tvMenuList reloadData];
     }
 }
-
+/*
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.appList.count;
 }
@@ -213,5 +206,5 @@ int currentMenuId = 0;
     
     [self.tvMenuList reloadData];
 }
-
+*/
 @end
