@@ -1,26 +1,25 @@
 //
-//  MenuDao.m
+//  ContentDao.m
 //  muic_v2
 //
-//  Created by pawit on 8/30/2557 BE.
+//  Created by pawit on 9/19/2557 BE.
 //  Copyright (c) 2557 muic. All rights reserved.
 //
 
-#import "MenuDao.h"
-#import <CoreData/CoreData.h>
-#import "ModelMenu.h"
+#import "ContentDao.h"
+#import "ModelContent.h"
 
-@implementation MenuDao
+@implementation ContentDao
 
-static MenuDao *_menuDao = nil;
+static ContentDao * _contentDao = nil;
 
-+(id)MenuDao{
++(id)ContentDao{
     @synchronized(self) {
         
-        if (_menuDao == nil)
-            _menuDao = [[self alloc] init];
+        if (_contentDao == nil)
+            _contentDao = [[self alloc] init];
     }
-    return _menuDao;
+    return _contentDao;
 }
 
 - (id)init {
@@ -66,7 +65,7 @@ static MenuDao *_menuDao = nil;
 }
 
 
-- (BOOL) saveModel:(ModelMenu *)model
+- (BOOL) saveModel:(ModelContent *)model
 {
     BOOL success = false;
     /*
@@ -99,7 +98,7 @@ static MenuDao *_menuDao = nil;
     return success;
 }
 
-- (BOOL) updateModel:(ModelMenu *)model
+- (BOOL) updateModel:(ModelContent *)model
 {
     
     BOOL success = false;
@@ -145,66 +144,117 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type from tb_menu where status='A' order by menu_order asc";
+        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A'";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                ModelMenu *model = [[ModelMenu alloc] init];
-                model.id= sqlite3_column_int(statement, 0);
-                model.app_id= sqlite3_column_int(statement, 1);
-                model.parent= sqlite3_column_int(statement, 2);
-                model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
-                model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-                model.type= sqlite3_column_int(statement,5);
+                ModelContent *model = [[ModelContent alloc] init];
+                model.id = sqlite3_column_int(statement, 0);
+                model.app_id = sqlite3_column_int(statement, 1);
+                model.menu_id = sqlite3_column_int(statement, 2);
+                
+                if ( sqlite3_column_type(statement, 3) != SQLITE_NULL )
+                {
+                     model.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                }else{
+                    model.title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 4) != SQLITE_NULL )
+                {
+                     model.sub_title =[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                }else{
+                     model.sub_title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 5) != SQLITE_NULL )
+                {
+                    model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                }else{
+                     model.description = @" ";
+                }
+                if ( sqlite3_column_type(statement, 6) != SQLITE_NULL )
+                {
+                    model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                }else{
+                     model.image_url = @" ";
+                }
+    
                 
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
         }
         sqlite3_close(db);
     }
     
     return resultList;
 }
-- (NSMutableArray *) getMenu:(ModelMenu *)model
-{
+- (NSMutableArray *) getMenuContent:(int) menu_id{
     NSMutableArray *resultList = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
     sqlite3_stmt    *statement;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type from tb_menu where status='A' and app_id=%d and parent=%d order by menu_order asc",model.app_id,model.parent];
-        NSLog(@"Get menu sql = %@",querySQL);
+        //NSString *query = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A' and menu_id=? ";
+        
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A' and menu_id=%d" ,menu_id];
+        
+        
+        NSLog(@"getMenuContent:%@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
+            //sqlite3_bind_int(statement, 0, menu_id);
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                ModelMenu *model = [[ModelMenu alloc] init];
-                model.id= sqlite3_column_int(statement, 0);
-                model.app_id= sqlite3_column_int(statement, 1);
-                model.parent= sqlite3_column_int(statement, 2);
-                model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
-                model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-                model.type= sqlite3_column_int(statement,5);
-                
+                ModelContent *model = [[ModelContent alloc] init];
+                model.id = sqlite3_column_int(statement, 0);
+                model.app_id = sqlite3_column_int(statement, 1);
+                model.menu_id = sqlite3_column_int(statement, 2);
+                if ( sqlite3_column_type(statement, 3) != SQLITE_NULL )
+                {
+                    model.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                }else{
+                    model.title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 4) != SQLITE_NULL )
+                {
+                    model.sub_title =[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                }else{
+                    model.sub_title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 5) != SQLITE_NULL )
+                {
+                    model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                }else{
+                    model.description = @" ";
+                }
+                if ( sqlite3_column_type(statement, 6) != SQLITE_NULL )
+                {
+                    model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                }else{
+                    model.image_url = @" ";
+                }
                 [resultList addObject:model];
+                
             }
             sqlite3_finalize(statement);
         }else{
-             NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
         }
         sqlite3_close(db);
     }
     
     return resultList;
 }
+
 - (NSArray *) getSingle:(NSInteger)id
 {
     NSMutableArray *resultList = [self getAll];
@@ -214,7 +264,7 @@ static MenuDao *_menuDao = nil;
 }
 
 //delete the employee from the database
-- (BOOL) deleteModel:(ModelMenu *)model
+- (BOOL) deleteModel:(ModelContent *)model
 {
     BOOL success = false;
     /*
@@ -249,7 +299,4 @@ static MenuDao *_menuDao = nil;
     return success;
 }
 
-
-
 @end
-

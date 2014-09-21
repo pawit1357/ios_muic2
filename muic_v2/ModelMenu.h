@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface ModelMenu : NSManagedObject {
+@interface ModelMenu : NSObject {
     
     NSInteger id;
     NSInteger app_id;
