@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "ModelContent.h"
 #import "ContentDao.h"
+#import "NewsDetailController.h"
 
 @interface MainViewController ()
 
@@ -173,17 +174,16 @@
  
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-   // MainViewController *transferViewController = segue.destinationViewController;
-    
-    if([segue.identifier isEqualToString:@"appListSegue"]){
+
+    if([segue.identifier isEqualToString:@"newDetail"]){
         
+        NewsDetailController *transferViewController = segue.destinationViewController;
+
+        NSIndexPath *indexPath = [self.tvContent indexPathForSelectedRow];
         
-        //[viewControllerDelegate updateLabel];
+        ModelContent *content= (ModelContent *)self.contentList[indexPath.row];
         
-        //NSIndexPath *indexPath = [self.appListView indexPathForSelectedRow];
-        //NSArray *info = self.appList[indexPath.row];
-        
-        //[transferViewController setAppInfo:info];
+        [transferViewController setContentItem:content];
     }
 }
 

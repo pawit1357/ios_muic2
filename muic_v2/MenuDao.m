@@ -202,6 +202,42 @@ static MenuDao *_menuDao = nil;
     
     return resultList;
 }
+- (NSMutableArray *) getParentMenu:(ModelMenu *)model
+{
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=(select parent from tb_menu where id  =%d) order by menu_order asc",model.parent];
+        //NSLog(@"Get menu sql = %@",querySQL);
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelMenu *model = [[ModelMenu alloc] init];
+                model.id= sqlite3_column_int(statement, 0);
+                model.app_id= sqlite3_column_int(statement, 1);
+                model.parent= sqlite3_column_int(statement, 2);
+                model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.type= sqlite3_column_int(statement,5);
+                model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+        sqlite3_close(db);
+    }
+    
+    return resultList;
+}
 
 - (NSMutableArray *) getChildMenu:(ModelMenu *)model
 {
@@ -211,8 +247,8 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=%d order by menu_order asc",model.parent];
-        NSLog(@"Get menu sql = %@",querySQL);
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=%d order by menu_order asc",model.id];
+        //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
         

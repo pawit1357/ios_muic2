@@ -55,7 +55,7 @@
 
             
             //ModelContent *content = (ModelContent*)[contents objectAtIndex:0];
-            NSLog(@">>>>%@",content.description);
+            //NSLog(@">>>>%@",content.description);
             
             NSString *embedHTML =[NSString stringWithFormat: @"<html><head></head><body>%@</p></body></html>",content.description];
             

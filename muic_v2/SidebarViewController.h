@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+@interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 
 //@property (weak, nonatomic) IBOutlet UICollectionView *cvAppList;
@@ -16,5 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tvMenuList;
 
 @property (strong, nonatomic) NSMutableArray *menuList;
-//@property (strong, nonatomic) NSMutableArray *appList;
+
+@property (strong, nonatomic) NSMutableArray *parentAr;
+
 @end

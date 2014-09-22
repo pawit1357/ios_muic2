@@ -26,9 +26,10 @@
 
 @implementation SidebarViewController
 
-@synthesize menuList,tvMenuList;
+@synthesize menuList,tvMenuList,parentAr;
 
-int currentMenuId = 0;
+
+ModelMenu *selectedMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,16 +44,88 @@ int currentMenuId = 0;
 {
     [super viewDidLoad];
     
-    //self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     //self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     //self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
+    
+    //UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
+    //backButton.target = self.revealViewController;
+    //backButton.action = @selector(revealToggle:);
+    //self.navigationItem.leftBarButtonItem= backButton;
+    
+    self.parentAr =  [NSMutableArray array];
     
     [self prepareData];
 }
 
--(void) prepareData{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    // create the parent view that will hold header Label
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 22.0)];
     
+    // create the button object
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    
+    headerLabel.backgroundColor = [UIColor clearColor];
+    headerLabel.opaque = NO;
+    headerLabel.textColor = [UIColor whiteColor];
+    headerLabel.highlightedTextColor = [UIColor whiteColor];
+    headerLabel.font = [UIFont boldSystemFontOfSize:10];
+    headerLabel.frame = CGRectMake(0.0, 0.0, 320.0, 22.0);
+    
+    headerLabel.text = @"Select menu."; // i.e. array element
+    
+    UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    infoButton.frame = CGRectMake(0, 0, 18, 18); // x,y,width,height
+    infoButton.enabled = YES;
+    [infoButton addTarget:self action:@selector(infoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+
+    [customView addSubview:headerLabel];
+    [customView addSubview:infoButton];
+    
+    return customView;
+}
+
+- (void)infoButtonClicked:(id)sender {
+    [self getPreviousMenu:selectedMenu];
+    
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
+}
+
+-(void) prepareData{
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getAllMainMenu];
+    [self.tvMenuList reloadData];
+}
+
+-(void) getNextMenu:(ModelMenu*)selectedMenu{
+    
+    self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:selectedMenu];
+    [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
+    [self.tvMenuList reloadData];
+    
+    //NSLog(@"getNextMenu:%d,%d,%d",selectedMenu.id,selectedMenu.parent,self.menuList.count);
+    //NSLog(@"menu index:%d,%@",menuIndex,[self.parentAr objectAtIndex:menuIndex]);
+    //menuIndex++;
+}
+
+-(void) getPreviousMenu:(ModelMenu*)selectedMenu{
+    
+    
+    
+    ModelMenu *menu = [[ModelMenu alloc] init];
+    menu.id = [[self.parentAr lastObject] integerValue];
+    if(menu.id != 0){
+        self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:menu];
+        [self.tvMenuList reloadData];
+        [self.parentAr removeLastObject];
+    }
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
@@ -82,16 +155,11 @@ int currentMenuId = 0;
      */
     if ([segue.identifier isEqualToString:@"menuDetail"]) {
          MenuDetailController *transferViewController = segue.destinationViewController;
-         //NSArray *itemDetail = self.menuList[selectedRowIndex];
-        //NSLog(@"**********************************:%d",currentMenuId);
         
-        NSMutableArray *contents = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:currentMenuId];
+        NSMutableArray *contents = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:selectedMenu.id];
         if( contents.count>0){
-            
             ModelContent *content = (ModelContent*)[contents objectAtIndex:0];
-            
-        
-         [transferViewController setContentItem:content];
+            [transferViewController setContentItem:content];
         }
     }
     
@@ -116,12 +184,6 @@ int currentMenuId = 0;
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -150,21 +212,21 @@ int currentMenuId = 0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if( indexPath.row < self.menuList.count){
         
-        ModelMenu *m= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
-        
-        ModelMenu *menu = [[ModelMenu alloc] init];
-        menu.parent = m.id;
-        self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:menu];
+       
+        selectedMenu = (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
+
+        [self getNextMenu:selectedMenu];
         if ([self.menuList count] == 0) {
             
-            currentMenuId = m.id;
-            
-            [self prepareData];
+            ModelMenu *menu = [[ModelMenu alloc] init];
+            menu.id = [[self.parentAr lastObject] integerValue];
+            self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:menu];
+            [self.tvMenuList reloadData];
             [self performSegueWithIdentifier:@"menuDetail" sender:@" "];
         }
-        [self.tvMenuList reloadData];
     }
 }
 /*
