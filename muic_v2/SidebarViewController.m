@@ -19,6 +19,8 @@
 #import "MenuDetailController.h"
 #import "SidebarViewController.h"
 #import "MainViewController.h"
+#import "PromotionDetailController.h"
+#import "GalleryDetailController.h"
 
 @interface SidebarViewController ()
 
@@ -30,15 +32,6 @@
 
 
 ModelMenu *selectedMenu;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -109,15 +102,10 @@ ModelMenu *selectedMenu;
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:selectedMenu];
     [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
     [self.tvMenuList reloadData];
-    
-    //NSLog(@"getNextMenu:%d,%d,%d",selectedMenu.id,selectedMenu.parent,self.menuList.count);
-    //NSLog(@"menu index:%d,%@",menuIndex,[self.parentAr objectAtIndex:menuIndex]);
-    //menuIndex++;
+
 }
 
 -(void) getPreviousMenu:(ModelMenu*)selectedMenu{
-    
-    
     
     ModelMenu *menu = [[ModelMenu alloc] init];
     menu.id = [[self.parentAr lastObject] integerValue];
@@ -140,20 +128,10 @@ ModelMenu *selectedMenu;
 
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
 {
-    /*
-     -----------------
-     menu_type
-     -----------------
-     0 = menu
-     1 = news & event
-     2 = announge
-     3 = gallery
-     4 = promotion
-     5 = content(html)
-     6 = book
-     7 = ask
-     */
+
+    
     if ([segue.identifier isEqualToString:@"menuDetail"]) {
+        
          MenuDetailController *transferViewController = segue.destinationViewController;
         
         NSMutableArray *contents = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:selectedMenu.id];
@@ -162,6 +140,22 @@ ModelMenu *selectedMenu;
             [transferViewController setContentItem:content];
         }
     }
+    if ([segue.identifier isEqualToString:@"galleryDetail"]) {
+        
+        GalleryDetailController *transferViewController = segue.destinationViewController;
+        
+        NSMutableArray *contents = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:selectedMenu.id];
+        [transferViewController setContentList:contents];
+        
+    }
+    if ([segue.identifier isEqualToString:@"promotionDetail"]) {
+        
+        PromotionDetailController *transferViewController = segue.destinationViewController;
+        
+        NSMutableArray *contents = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:selectedMenu.id];
+        [transferViewController setContentList:contents];
+    }
+    
     
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;
@@ -225,48 +219,34 @@ ModelMenu *selectedMenu;
             menu.id = [[self.parentAr lastObject] integerValue];
             self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:menu];
             [self.tvMenuList reloadData];
-            [self performSegueWithIdentifier:@"menuDetail" sender:@" "];
+            
+            /*
+             -----------------
+             menu_type
+             -----------------
+             0 = menu
+             1 = news & event
+             2 = announge
+             3 = gallery
+             4 = promotion
+             5 = content(html)
+             6 = book
+             7 = ask
+             */
+            
+            switch (selectedMenu.type) {
+                case 3:
+                    [self performSegueWithIdentifier:@"galleryDetail" sender:@" "];
+                    break;
+                case 4:
+                    [self performSegueWithIdentifier:@"promotionDetail" sender:@" "];
+                    break;
+                default:
+                    [self performSegueWithIdentifier:@"menuDetail" sender:@" "];
+                    break;
+            }
         }
     }
 }
-/*
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.appList.count;
-}
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"Cell";
-    
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    
-    UIImageView *recipeImageView = (UIImageView *)[cell viewWithTag:100];
-    
-    ModelApp *app= (ModelApp *)[self.appList objectAtIndex:indexPath.row];
-    
-    recipeImageView.image = [UIImage imageNamed:app.image_url];
-    
-    //cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
-    
-    return cell;
-}
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    //DetailViewController* viewController = [[DetailViewController alloc] init];
-    //configure detail view controller
-    // viewController.detailInfo = ...
-    //[self.navigationController pushViewController:viewController animated:YES];
-
-    ModelApp *app= (ModelApp *)[self.appList objectAtIndex:indexPath.row];
-    ModelMenu *menu = [[ModelMenu alloc] init];
-    menu.app_id = app.id;
-    menu.parent = -1;
-    self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getMenu:menu];
-    
-    AppDelegate *a = DELEGATE;
-    a.selectedApp = app.id;
-    
-    [self.tvMenuList reloadData];
-}
-*/
 @end

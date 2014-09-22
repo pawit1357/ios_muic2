@@ -11,7 +11,7 @@
 @interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 
-//@property (weak, nonatomic) IBOutlet UICollectionView *cvAppList;
+
 
 @property (weak, nonatomic) IBOutlet UITableView *tvMenuList;
 

@@ -37,6 +37,12 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
     backButton.target = self.revealViewController;
     //backButton.action = @selector(revealToggle:);
+    
+    //UIBarButtonItem *mainButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
+    //mainButton.target = self.revealViewController;
+    //mainButton.action = @selector(revealToggle:);
+    
+    //self.navigationItem.rightBarButtonItem= mainButton;
     self.navigationItem.leftBarButtonItem= backButton;
     
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
