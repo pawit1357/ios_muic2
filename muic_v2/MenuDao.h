@@ -25,6 +25,7 @@
 - (BOOL) updateModel:(ModelMenu*)model;
 - (BOOL) deleteModel:(ModelMenu*)model;
 - (NSMutableArray *) getChildMenu:(ModelMenu*)model;
+- (NSMutableArray *) getParentMenu:(ModelMenu *)model;
 - (NSMutableArray *) getAllMainMenu;
 - (NSMutableArray *) getAll;
 - (NSArray *) getSingle:(NSInteger) id;
