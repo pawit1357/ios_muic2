@@ -1,18 +1,18 @@
 //
-//  NewsDetailController.m
+//  PromotoinSubDetailController.m
 //  muic_v2
 //
-//  Created by pawit on 9/22/2557 BE.
+//  Created by pawit on 9/23/2557 BE.
 //  Copyright (c) 2557 muic. All rights reserved.
 //
 
-#import "NewsDetailController.h"
+#import "PromotoinSubDetailController.h"
 
-@interface NewsDetailController ()
+@interface PromotoinSubDetailController ()
 
 @end
 
-@implementation NewsDetailController
+@implementation PromotoinSubDetailController
 
 -(void) seContentItem:(id)newContentItem{
     

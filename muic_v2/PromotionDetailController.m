@@ -9,6 +9,7 @@
 #import "PromotionDetailController.h"
 #import "ModelContent.h"
 #import "SWRevealViewController.h"
+#import "PromotoinSubDetailController.h"
 
 @interface PromotionDetailController ()
 
@@ -85,18 +86,18 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    /*
-    if([segue.identifier isEqualToString:@"newDetail"]){
+    
+    if([segue.identifier isEqualToString:@"promotionSubDetail"]){
         
-        NewsDetailController *transferViewController = segue.destinationViewController;
+        PromotoinSubDetailController *transferViewController = segue.destinationViewController;
         
-        NSIndexPath *indexPath = [self.tvContent indexPathForSelectedRow];
+        NSIndexPath *indexPath = [self.tvMain indexPathForSelectedRow];
         
         ModelContent *content= (ModelContent *)self.contentList[indexPath.row];
         
         [transferViewController setContentItem:content];
     }
-     */
+    
     
 }
 
