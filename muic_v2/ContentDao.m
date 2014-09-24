@@ -205,7 +205,7 @@ static ContentDao * _contentDao = nil;
         NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A' and menu_id=%d" ,menu_id];
         
         
-        NSLog(@"getMenuContent:%@",querySQL);
+        //NSLog(@"getMenuContent:%@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
         

@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LibraryDetailController : UIViewController
+@interface LibraryDetailController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tvMain;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong, nonatomic) NSMutableArray *bookList;
+@property (strong, nonatomic) NSMutableArray *filteredBookList;
+@property (nonatomic, assign) bool isFiltered;
+
 
 @end

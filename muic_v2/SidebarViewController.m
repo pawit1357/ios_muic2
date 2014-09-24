@@ -15,12 +15,14 @@
 //#import "modelapp.h"
 #import "Modelcontent.h"
 #import "ContentDao.h"
+#import "Bookdao.h"
 
 #import "MenuDetailController.h"
 #import "SidebarViewController.h"
 #import "MainViewController.h"
 #import "PromotionDetailController.h"
 #import "GalleryDetailController.h"
+#import "LibraryDetailController.h"
 
 @interface SidebarViewController ()
 
@@ -155,7 +157,15 @@ ModelMenu *selectedMenu;
         NSMutableArray *contents = (NSMutableArray*)[[ContentDao ContentDao] getMenuContent:selectedMenu.id];
         [transferViewController setContentList:contents];
     }
-    
+    if ([segue.identifier isEqualToString:@"bookDetail"]) {
+        
+        LibraryDetailController *transferViewController = segue.destinationViewController;
+        
+
+        NSMutableArray *books = (NSMutableArray*)[[BookDao BookDao] getBookByType:[NSString stringWithFormat:@"%d",selectedMenu.type]];
+        
+        [transferViewController setBookList:books];
+    }
     
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;
@@ -231,7 +241,10 @@ ModelMenu *selectedMenu;
              4 = promotion
              5 = content(html)
              6 = book
-             7 = ask
+             7 = thesis
+             8 = ask
+             
+             add filter recommnted,new
              */
             
             switch (selectedMenu.type) {
@@ -240,6 +253,13 @@ ModelMenu *selectedMenu;
                     break;
                 case 4:
                     [self performSegueWithIdentifier:@"promotionDetail" sender:@" "];
+                    break;
+                case 6:
+                case 7:
+                    [self performSegueWithIdentifier:@"bookDetail" sender:@" "];
+                    break;
+                case 8:
+                    NSLog(@"");
                     break;
                 default:
                     [self performSegueWithIdentifier:@"menuDetail" sender:@" "];
