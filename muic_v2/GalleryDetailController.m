@@ -60,6 +60,15 @@
      ModelContent *app= (ModelContent *)[self.contentList objectAtIndex:indexPath.row];
  
      
+     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+     [spinner setCenter:CGPointMake(CGRectGetWidth(recipeImageView.bounds)/2, CGRectGetHeight(recipeImageView.bounds)/2)];
+     [spinner setColor:[UIColor grayColor]];
+     
+     [recipeImageView addSubview:spinner];
+     
+     // start spinner
+     [spinner startAnimating];
+     
      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
          // retrive image on global queue
          UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:app.image_url]]];
@@ -67,6 +76,7 @@
          dispatch_async(dispatch_get_main_queue(), ^{
              
              recipeImageView.image =img;
+             [spinner stopAnimating];
          });
      });
      

@@ -8,12 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController: UIViewController<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface MainViewController: UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
+    
+    UILabel *lbTitle;
+    UILabel *lbDesc;
+    UILabel *lbCreateDate;
+    UIImageView *newImg;
+}
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *svBanner;
+
+
 @property (strong, nonatomic) IBOutlet UIView *vMain;
+
 @property (weak, nonatomic) IBOutlet UITableView *tvContent;
+
+
+@property (weak, nonatomic) IBOutlet UIScrollView *svBanner;
+
 
 @property (strong, nonatomic) NSMutableArray *bannerList;
 @property (strong, nonatomic) NSMutableArray *contentList;

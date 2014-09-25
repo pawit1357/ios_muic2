@@ -67,12 +67,25 @@
     cell.textLabel.text = app.title;
     cell.detailTextLabel.text = app.title;
     
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [spinner setCenter:CGPointMake(CGRectGetWidth(cell.imageView.bounds)/2, CGRectGetHeight(cell.imageView.bounds)/2)];
+    [spinner setColor:[UIColor grayColor]];
+    
+    [cell.imageView addSubview:spinner];
+    
+    // start spinner
+    [spinner startAnimating];
+    
+	
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // retrive image on global queue
         UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:app.image_url]]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             cell.imageView.image =img;
+            [spinner stopAnimating];
         });
     });
     

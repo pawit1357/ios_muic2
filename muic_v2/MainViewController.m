@@ -8,11 +8,9 @@
 
 #import "MainViewController.h"
 #import "SWRevealViewController.h"
-#import "ModelApp.h"
 #import "BannerDao.h"
-#import "AppDelegate.h"
-#import "ModelContent.h"
 #import "ContentDao.h"
+#import "ModelContent.h"
 #import "NewsDetailController.h"
 
 @interface MainViewController ()
@@ -21,50 +19,39 @@
 
 @implementation MainViewController
 
-@synthesize vMain,svBanner,bannerList,contentList,appInfo;
+@synthesize contentList,appInfo,svBanner,bannerList;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    //self.title = @"News";
+    self.title = @"News & Events";
 
-    // Change button color
-   // _sidebarButton.tintColor = [UIColor colorWithWhite:0.96f alpha:0.2f];
-
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    
-
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
+    backButton.target = self.revealViewController;
     
     
-    // Set the gesture
+    self.navigationItem.leftBarButtonItem = backButton;
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
     [self prepareContent];
-    [self setupScrollView:svBanner];
 
+    [self setupScrollView:svBanner];
     UIPageControl *pgCtr = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 120, 280, 36)];
-    [pgCtr setTag:101];
-    pgCtr.numberOfPages=3;
+    [pgCtr setTag:12];
+    pgCtr.numberOfPages=self.bannerList.count;
     pgCtr.autoresizingMask=UIViewAutoresizingNone;
     [self.view addSubview:pgCtr];
     
-    
-    /*
-    UIBarButtonItem * popbutt = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(apopbuttonPressed:)];
-    
-    self.navigationItem.rightBarButtonItem = popbutt;
-     */
+    self.svBanner.userInteractionEnabled = false;
     
 }
 
 -(void)prepareContent{
+    
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
     self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
-    
-    self.svBanner.userInteractionEnabled = NO;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,12 +67,18 @@
     // we will add all images into a scrollView & set the appropriate size.
     
     for (int i=1; i<=self.bannerList.count; i++) {
-        
-        // create image
-        // create imageView
+
         UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake((i-1)*svMain.frame.size.width, 0, svMain.frame.size.width, svMain.frame.size.height)];
         // set scale to fill
         imgV.contentMode=UIViewContentModeScaleToFill;
+        
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [spinner setCenter:CGPointMake(CGRectGetWidth(imgV.bounds)/2, CGRectGetHeight(imgV.bounds)/2)];
+        [spinner setColor:[UIColor grayColor]];
+        
+        [svMain addSubview:spinner];
+        
+        [spinner startAnimating];
         // set image
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             // retrive image on global queue
@@ -96,40 +89,46 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 // assign cell image on main thread
                 [imgV setImage:img];
+                [spinner stopAnimating];
             });
         });
         // apply tag to access in future
         imgV.tag=i+1;
         // add to scrollView
         [svMain addSubview:imgV];
+        
     }
-    
-    // set the content size to 3 image width
+    // set the content size to 10 image width
     [svMain setContentSize:CGSizeMake(svMain.frame.size.width*self.bannerList.count, svMain.frame.size.height)];
-    
     // enable timer after each 2 seconds for scrolling.
-    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollingTimer) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollingTimer) userInfo:nil repeats:YES];
+    
 }
 
 - (void)scrollingTimer {
+    
     // access the scroll view with the tag
-    UIScrollView *scrMain = (UIScrollView*) [self.vMain viewWithTag:100];
+    //UIScrollView *scrMain = (UIScrollView*) [self.view viewWithTag:1];
     // same way, access pagecontroll access
-    UIPageControl *pgCtr = (UIPageControl*) [self.vMain viewWithTag:101];
+    UIPageControl *pgCtr = (UIPageControl*) [self.view viewWithTag:12];
     // get the current offset ( which page is being displayed )
-    CGFloat contentOffset = scrMain.contentOffset.x;
+    CGFloat contentOffset = svBanner.contentOffset.x;
     // calculate next page to display
-    int nextPage = (int)(contentOffset/scrMain.frame.size.width) + 1 ;
-    // if page is not 3, display it
+    int nextPage = (int)(contentOffset/svBanner.frame.size.width) + 1 ;
+    // if page is not 10, display it
     if( nextPage!=self.bannerList.count )  {
-        [scrMain scrollRectToVisible:CGRectMake(nextPage*scrMain.frame.size.width, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
+        [svBanner scrollRectToVisible:CGRectMake(nextPage*svBanner.frame.size.width, 0, svBanner.frame.size.width, svBanner.frame.size.height) animated:YES];
         pgCtr.currentPage=nextPage;
         // else start sliding form 1 :)
     } else {
-        [scrMain scrollRectToVisible:CGRectMake(0, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
+        [svBanner scrollRectToVisible:CGRectMake(0, 0, svBanner.frame.size.width, svBanner.frame.size.height) animated:YES];
         pgCtr.currentPage=0;
     }
+    
+    NSLog(@"next banner:%d",nextPage);
+
 }
+
 
 
 #pragma mark - Table view data source
@@ -142,28 +141,45 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    static NSString *simpleTableIdentifier = @"Cell";
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
 	ModelContent *app= (ModelContent *)[self.contentList objectAtIndex:indexPath.row];
     
-
-    cell.textLabel.text = app.title;
-    cell.detailTextLabel.text = app.title;
-
+    lbTitle = (UILabel *)[cell viewWithTag:101];
+    lbTitle.text = app.title;
+    
+    lbDesc = (UILabel *)[cell viewWithTag:102];
+    lbDesc.text = app.description;
+    
+    lbCreateDate = (UILabel *)[cell viewWithTag:103];
+    lbCreateDate.text = @"";
+    
+    
+    newImg = (UIImageView *)[cell viewWithTag:100];
+    
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [spinner setCenter:CGPointMake(CGRectGetWidth(newImg.bounds)/2, CGRectGetHeight(newImg.bounds)/2)];
+    [spinner setColor:[UIColor grayColor]];
+    
+    [newImg addSubview:spinner];
+    
+    // start spinner
+    [spinner startAnimating];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // retrive image on global queue
         UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:app.image_url]]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            cell.imageView.image =img;
+            newImg.image =img;
+            [spinner stopAnimating];
         });
     });
     
@@ -187,6 +203,7 @@
         ModelContent *content= (ModelContent *)self.contentList[indexPath.row];
         
         [transferViewController setContentItem:content];
+        
     }
 }
 

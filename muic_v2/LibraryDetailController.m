@@ -18,7 +18,7 @@
 @implementation LibraryDetailController
 
 
-@synthesize tvMain,bookList,filteredBookList,isFiltered,searchBar,segmentFilter,type;
+@synthesize tvMain,bookList,filteredBookList,isFiltered,searchBar,segmentFilter;
 
 //bool btnCancel = true;
 //int type = 0;
@@ -67,7 +67,7 @@
     //initial current type
     if(self.bookList.count>0){
         ModelBook *book = (ModelBook *)[self.bookList objectAtIndex:0];
-        self.type = book.type;
+        bookType = book.type;
     }
 }
 
@@ -102,14 +102,26 @@
     UILabel *lbCallNo = (UILabel *)[cell viewWithTag:104];
     lbCallNo.text = model.callNo;
     
+    UIImageView *bookImg = (UIImageView *)[cell viewWithTag:100];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [spinner setCenter:CGPointMake(CGRectGetWidth(bookImg.bounds)/2, CGRectGetHeight(bookImg.bounds)/2)];
+    [spinner setColor:[UIColor grayColor]];
+    
+    [bookImg addSubview:spinner];
+    
+    // start spinner
+    [spinner startAnimating];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // retrive image on global queue
         UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.book_cover]]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             // assign cell image on main thread
-            UIImageView *vehicleImg = (UIImageView *)[cell viewWithTag:100];
-            vehicleImg.image = img;
+            bookImg.image = img;
+            
+            [spinner stopAnimating];
         });
     });
     
@@ -255,12 +267,12 @@
     if(!isFiltered){
             
         if(segmentFilter.selectedSegmentIndex == 1){
-            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRelease:type];
+            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRelease:bookType];
 
         }else if(segmentFilter.selectedSegmentIndex == 2){
-            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRecommted:type];
+            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRecommted:bookType];
         }else{
-            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookByType:type];
+            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookByType:bookType];
 
         }
         [self.tvMain reloadData];

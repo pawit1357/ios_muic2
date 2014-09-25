@@ -10,14 +10,15 @@
 
 @implementation AppDelegate
 
-@synthesize selectedBookType;
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [NSThread sleepForTimeInterval:3.0];
     // Override point for customization after application launch.
-    self.selectedBookType = @"6";
+    
+    
     return YES;
 }
 							

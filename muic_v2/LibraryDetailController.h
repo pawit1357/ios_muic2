@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LibraryDetailController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
+@interface LibraryDetailController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>{
+    NSString *bookType;
+}
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentFilter;
 - (IBAction)segmentFilter:(id)sender;
@@ -20,9 +22,7 @@
 @property (strong, nonatomic) NSMutableArray *bookList;
 @property (strong, nonatomic) NSMutableArray *filteredBookList;
 @property (nonatomic, assign) bool isFiltered;
-@property (nonatomic, assign) NSString *type;
 
-//@property (strong, nonatomic) UISearchDisplayController *controller;
 
 - (IBAction)displaySearchBar:(id)sender;
 
