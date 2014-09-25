@@ -175,8 +175,7 @@ static BookDao *_bookDao = nil;
     
     return resultList;
 }
-
-- (NSMutableArray *) getBookByType:(NSString *)type
+- (NSMutableArray *) getBookRelease:(NSString*) type
 {
     NSMutableArray *resultList = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
@@ -184,8 +183,8 @@ static BookDao *_bookDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-
-        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and type='%@'" ,type];
+        
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and flag='T' and type='%@'",type];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -218,6 +217,88 @@ static BookDao *_bookDao = nil;
     return resultList;
 }
 
+- (NSMutableArray *) getBookByType:(NSString*) type;
+{
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and type='%@'",type];
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelBook *model = [[ModelBook alloc] init];
+                
+                model.id = sqlite3_column_int(statement, 0);
+                model.book_name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                model.book_title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                model.book_cover = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.book_author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.callNo = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                model.division = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                model.program = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+                model.type = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                model.flag = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 10)];
+                model.recommended = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 11)];
+                //model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 12)];
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(db);
+    }
+    
+    return resultList;
+}
+- (NSMutableArray *) getBookRecommted:(NSString*) type
+{
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and recommented='T' and type='%@'",type];
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelBook *model = [[ModelBook alloc] init];
+                
+                model.id = sqlite3_column_int(statement, 0);
+                model.book_name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                model.book_title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                model.book_cover = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.book_author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.callNo = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                model.division = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                model.program = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+                model.type = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                model.flag = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 10)];
+                model.recommended = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 11)];
+                //model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 12)];
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(db);
+    }
+    
+    return resultList;
+}
 - (NSArray *) getSingle:(NSInteger)id
 {
     NSMutableArray *resultList = [self getAll];

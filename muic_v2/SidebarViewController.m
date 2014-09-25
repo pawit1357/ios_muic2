@@ -10,7 +10,7 @@
 #import "SWRevealViewController.h"
 #import "ModelMenu.h"
 #import "Menudao.h"
-//#import "AppDelegate.h"
+#import "AppDelegate.h"
 //#import "AppDao.h"
 //#import "modelapp.h"
 #import "Modelcontent.h"

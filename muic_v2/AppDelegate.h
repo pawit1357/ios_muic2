@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (assign, nonatomic) NSInteger selectedApp;
+@property (assign, nonatomic) NSString *selectedBookType;
 
 @end

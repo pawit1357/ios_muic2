@@ -9,6 +9,7 @@
 #import "LibraryDetailController.h"
 #import "SWRevealViewController.h"
 #import "ModelBook.h"
+#import "BookDao.h"
 
 @interface LibraryDetailController ()
 
@@ -17,15 +18,15 @@
 @implementation LibraryDetailController
 
 
-@synthesize tvMain,bookList,filteredBookList,isFiltered,searchBar;
+@synthesize tvMain,bookList,filteredBookList,isFiltered,searchBar,segmentFilter,type;
+
+//bool btnCancel = true;
+//int type = 0;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
-    searchBar.delegate = (id)self;
     
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
@@ -34,6 +35,22 @@
     self.navigationItem.leftBarButtonItem= backButton;
     
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    // scroll the search bar off-screen
+    CGRect newBounds = self.tvMain.bounds;
+    newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
+    self.tvMain.bounds = newBounds;
+}
+
+- (void)viewDidUnload
+{
+    [self setSearchBar:nil];
+    [self setSearchBar:nil];
+    [super viewDidUnload];
 }
 
 -(void) setBookList:(NSMutableArray *)newBookList{
@@ -47,8 +64,12 @@
 
 - (void) prepareContent{
     
+    //initial current type
+    if(self.bookList.count>0){
+        ModelBook *book = (ModelBook *)[self.bookList objectAtIndex:0];
+        self.type = book.type;
+    }
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -134,6 +155,7 @@
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
 {
+    //[self.searchDisplayController setActive:YES];
     if(text.length == 0)
     {
         isFiltered = FALSE;
@@ -154,6 +176,96 @@
         }
     }
     [self.tvMain reloadData];
+}
+
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    [self showDetailsForIndexPath:indexPath];
+}
+
+-(void) showDetailsForIndexPath:(NSIndexPath*)indexPath
+{
+    
+    [self.searchBar resignFirstResponder];
+    /*
+    LibraryDetailController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"bookDetail"];
+    ModelBook* book;
+    
+    if(isFiltered)
+    {
+        book = [filteredBookList objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        book = [bookList objectAtIndex:indexPath.row];
+    }
+    
+    vc.food = book;
+     */
+    //[self.navigationController pushViewController:vc animated:true];
+     
+}
+
+
+- (void)activateSearch {
+    [self.tvMain scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.searchBar becomeFirstResponder];
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    // hide the search bar when users are finished
+    // we could implement the same code as in viewDidAppear
+    // or even easier: just call that method
+    [self viewWillAppear:YES];
+    
+}
+
+// this method is never called
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    
+    NSLog(@"Search Controller did end search");
+}
+
+- (IBAction)displaySearchBar:(id)sender {
+    // makes the search bar visible
+    // no longer works in iOS 7
+    // [self.searchBar becomeFirstResponder];
+    
+    // SUGGESTED BY JANOS HOMOKI
+    // makes the search bar visible
+    if(isFiltered){
+        [self.tvMain scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    
+        NSTimeInterval delay;
+        if (self.tvMain.contentOffset.y >1000) delay = 0.4;
+        else delay = 0.1;
+            [self performSelector:@selector(activateSearch) withObject:nil afterDelay:delay];
+    }else{
+        [self.searchBar resignFirstResponder];
+        [self searchBarCancelButtonClicked:searchBar];
+    }
+    isFiltered = !isFiltered;
+}
+
+- (IBAction)segmentFilter:(id)sender {
+    
+    if(!isFiltered){
+            
+        if(segmentFilter.selectedSegmentIndex == 1){
+            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRelease:type];
+
+        }else if(segmentFilter.selectedSegmentIndex == 2){
+            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRecommted:type];
+        }else{
+            self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookByType:type];
+
+        }
+        [self.tvMain reloadData];
+        
+    }
 }
 
 @end

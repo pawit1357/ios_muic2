@@ -25,6 +25,8 @@
 - (BOOL) deleteModel:(ModelBook*)model;
 - (NSMutableArray *) getAll;
 - (NSMutableArray *) getBookByType:(NSString*) type;
+- (NSMutableArray *) getBookRecommted:(NSString*) type;
+- (NSMutableArray *) getBookRelease:(NSString*) type;
 - (NSArray *) getSingle:(NSInteger) id;
 @end
 
