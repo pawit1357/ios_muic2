@@ -7,6 +7,7 @@
 //
 
 #import "NewsDetailController.h"
+#import "ContentDao.h"
 
 @interface NewsDetailController ()
 
@@ -34,6 +35,13 @@
         
         ModelContent *content = (ModelContent*)_contentItem;
         self.title = content.title;
+        //update already read content
+        content.read = @"1";
+        
+        Boolean result = (Boolean)[[ContentDao ContentDao] updateReadContent:content];
+        if(result){
+            NSLog(@"Complete update read status.");
+        }
         
         NSString *embedHTML =[NSString stringWithFormat: @"<html><head></head><body>%@</p></body></html>",content.description];
         

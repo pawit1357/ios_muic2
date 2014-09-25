@@ -26,7 +26,11 @@
     [super viewDidLoad];
 
     self.title = @"News & Events";
-
+    
+    fileManager = [NSFileManager defaultManager];
+    NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
     backButton.target = self.revealViewController;
     
@@ -80,18 +84,32 @@
         
         [spinner startAnimating];
         // set image
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            // retrive image on global queue
-            ModelBanner *banner= (ModelBanner *)[self.bannerList objectAtIndex:i-1];
-            
-            UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:banner.image_url]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // assign cell image on main thread
-                [imgV setImage:img];
-                [spinner stopAnimating];
+        ModelBanner *banner= (ModelBanner *)[self.bannerList objectAtIndex:i-1];
+        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[banner.image_url lastPathComponent]];
+        if ([fileManager fileExistsAtPath:filePath]){
+            //NSLog(@"File %@ is already add.",filePath);
+            [imgV setImage:[UIImage imageWithContentsOfFile:filePath]];
+            [spinner stopAnimating];
+        }else{
+            // download the image asynchronously
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSLog(@"Banner : Downloading Started");
+                NSURL  *url = [NSURL URLWithString:banner.image_url];
+                NSData *urlData = [NSData dataWithContentsOfURL:url];
+                if ( urlData )
+                {
+                    //saving is done on main thread
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [urlData writeToFile:filePath atomically:YES];
+                        NSLog(@"Banner : File Saved !");
+                        [imgV setImage:[UIImage imageWithData:urlData]];
+                        [spinner stopAnimating];
+                    });
+                }
+                
             });
-        });
+        }
+
         // apply tag to access in future
         imgV.tag=i+1;
         // add to scrollView
@@ -125,7 +143,7 @@
         pgCtr.currentPage=0;
     }
     
-    NSLog(@"next banner:%d",nextPage);
+    //NSLog(@"next banner:%d",nextPage);
 
 }
 
@@ -167,22 +185,42 @@
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [spinner setCenter:CGPointMake(CGRectGetWidth(newImg.bounds)/2, CGRectGetHeight(newImg.bounds)/2)];
     [spinner setColor:[UIColor grayColor]];
-    
     [newImg addSubview:spinner];
-    
-    // start spinner
     [spinner startAnimating];
+
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // retrive image on global queue
-        UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:app.image_url]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            newImg.image =img;
-            [spinner stopAnimating];
+    NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[app.image_url lastPathComponent]];
+    if ([fileManager fileExistsAtPath:filePath]){
+        newImg.image =[UIImage imageWithContentsOfFile:filePath];
+        [spinner stopAnimating];
+    }else{
+        // download the image asynchronously
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"News & Events: Downloading Started");
+            NSURL  *url = [NSURL URLWithString:app.image_url];
+            NSData *urlData = [NSData dataWithContentsOfURL:url];
+            if ( urlData )
+            {
+                //saving is done on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [urlData writeToFile:filePath atomically:YES];
+                    NSLog(@"News & Events: File Saved !");
+                    newImg.image =[UIImage imageWithData:urlData];
+                    [spinner stopAnimating];
+                });
+            }
+            
         });
-    });
-    
+    }
+
+    UIView *lvView = (UIView *)[cell viewWithTag:13];
+    [lvView.layer setCornerRadius:6.0f];
+    //Setting Read/UnRead colour
+    if([app.read isEqualToString:@"0"]){
+        lvView.backgroundColor = [UIColor brownColor];
+    }else{
+        lvView.backgroundColor = [UIColor clearColor];
+    }
     return cell;
 }
 

@@ -18,6 +18,7 @@ NSString *sub_title;
 NSString *description;
 NSString *image_url;
 NSString *status;
+NSString *read;
 }
 
 @property (nonatomic, assign) NSInteger id;
@@ -28,5 +29,5 @@ NSString *status;
 @property (nonatomic, retain) NSString *description;
 @property (nonatomic, retain) NSString *image_url;
 @property (nonatomic, retain) NSString *status;
-
+@property (nonatomic, retain) NSString *read;
 @end

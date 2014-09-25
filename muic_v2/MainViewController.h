@@ -14,6 +14,8 @@
     UILabel *lbDesc;
     UILabel *lbCreateDate;
     UIImageView *newImg;
+    NSFileManager *fileManager;
+    NSString *documentsDirectory;
 }
 
 

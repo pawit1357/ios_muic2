@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>{
+    
+    NSFileManager *fileManager;
+    NSString *documentsDirectory;
+}
 
 
 

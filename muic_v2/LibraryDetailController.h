@@ -10,6 +10,8 @@
 
 @interface LibraryDetailController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>{
     NSString *bookType;
+    NSFileManager *fileManager;
+    NSString *documentsDirectory;
 }
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentFilter;

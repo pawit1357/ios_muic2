@@ -39,6 +39,11 @@ ModelMenu *selectedMenu;
 {
     [super viewDidLoad];
     
+    fileManager = [NSFileManager defaultManager];
+    NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
+    
+    
     self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     //self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     //self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
@@ -207,9 +212,51 @@ ModelMenu *selectedMenu;
             ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
     
             cell.textLabel.text = menu.name;
-            cell.detailTextLabel.text = menu.description;
+            if(menu.parent == -1){
+                cell.detailTextLabel.text = menu.description;
+            }else{
+                cell.detailTextLabel.text = @" ";
+            }
             cell.imageView.image = [UIImage imageNamed:menu.icon];
+            /*
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [spinner setCenter:CGPointMake(CGRectGetWidth(cell.imageView.bounds)/2, CGRectGetHeight(cell.imageView.bounds)/2)];
+            [spinner setColor:[UIColor grayColor]];
+            
+            [cell.imageView addSubview:spinner];
+            
+            [spinner startAnimating];
+            
+            
+            NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[menu.icon lastPathComponent]];
+            if ([fileManager fileExistsAtPath:filePath]){
+                cell.imageView.image =[UIImage imageWithContentsOfFile:filePath];
+                [spinner stopAnimating];
+            }else{
+                // download the image asynchronously
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSLog(@"News & Events: Downloading Started");
+                    NSURL  *url = [NSURL URLWithString:menu.icon];
+                    NSData *urlData = [NSData dataWithContentsOfURL:url];
+                    if ( urlData )
+                    {
+                        //saving is done on main thread
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [urlData writeToFile:filePath atomically:YES];
+                            NSLog(@"News & Events: File Saved !");
+                            cell.imageView.image =[UIImage imageWithData:urlData];
+                            [spinner stopAnimating];
+                        });
+                    }
+                    
+                });
+            }
+            
+            
+            //cell.imageView.image = [UIImage imageNamed:menu.icon];
+             */
         }
+             
     
     return cell;
 }

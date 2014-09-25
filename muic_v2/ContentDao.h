@@ -27,5 +27,7 @@
 - (NSMutableArray *) getNews;
 - (NSArray *) getSingle:(NSInteger) id;
 
+- (BOOL) updateReadContent:(ModelContent*)model;
+
 - (NSMutableArray *) getMenuContent:(int) menu_id;
 @end

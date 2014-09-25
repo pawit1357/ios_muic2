@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GalleryDetailController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface GalleryDetailController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate>{
+    NSFileManager *fileManager;
+    NSString *documentsDirectory;
+}
 
 @property (strong, nonatomic) NSMutableArray *contentList;
 

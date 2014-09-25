@@ -28,6 +28,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    fileManager = [NSFileManager defaultManager];
+    NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
     backButton.target = self.revealViewController;
@@ -104,6 +107,41 @@
     
     UIImageView *bookImg = (UIImageView *)[cell viewWithTag:100];
     
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner setCenter:CGPointMake(CGRectGetWidth(bookImg.bounds)/2, CGRectGetHeight(bookImg.bounds)/2)];
+    [spinner setColor:[UIColor grayColor]];
+    
+    [bookImg addSubview:spinner];
+    
+    [spinner startAnimating];
+    
+    
+    
+    NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[model.book_cover lastPathComponent]];
+    if ([fileManager fileExistsAtPath:filePath]){
+        bookImg.image =[UIImage imageWithContentsOfFile:filePath];
+        [spinner stopAnimating];
+    }else{
+        // download the image asynchronously
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"Books: Downloading Started");
+            NSURL  *url = [NSURL URLWithString:model.book_cover];
+            NSData *urlData = [NSData dataWithContentsOfURL:url];
+            if ( urlData )
+            {
+                //saving is done on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [urlData writeToFile:filePath atomically:YES];
+                    NSLog(@"Books: File Saved !");
+                    bookImg.image =[UIImage imageWithData:urlData];
+                    [spinner stopAnimating];
+                });
+            }
+            
+        });
+    }
+    /*
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [spinner setCenter:CGPointMake(CGRectGetWidth(bookImg.bounds)/2, CGRectGetHeight(bookImg.bounds)/2)];
     [spinner setColor:[UIColor grayColor]];
@@ -124,7 +162,7 @@
             [spinner stopAnimating];
         });
     });
-    
+    */
     return cell;
 }
 

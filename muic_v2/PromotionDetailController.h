@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PromotionDetailController : UIViewController
+@interface PromotionDetailController : UIViewController{
+    UILabel *lbTitle;
+    UILabel *lbDesc;
+    UILabel *lbCreateDate;
+    UIImageView *newImg;
+    NSFileManager *fileManager;
+    NSString *documentsDirectory;
+}
 
 
 @property (weak, nonatomic) IBOutlet UITableView *tvMain;
