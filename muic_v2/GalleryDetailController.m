@@ -9,6 +9,7 @@
 #import "GalleryDetailController.h"
 #import "ModelContent.h"
 #import "SWRevealViewController.h"
+#import "ImagePreviewController.h"
 
 @interface GalleryDetailController ()
 
@@ -18,6 +19,7 @@
 
 @synthesize cvMain,contentList;
 
+int selectedItemIndex;
 
 - (void)viewDidLoad
 {
@@ -98,37 +100,27 @@
              
          });
      }
-     /*
-     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-     [spinner setCenter:CGPointMake(CGRectGetWidth(recipeImageView.bounds)/2, CGRectGetHeight(recipeImageView.bounds)/2)];
-     [spinner setColor:[UIColor grayColor]];
-     
-     [recipeImageView addSubview:spinner];
-     
-     // start spinner
-     [spinner startAnimating];
-     
-     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-         // retrive image on global queue
-         UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:app.image_url]]];
-         
-         dispatch_async(dispatch_get_main_queue(), ^{
-             
-             recipeImageView.image =img;
-             [spinner stopAnimating];
-         });
-     });
-     */
-     
-     
-
-     
      return cell;
  }
  
  -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
  {
+     selectedItemIndex = indexPath.row;
      
  }
-
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    
+    if([segue.identifier isEqualToString:@"previewImage"]){
+        
+        ImagePreviewController *transferViewController = segue.destinationViewController;
+        
+        
+        ModelContent *content= (ModelContent *)self.contentList[selectedItemIndex];
+        
+        [transferViewController setContentItem:content];
+    }
+    
+    
+}
 @end

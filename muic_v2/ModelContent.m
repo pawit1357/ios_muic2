@@ -10,6 +10,6 @@
 
 @implementation ModelContent
 
-@synthesize id,app_id,menu_id,title,sub_title,description,image_url,status,read;
+@synthesize id,app_id,menu_id,title,sub_title,description,image_url,status,read,create_date;
 
 @end

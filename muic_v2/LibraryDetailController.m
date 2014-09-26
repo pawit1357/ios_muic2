@@ -116,8 +116,6 @@
     
     [spinner startAnimating];
     
-    
-    
     NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[model.book_cover lastPathComponent]];
     if ([fileManager fileExistsAtPath:filePath]){
         bookImg.image =[UIImage imageWithContentsOfFile:filePath];
@@ -314,8 +312,8 @@
 
         }
         [self.tvMain reloadData];
-        
     }
+    isFiltered  =!isFiltered;
 }
 
 @end

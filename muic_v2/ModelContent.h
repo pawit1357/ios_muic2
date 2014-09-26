@@ -19,6 +19,7 @@ NSString *description;
 NSString *image_url;
 NSString *status;
 NSString *read;
+NSString *create_date;
 }
 
 @property (nonatomic, assign) NSInteger id;
@@ -30,4 +31,5 @@ NSString *read;
 @property (nonatomic, retain) NSString *image_url;
 @property (nonatomic, retain) NSString *status;
 @property (nonatomic, retain) NSString *read;
+@property (nonatomic, retain) NSString *create_date;
 @end

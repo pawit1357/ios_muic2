@@ -176,7 +176,7 @@
     lbDesc.text = app.description;
     
     lbCreateDate = (UILabel *)[cell viewWithTag:103];
-    lbCreateDate.text = @"";
+    lbCreateDate.text = app.create_date;
     
     
     newImg = (UIImageView *)[cell viewWithTag:100];

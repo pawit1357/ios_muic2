@@ -144,7 +144,7 @@ static ContentDao * _contentDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read FROM tb_content where status='A'";
+        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A'";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -186,7 +186,12 @@ static ContentDao * _contentDao = nil;
                 }else{
                     model.read = @" ";
                 }
-                
+                if ( sqlite3_column_type(statement, 8) != SQLITE_NULL )
+                {
+                    model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                }else{
+                    model.create_date = @" ";
+                }
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
@@ -207,7 +212,7 @@ static ContentDao * _contentDao = nil;
     {
         //NSString *query = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A' and menu_id=? ";
         
-        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read FROM tb_content where status='A' and menu_id=%d" ,menu_id];
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A' and menu_id=%d" ,menu_id];
         
         
         //NSLog(@"getMenuContent:%@",querySQL);
@@ -253,6 +258,12 @@ static ContentDao * _contentDao = nil;
                 }else{
                     model.read = @" ";
                 }
+                if ( sqlite3_column_type(statement, 8) != SQLITE_NULL )
+                {
+                    model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                }else{
+                    model.create_date = @" ";
+                }
                 [resultList addObject:model];
                 
             }
@@ -273,7 +284,7 @@ static ContentDao * _contentDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read FROM tb_content where status='A' and menu_id in (SELECT id FROM tb_menu where status='A' and menu_type in (1,2)) order by app_id";
+        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A' and menu_id in (SELECT id FROM tb_menu where status='A' and menu_type in (1,2)) order by app_id";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -315,7 +326,12 @@ static ContentDao * _contentDao = nil;
                 }else{
                     model.read = @" ";
                 }
-                
+                if ( sqlite3_column_type(statement, 8) != SQLITE_NULL )
+                {
+                    model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                }else{
+                    model.create_date = @" ";
+                }
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
