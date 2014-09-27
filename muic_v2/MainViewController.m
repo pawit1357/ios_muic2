@@ -71,8 +71,9 @@
     // we will add all images into a scrollView & set the appropriate size.
     
     for (int i=1; i<=self.bannerList.count; i++) {
-
         UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake((i-1)*svMain.frame.size.width, 0, svMain.frame.size.width, svMain.frame.size.height)];
+        
+        //UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake((i-1)*svMain.frame.size.width, 0, svMain.frame.size.width, svMain.frame.size.height)];
         // set scale to fill
         imgV.contentMode=UIViewContentModeScaleToFill;
         

@@ -15,6 +15,8 @@
 
 @implementation NewsDetailController
 
+@synthesize wvMain,spinner;
+
 -(void) seContentItem:(id)newContentItem{
     
     if(_contentItem != newContentItem){
@@ -26,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     
     [self prepareContent];
 }
@@ -51,4 +54,12 @@
     }
 }
 
+-(void) webViewDidStartLoad:(UIWebView *)webView{
+    [spinner startAnimating];
+}
+
+-(void) webViewDidFinishLoad:(UIWebView *)webView{
+    [spinner stopAnimating];
+    spinner.hidden=YES;
+}
 @end

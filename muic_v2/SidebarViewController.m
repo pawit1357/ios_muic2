@@ -73,27 +73,25 @@ ModelMenu *selectedMenu;
     headerLabel.font = [UIFont boldSystemFontOfSize:10];
     headerLabel.frame = CGRectMake(0.0, 0.0, 320.0, 22.0);
     
-    headerLabel.text = @"Select menu."; // i.e. array element
-    
+
+    headerLabel.text = @"SELECT ORGANIZATIONS :"; // i.e. array element
+    /*
     UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(0, 0, 18, 18); // x,y,width,height
     infoButton.enabled = YES;
     [infoButton addTarget:self action:@selector(infoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-
+     */
     [customView addSubview:headerLabel];
-    [customView addSubview:infoButton];
+    //[customView addSubview:infoButton];
     
     return customView;
 }
-
+/*
 - (void)infoButtonClicked:(id)sender {
     [self getPreviousMenu:selectedMenu];
     
 }
-
+*/
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 20;
@@ -107,7 +105,14 @@ ModelMenu *selectedMenu;
 -(void) getNextMenu:(ModelMenu*)selectedMenu{
     
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:selectedMenu];
-    [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
+   // NSLog(@"menuList size: %d",menuList.count);
+
+    if (![parentAr containsObject:[NSNumber numberWithInt:selectedMenu.parent]]) {
+        // modify objectToSearchFor
+        [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
+    }else{
+        NSLog(@" Parent %d alread exist.",selectedMenu.parent);
+    }
     [self.tvMenuList reloadData];
 
 }
@@ -194,6 +199,10 @@ ModelMenu *selectedMenu;
 
 #pragma mark - Table view data source
 
+- (NSInteger)numberOfSectionsInTableView: (UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.menuList count];
@@ -208,6 +217,10 @@ ModelMenu *selectedMenu;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
+    if(indexPath.row == 0){
+        cell.textLabel.text =@"Home";
+        cell.detailTextLabel.text = @" ";
+    }else{
         if( indexPath.row < self.menuList.count){
             ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
     
@@ -256,21 +269,27 @@ ModelMenu *selectedMenu;
             //cell.imageView.image = [UIImage imageNamed:menu.icon];
              */
         }
-             
+    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if(indexPath.row == 0 ){
+        if(parentAr.count>0){
+        [self getPreviousMenu:selectedMenu];
+        }else{
+            [self performSegueWithIdentifier:@"newsDetail" sender:@" "];
+        }
+    }else{
     if( indexPath.row < self.menuList.count){
         
        
         selectedMenu = (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
 
         [self getNextMenu:selectedMenu];
-        if ([self.menuList count] == 0) {
+        if ([self.menuList count] == 1) {
             
             ModelMenu *menu = [[ModelMenu alloc] init];
             menu.id = [[self.parentAr lastObject] integerValue];
@@ -313,6 +332,7 @@ ModelMenu *selectedMenu;
                     break;
             }
         }
+    }
     }
 }
 

@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ModelContent.h"
 
-@interface NewsDetailController : UIViewController
+@interface NewsDetailController : UIViewController<UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *wvMain;
 @property (strong, nonatomic) ModelContent *contentItem;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end

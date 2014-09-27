@@ -150,6 +150,16 @@ static MenuDao *_menuDao = nil;
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
+            //Add back
+            ModelMenu *tmp = [[ModelMenu alloc] init];
+            tmp.id= 0;
+            tmp.app_id= 0;
+            tmp.parent= -1;
+            tmp.name= @"Home";
+            tmp.icon= @"home";
+            tmp.type= -1;
+            tmp.description = @" ";
+            [resultList addObject:tmp];
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 ModelMenu *model = [[ModelMenu alloc] init];
@@ -183,6 +193,16 @@ static MenuDao *_menuDao = nil;
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
+            //Add back
+            ModelMenu *tmp = [[ModelMenu alloc] init];
+            tmp.id= 0;
+            tmp.app_id= 0;
+            tmp.parent= -1;
+            tmp.name= @"Home";
+            tmp.icon= @"home";
+            tmp.type= 0;
+            tmp.description = @" ";
+            [resultList addObject:tmp];
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 ModelMenu *model = [[ModelMenu alloc] init];
@@ -217,6 +237,16 @@ static MenuDao *_menuDao = nil;
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
+            //Add back
+            ModelMenu *tmp = [[ModelMenu alloc] init];
+            tmp.id= 0;
+            tmp.app_id= 0;
+            tmp.parent= -1;
+            tmp.name= @"Home";
+            tmp.icon= @"home";
+            tmp.type= -1;
+            tmp.description = @" ";
+            [resultList addObject:tmp];
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 ModelMenu *model = [[ModelMenu alloc] init];
@@ -254,6 +284,17 @@ static MenuDao *_menuDao = nil;
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
+            //Add back
+            ModelMenu *tmp = [[ModelMenu alloc] init];
+            tmp.id= 0;
+            tmp.app_id= 0;
+            tmp.parent= -1;
+            tmp.name= @"Home";
+            tmp.icon= @"home";
+            tmp.type= -1;
+            tmp.description = @" ";
+            [resultList addObject:tmp];
+            
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 ModelMenu *model = [[ModelMenu alloc] init];
@@ -272,6 +313,7 @@ static MenuDao *_menuDao = nil;
         }
         sqlite3_close(db);
     }
+
     
     return resultList;
 }
