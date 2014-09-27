@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ModelContent.h"
 
-@interface MenuDetailController : UIViewController
+@interface MenuDetailController : UIViewController<UIWebViewDelegate>{
+    
+
+    
+}
 
 @property (weak, nonatomic) IBOutlet UIWebView *wvContent;
 
 @property (strong, nonatomic) ModelContent *contentItem;
-
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end
