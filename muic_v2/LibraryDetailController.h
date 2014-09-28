@@ -12,6 +12,7 @@
     NSString *bookType;
     NSFileManager *fileManager;
     NSString *documentsDirectory;
+    UIBarButtonItem *backButton;
 }
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentFilter;

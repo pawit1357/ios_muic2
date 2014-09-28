@@ -20,8 +20,6 @@
 
 @synthesize tvMain,bookList,filteredBookList,isFiltered,searchBar,segmentFilter;
 
-//bool btnCancel = true;
-//int type = 0;
 
 - (void)viewDidLoad
 {
@@ -32,7 +30,7 @@
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
+    backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
     backButton.target = self.revealViewController;
     
     self.navigationItem.leftBarButtonItem= backButton;
@@ -47,11 +45,11 @@
     CGRect newBounds = self.tvMain.bounds;
     newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
     self.tvMain.bounds = newBounds;
+    //backButton.tintColor = [UIColor grayColor];
 }
 
 - (void)viewDidUnload
 {
-    [self setSearchBar:nil];
     [self setSearchBar:nil];
     [super viewDidUnload];
 }
@@ -78,10 +76,16 @@
 {
     
     ModelBook *model;
-    if(isFiltered)
-        model = (ModelBook *)[self.filteredBookList objectAtIndex:indexPath.row];
-    else
-        model = (ModelBook *)[self.bookList objectAtIndex:indexPath.row];
+    if(isFiltered){
+        if(filteredBookList.count >indexPath.row){
+            model = (ModelBook *)[self.filteredBookList objectAtIndex:indexPath.row];
+        }
+    }
+    else{
+        if(bookList.count>indexPath.row){
+            model = (ModelBook *)[self.bookList objectAtIndex:indexPath.row];
+        }
+    }
     
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -169,7 +173,7 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -300,8 +304,8 @@
 
 - (IBAction)segmentFilter:(id)sender {
     
-    if(!isFiltered){
-            
+    self.isFiltered = false;
+    
         if(segmentFilter.selectedSegmentIndex == 1){
             self.bookList = (NSMutableArray*)[[BookDao BookDao] getBookRelease:bookType];
 
@@ -312,8 +316,6 @@
 
         }
         [self.tvMain reloadData];
-    }
-    isFiltered  =!isFiltered;
 }
 
 @end

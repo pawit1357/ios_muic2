@@ -74,7 +74,7 @@ ModelMenu *selectedMenu;
     headerLabel.frame = CGRectMake(0.0, 0.0, 320.0, 22.0);
     
 
-    headerLabel.text = @"SELECT ORGANIZATIONS :"; // i.e. array element
+    headerLabel.text = @"  SELECT ORGANIZATIONS :"; // i.e. array element
     /*
     UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     infoButton.frame = CGRectMake(0, 0, 18, 18); // x,y,width,height
@@ -312,9 +312,10 @@ ModelMenu *selectedMenu;
              
              add filter recommnted,new
              */
-            
+            [self.parentAr removeLastObject];
             switch (selectedMenu.type) {
                 case 3:
+
                     [self performSegueWithIdentifier:@"galleryDetail" sender:@" "];
                     break;
                 case 4:
@@ -325,6 +326,7 @@ ModelMenu *selectedMenu;
                     [self performSegueWithIdentifier:@"bookDetail" sender:@" "];
                     break;
                 case 8:
+                    [self.parentAr removeLastObject];
                     NSLog(@"");
                     break;
                 default:

@@ -35,11 +35,13 @@
     
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
+    
     backButton.target = self.revealViewController;
 
     self.navigationItem.leftBarButtonItem= backButton;
     
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
     [self prepareContent];
 }
 

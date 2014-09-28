@@ -46,7 +46,7 @@
             NSLog(@"Complete update read status.");
         }
         
-        NSString *embedHTML =[NSString stringWithFormat: @"<html><head></head><body>%@</p></body></html>",content.description];
+        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 16px sans-serif;background: #fff;padding: 5px;color: #000;margin: 5;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",content.description];
         
         self.wvMain.scrollView.scrollEnabled = TRUE;
         [self.wvMain loadHTMLString: embedHTML baseURL: nil];
