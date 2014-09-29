@@ -230,7 +230,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=(select parent from tb_menu where id  =%d) order by menu_order asc",model.parent];
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=(select parent from tb_menu where id  =%ld) order by menu_order asc",(long)model.parent];
         //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
@@ -277,7 +277,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=%d order by menu_order asc",model.id];
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=%ld order by menu_order asc",(long)model.id];
         //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];

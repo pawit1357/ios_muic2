@@ -16,8 +16,11 @@
     UIImageView *newImg;
     NSFileManager *fileManager;
     NSString *documentsDirectory;
+    
+    NSTimer *timer;
 }
 
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 
 @property (strong, nonatomic) IBOutlet UIView *vMain;
@@ -34,4 +37,5 @@
 
 - (void)setupScrollView:(UIScrollView*)svMain ;
 
+- (void)setCustomProgress;
 @end

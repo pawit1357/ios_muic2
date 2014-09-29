@@ -19,7 +19,7 @@
 
 @synthesize cvMain,contentList;
 
-int selectedItemIndex;
+NSInteger selectedItemIndex;
 
 - (void)viewDidLoad
 {

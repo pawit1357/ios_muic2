@@ -111,7 +111,7 @@ ModelMenu *selectedMenu;
         // modify objectToSearchFor
         [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
     }else{
-        NSLog(@" Parent %d alread exist.",selectedMenu.parent);
+        NSLog(@" Parent %ld alread exist.",(long)selectedMenu.parent);
     }
     [self.tvMenuList reloadData];
 
@@ -172,7 +172,7 @@ ModelMenu *selectedMenu;
         LibraryDetailController *transferViewController = segue.destinationViewController;
         
 
-        NSMutableArray *books = (NSMutableArray*)[[BookDao BookDao] getBookByType:[NSString stringWithFormat:@"%d",selectedMenu.type]];
+        NSMutableArray *books = (NSMutableArray*)[[BookDao BookDao] getBookByType:[NSString stringWithFormat:@"%ld",(long)selectedMenu.type]];
         
         [transferViewController setBookList:books];
     }

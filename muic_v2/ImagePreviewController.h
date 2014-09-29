@@ -18,7 +18,9 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgPreview;
 
-
 @property (strong, nonatomic) ModelContent *contentItem;
+
+
+- (IBAction)dismissSelf:(id)sender;
 
 @end

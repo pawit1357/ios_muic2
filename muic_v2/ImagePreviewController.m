@@ -7,6 +7,8 @@
 //
 
 #import "ImagePreviewController.h"
+#import "SWRevealViewController.h"
+#import "GalleryDetailController.h"
 
 @interface ImagePreviewController ()
 
@@ -18,9 +20,9 @@
 
 -(void) seContentItem:(id)newContentItem{
     
-    if(_contentItem != newContentItem){
+    //if(_contentItem != newContentItem){
         _contentItem = newContentItem;
-    }
+    //}
     [self prepareContent];
 }
 
@@ -31,7 +33,7 @@
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
-    
+
     [self prepareContent];
 }
 
@@ -71,6 +73,22 @@
     
     
 }
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+     //GalleryDetailController *transferViewController = segue.destinationViewController;
+     
+     //NSLog(@"prepareForSegue: %@", segue.identifier);
+    if([segue.identifier isEqualToString:@"backToGalllery"])
+     {
+     
+     //NSIndexPath *indexPath = [self.viewList indexPathForSelectedRow];
+     //NSArray *info = self.wimData[indexPath.row];
+     
+     //[transferViewController setWimDetailItem:info];
+     }
+    
+}
+
     /*
 -(void)setImagePreviewWithPath{
     
@@ -92,4 +110,11 @@
 }
  */
 
+- (IBAction)dismissSelf:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //[self dismissModalViewControllerAnimated:YES];
+
+}
 @end

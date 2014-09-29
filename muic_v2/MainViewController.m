@@ -12,6 +12,7 @@
 #import "ContentDao.h"
 #import "ModelContent.h"
 #import "NewsDetailController.h"
+#import "Webservice.h"
 
 @interface MainViewController ()
 
@@ -19,7 +20,7 @@
 
 @implementation MainViewController
 
-@synthesize contentList,appInfo,svBanner,bannerList;
+@synthesize contentList,appInfo,svBanner,bannerList,progressView;
 
 - (void)viewDidLoad
 {
@@ -49,6 +50,27 @@
     
     self.svBanner.userInteractionEnabled = false;
     
+    //Download data
+    [progressView setProgress:0.0];
+    timer = [NSTimer scheduledTimerWithTimeInterval:0.10 target:self selector:@selector(setCustomProgress) userInfo:nil repeats:YES];
+}
+- (void)setCustomProgress{
+    
+    NSMutableArray *banner = (NSMutableArray*)[[Webservice Webservice] getBanner];
+    NSMutableArray *menu = (NSMutableArray*)[[Webservice Webservice] getMenu];
+    //NSMutableArray *content = (NSMutableArray*)[[Webservice Webservice] getContent];
+    NSMutableArray *book = (NSMutableArray*)[[Webservice Webservice] GetBook];
+    NSMutableArray *faq = (NSMutableArray*)[[Webservice Webservice] GetQuestion];
+    
+    progressView.progress = progressView.progress + 0.01;
+
+    NSString *newValue = [[NSString alloc] initWithFormat:@"%.2f", progressView.progress];
+    //lblResult.text = newValue;
+    if(progressView.progress == 1.0)
+    {
+        //lblResult.text = @"Load Finished!";
+        [timer invalidate];
+    }
 }
 
 -(void)prepareContent{
@@ -151,6 +173,21 @@
 
 
 #pragma mark - Table view data source
+
+/*
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    //For each section, you must return here it's label
+    if(section == 0) return @"header 1";
+    if(section == 1) return @"header 1";
+    if(section == 2) return @"header 1";
+    if(section == 3) return @"header 1";
+
+}
+*/
+
+- (NSInteger)numberOfSectionsInTableView: (UITableView *)tableView {
+    return 1;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

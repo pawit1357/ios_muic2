@@ -180,7 +180,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    int rowCount;
+    NSInteger rowCount;
     if(self.isFiltered)
         rowCount = filteredBookList.count;
     else

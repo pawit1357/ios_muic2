@@ -203,7 +203,7 @@ static ContentDao * _contentDao = nil;
     
     return resultList;
 }
-- (NSMutableArray *) getMenuContent:(int) menu_id{
+- (NSMutableArray *) getMenuContent:(NSInteger) menu_id{
     NSMutableArray *resultList = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
     sqlite3_stmt    *statement;
@@ -212,7 +212,7 @@ static ContentDao * _contentDao = nil;
     {
         //NSString *query = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url FROM tb_content where status='A' and menu_id=? ";
         
-        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A' and menu_id=%d" ,menu_id];
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A' and menu_id=%ld" ,(long)menu_id];
         
         
         //NSLog(@"getMenuContent:%@",querySQL);
@@ -397,9 +397,9 @@ static ContentDao * _contentDao = nil;
      if (sqlite3_open(dbpath, &db) == SQLITE_OK)
      {
      NSLog(@"Exitsing data, Update Please");
-     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_content set read = '%@' WHERE id = '%d'",
+     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_content set read = '%@' WHERE id = %ld",
      model.read,
-     model.id];
+     (long)model.id];
      
      const char *update_stmt = [updateSQL UTF8String];
      //sqlite3_bind_int(statement, 1, config.id);

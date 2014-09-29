@@ -19,6 +19,8 @@
 
 @synthesize tvMain,contentList;
 
+NSInteger selectedItem;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -145,7 +147,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //selectedRow = indexPath.row;
+    selectedItem = indexPath.row;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -155,9 +157,9 @@
         
         PromotoinSubDetailController *transferViewController = segue.destinationViewController;
         
-        NSIndexPath *indexPath = [self.tvMain indexPathForSelectedRow];
+        //NSIndexPath *indexPath = [self.tvMain indexPathForSelectedRow];
         
-        ModelContent *content= (ModelContent *)self.contentList[indexPath.row];
+        ModelContent *content= (ModelContent *)self.contentList[selectedItem];
         
         [transferViewController setContentItem:content];
     }

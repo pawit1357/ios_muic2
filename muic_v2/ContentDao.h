@@ -29,5 +29,5 @@
 
 - (BOOL) updateReadContent:(ModelContent*)model;
 
-- (NSMutableArray *) getMenuContent:(int) menu_id;
+- (NSMutableArray *) getMenuContent:(NSInteger) menu_id;
 @end
