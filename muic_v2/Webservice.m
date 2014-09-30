@@ -15,11 +15,19 @@
 #import "ModelContent.h"
 #import "ModelFaq.h"
 
+
+#import "BannerDao.h"
+#import "ContentDao.h"
+#import "MenuDao.h"
+#import "BookDao.h"
+#import "AppConfigDao.h"
+#import "FaqDao.h"
+
 @implementation Webservice
 
     NSString *URL_BANNER= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBanner";
     NSString *URL_MENU= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetMenu";
-    NSString *URL_CONTENT= @" http://prdapp.net/itechservice/index.php/ServiceApp/GetContent";
+    NSString *URL_CONTENT= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContent";
     NSString *URL_BOOK= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBook";
     NSString *URL_QUESTION= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetQuestion";
     NSString *URL_REGISTER= @"http://prdapp.net/itechservice/index.php/ServiceAccount/Register/user/%@/phone_type/%d";
@@ -36,7 +44,11 @@ static Webservice *_webservice = nil;
     return _webservice;
 }
 
-- (NSMutableArray*) getBanner{
+- (void) syncronizeData{
+    
+}
+
+- (BOOL) getBanner{
         //-- Make URL request with server
         
         NSMutableArray *data = [[NSMutableArray alloc] init];
@@ -55,23 +67,24 @@ static Webservice *_webservice = nil;
         //-- JSON Parsing
         NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
         //NSLog(@"Result = %@",result);
-        
+        if(result.count>0){
+        [[BannerDao BannerDao] deleteAll];
         for (NSMutableDictionary *dataDict in result)
         {
-            
-            ModelBanner *model = [[ModelBanner alloc] init];
-            model.id = [[dataDict objectForKey:@"id"] integerValue];
-            model.app_id = [[dataDict objectForKey:@"app_id"] integerValue];
-            model.image_url = [dataDict objectForKey:@"image_url"];
+            ModelBanner *banner = [[ModelBanner alloc] init];
+            banner.id = [[dataDict objectForKey:@"id"] integerValue];
+            banner.app_id = [[dataDict objectForKey:@"app_id"] integerValue];
+            banner.image_url = [dataDict objectForKey:@"image_url"];
 
+            [[BannerDao BannerDao]  saveModel:banner];
             // Add the wim object to the wims Array
-            [data addObject:model];
+            [data addObject:banner];
         }
-    
-        return data;
+}
+        return TRUE;
     }
 
-- (NSMutableArray*) getMenu{
+- (BOOL) getMenu{
     //-- Make URL request with server
     
     NSMutableArray *data = [[NSMutableArray alloc] init];
@@ -90,27 +103,29 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-    
+        if(result.count>0){
+    [[MenuDao MenuDao] deleteAll];
     for (NSMutableDictionary *dataDict in result)
     {
         
-        ModelMenu *model = [[ModelMenu alloc] init];
-        model.id= [[dataDict objectForKey:@"id"] integerValue];
-        model.app_id= [[dataDict objectForKey:@"app_id"] integerValue];
-        model.parent= [[dataDict objectForKey:@"parent"] integerValue];
-        model.name= [dataDict objectForKey:@"name"];
-        model.icon= [dataDict objectForKey:@"icon"];
-        model.type= [[dataDict objectForKey:@"type"] integerValue];
-        model.description = [dataDict objectForKey:@"description"];
+        ModelMenu *menu = [[ModelMenu alloc] init];
+        menu.id= [[dataDict objectForKey:@"id"] integerValue];
+        menu.app_id= [[dataDict objectForKey:@"app_id"] integerValue];
+        menu.parent= [[dataDict objectForKey:@"parent"] integerValue];
+        menu.name= [dataDict objectForKey:@"name"];
+        menu.icon= [dataDict objectForKey:@"icon"];
+        menu.type= [[dataDict objectForKey:@"type"] integerValue];
+        menu.description = [dataDict objectForKey:@"description"];
         
+        [[MenuDao MenuDao] saveModel:menu];
         // Add the wim object to the wims Array
-        [data addObject:model];
+        [data addObject:menu];
     }
-    
-    return data;
+}
+    return TRUE;
 }
 
-- (NSMutableArray*) getContent{
+- (BOOL) getContent{
     //-- Make URL request with server
     
     NSMutableArray *data = [[NSMutableArray alloc] init];
@@ -129,30 +144,60 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-    
+        if(result.count>0){
+    [[ContentDao ContentDao] deleteAll];
     for (NSMutableDictionary *dataDict in result)
     {
         
-        ModelContent *model = [[ModelContent alloc] init];
+        ModelContent *content = [[ModelContent alloc] init];
         
-        model.id = [[dataDict objectForKey:@"id"] integerValue];
-        model.app_id = [[dataDict objectForKey:@"app_id"] integerValue];
-        model.menu_id = [[dataDict objectForKey:@"menu_id"] integerValue];
-        model.title = [dataDict objectForKey:@"title"];
-        model.sub_title =[dataDict objectForKey:@"sub_title"];
-        model.description = [dataDict objectForKey:@"description"];
-        model.image_url = [dataDict objectForKey:@"image_url"];
-        model.read = [dataDict objectForKey:@"read"];
-        model.create_date = [dataDict objectForKey:@"create_date"];
-
+        content.id = [[dataDict objectForKey:@"id"] integerValue];
+        content.app_id = [[dataDict objectForKey:@"app_id"] integerValue];
+        content.menu_id = [[dataDict objectForKey:@"menu_id"] integerValue];
+        
+        if( [dataDict objectForKey:@"title"] != nil){
+            content.title = [dataDict objectForKey:@"title"];
+        }else{
+            content.title = @" ";
+        }
+        if([dataDict objectForKey:@"sub_title"] != nil){
+            content.sub_title =[dataDict objectForKey:@"sub_title"];
+        }else{
+            content.sub_title = @" ";
+        }
+        if([dataDict objectForKey:@"description"] != nil){
+            //NSData *data = [NSData dataFromBase64String:[dataDict objectForKey:@"description"]];
+            //NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            
+            content.description = [dataDict objectForKey:@"description"];
+        }else{
+            content.description = @" ";
+        }
+        if([dataDict objectForKey:@"image_url"] != nil){
+            content.image_url = [dataDict objectForKey:@"image_url"];
+        }else{
+            content.image_url = @" ";
+        }
+        if([dataDict objectForKey:@"read"] != nil){
+            content.read = [dataDict objectForKey:@"read"];
+        }else{
+            content.read = @" ";
+        }
+        if([dataDict objectForKey:@"create_date"] != nil){
+            content.create_date =  [dataDict objectForKey:@"create_date"];
+        }else{
+            content.create_date = @" ";
+        }
+        
+        [[ContentDao ContentDao] saveModel:content];
         // Add the wim object to the wims Array
-        [data addObject:model];
+        [data addObject:content];
     }
-    
-    return data;
+        }
+    return TRUE;
 }
 
-- (NSMutableArray*) GetBook{
+- (BOOL) GetBook{
     //-- Make URL request with server
     
     NSMutableArray *data = [[NSMutableArray alloc] init];
@@ -171,33 +216,35 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-    
+        if(result.count>0){
+    [[BookDao BookDao] deleteAll];
     for (NSMutableDictionary *dataDict in result)
     {
         
-        ModelBook *model = [[ModelBook alloc] init];
+        ModelBook *book = [[ModelBook alloc] init];
         
-        model.id = [[dataDict objectForKey:@"id"] integerValue];
-        model.book_name = [dataDict objectForKey:@"book_name"];
-        model.book_title = [dataDict objectForKey:@"book_title"];
-        model.book_cover = [dataDict objectForKey:@"book_cover"];
-        model.book_author = [dataDict objectForKey:@"book_author"];
-        model.callNo = [dataDict objectForKey:@"callNo"];
-        model.division = [dataDict objectForKey:@"division"];
-        model.program = [dataDict objectForKey:@"program"];
-        model.type = [dataDict objectForKey:@"type"];
-        model.status = [dataDict objectForKey:@"status"];
-        model.flag = [dataDict objectForKey:@"flag"];
-        model.recommended = [dataDict objectForKey:@"recommended"];
+        book.id = [[dataDict objectForKey:@"id"] integerValue];
+        book.book_name = [dataDict objectForKey:@"book_name"];
+        book.book_title = [dataDict objectForKey:@"book_title"];
+        book.book_cover = [dataDict objectForKey:@"book_cover"];
+        book.book_author = [dataDict objectForKey:@"book_author"];
+        book.callNo = [dataDict objectForKey:@"callNo"];
+        book.division = [dataDict objectForKey:@"division"];
+        book.program = [dataDict objectForKey:@"program"];
+        book.type = [dataDict objectForKey:@"type"];
+        book.status = [dataDict objectForKey:@"status"];
+        book.flag = [dataDict objectForKey:@"flag"];
+        book.recommended = [dataDict objectForKey:@"recommended"];
         
+        [[BookDao BookDao]saveModel:book];
         // Add the wim object to the wims Array
-        [data addObject:model];
+        [data addObject:book];
     }
-    
-    return data;
+        }
+    return TRUE;
 }
 
-- (NSMutableArray*) GetQuestion{
+- (BOOL) GetQuestion{
     //-- Make URL request with server
     
     NSMutableArray *data = [[NSMutableArray alloc] init];
@@ -216,25 +263,26 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-    
+    if(result.count>0){
+    [[FaqDao FaqDao]deleteAll];
     for (NSMutableDictionary *dataDict in result)
     {
         
-        ModelFaq *model = [[ModelFaq alloc] init];
-        model.id = [[dataDict objectForKey:@"id"] integerValue];
-        model.app_id = [[dataDict objectForKey:@"id"] integerValue];
-        model.question = [dataDict objectForKey:@"book_author"];
-        model.status = [dataDict objectForKey:@"book_author"];
-        model.create_date = [dataDict objectForKey:@"book_author"];
-        model.isRead = [dataDict objectForKey:@"book_author"];
-        model.answer = [dataDict objectForKey:@"book_author"];
+        ModelFaq *quest = [[ModelFaq alloc] init];
+        quest.id = [[dataDict objectForKey:@"id"] integerValue];
+        quest.app_id = [[dataDict objectForKey:@"id"] integerValue];
+        quest.question = [dataDict objectForKey:@"book_author"];
+        quest.status = [dataDict objectForKey:@"book_author"];
+        quest.create_date = [dataDict objectForKey:@"book_author"];
+        quest.isRead = [dataDict objectForKey:@"book_author"];
+        quest.answer = [dataDict objectForKey:@"book_author"];
         
-        
+        [[FaqDao FaqDao] saveModel:quest];
         // Add the wim object to the wims Array
-        [data addObject:model];
+        [data addObject:quest];
     }
-    
-    return data;
+    }
+    return TRUE;
 }
 
 - (BOOL) registerDevice:(NSString*) udid{

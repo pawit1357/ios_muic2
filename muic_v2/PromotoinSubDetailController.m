@@ -7,6 +7,7 @@
 //
 
 #import "PromotoinSubDetailController.h"
+#import "NSData+Base64.h"
 
 @interface PromotoinSubDetailController ()
 
@@ -37,7 +38,10 @@
         ModelContent *content = (ModelContent*)_contentItem;
         self.title = content.title;
         
-        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 33px sans-serif;background: #fff;padding: 30px;color: #000;margin: 50;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",content.description];
+        NSData *data = [NSData dataFromBase64String:content.description];
+        NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 16px sans-serif;background: #fff;padding: 5px;color: #000;margin: 5;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",convertedString];
         
         //self.wvContent.userInteractionEnabled = NO;
         //self.wvContent.opaque = NO;

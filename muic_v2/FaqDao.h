@@ -24,7 +24,7 @@
 - (BOOL) saveModel:(ModelFaq*)model;
 - (BOOL) updateModel:(ModelFaq*)model;
 - (BOOL) deleteModel:(ModelFaq*)model;
-
+- (BOOL) deleteAll;
 - (NSArray *) getSingle:(NSInteger) id;
 
 @end

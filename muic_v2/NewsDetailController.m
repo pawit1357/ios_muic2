@@ -8,7 +8,7 @@
 
 #import "NewsDetailController.h"
 #import "ContentDao.h"
-
+#import "NSData+Base64.h"
 @interface NewsDetailController ()
 
 @end
@@ -46,7 +46,10 @@
             NSLog(@"Complete update read status.");
         }
         
-        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 16px sans-serif;background: #fff;padding: 5px;color: #000;margin: 5;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",content.description];
+        NSData *data = [NSData dataFromBase64String:content.description];
+        NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 16px sans-serif;background: #fff;padding: 5px;color: #000;margin: 5;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",convertedString];
         
         self.wvMain.scrollView.scrollEnabled = TRUE;
         [self.wvMain loadHTMLString: embedHTML baseURL: nil];

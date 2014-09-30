@@ -23,6 +23,7 @@
 - (BOOL) saveModel:(ModelBook*)model;
 - (BOOL) updateModel:(ModelBook*)model;
 - (BOOL) deleteModel:(ModelBook*)model;
+- (BOOL) deleteAll;
 - (NSMutableArray *) getAll;
 - (NSMutableArray *) getBookByType:(NSString*) type;
 - (NSMutableArray *) getBookRecommted:(NSString*) type;

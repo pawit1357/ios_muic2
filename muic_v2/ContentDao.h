@@ -23,6 +23,8 @@
 - (BOOL) saveModel:(ModelContent*)model;
 - (BOOL) updateModel:(ModelContent*)model;
 - (BOOL) deleteModel:(ModelContent*)model;
+- (BOOL) deleteAll;
+
 - (NSMutableArray *) getAll;
 - (NSMutableArray *) getNews;
 - (NSArray *) getSingle:(NSInteger) id;

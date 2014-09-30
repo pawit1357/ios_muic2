@@ -8,19 +8,22 @@
 
 #import "MainViewController.h"
 #import "SWRevealViewController.h"
+#import "MenuDao.h"
 #import "BannerDao.h"
 #import "ContentDao.h"
+#import "BookDao.h"
+#import "FaqDao.h"
 #import "ModelContent.h"
 #import "NewsDetailController.h"
 #import "Webservice.h"
-
+#import "NSData+Base64.h"
 @interface MainViewController ()
 
 @end
 
 @implementation MainViewController
 
-@synthesize contentList,appInfo,svBanner,bannerList,progressView;
+@synthesize contentList,appInfo,svBanner,bannerList,spiner;
 
 - (void)viewDidLoad
 {
@@ -50,27 +53,34 @@
     
     self.svBanner.userInteractionEnabled = false;
     
-    //Download data
-    [progressView setProgress:0.0];
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.10 target:self selector:@selector(setCustomProgress) userInfo:nil repeats:YES];
-}
-- (void)setCustomProgress{
-    
-    NSMutableArray *banner = (NSMutableArray*)[[Webservice Webservice] getBanner];
-    NSMutableArray *menu = (NSMutableArray*)[[Webservice Webservice] getMenu];
-    //NSMutableArray *content = (NSMutableArray*)[[Webservice Webservice] getContent];
-    NSMutableArray *book = (NSMutableArray*)[[Webservice Webservice] GetBook];
-    NSMutableArray *faq = (NSMutableArray*)[[Webservice Webservice] GetQuestion];
-    
-    progressView.progress = progressView.progress + 0.01;
+    [self syncronizeData];
 
-    NSString *newValue = [[NSString alloc] initWithFormat:@"%.2f", progressView.progress];
-    //lblResult.text = newValue;
-    if(progressView.progress == 1.0)
-    {
-        //lblResult.text = @"Load Finished!";
-        [timer invalidate];
-    }
+}
+
+- (void)syncronizeData{
+    [spiner startAnimating];
+    
+
+    //[[Webservice Webservice] getBanner];
+    //[[Webservice Webservice] getMenu];
+    //[[Webservice Webservice] getContent];
+    
+    //[[Webservice Webservice] GetBook];
+    [[Webservice Webservice] GetQuestion];
+    
+    
+    
+    
+    NSMutableArray *xxxx = (NSMutableArray*)[[FaqDao FaqDao]getAll];
+    
+    NSLog(@"==>%d,",xxxx.count);
+    
+    
+    
+    [spiner stopAnimating];
+    spiner.hidden=YES;
+[timer invalidate];
+    //}
 }
 
 -(void)prepareContent{
@@ -211,7 +221,9 @@
     lbTitle.text = app.title;
     
     lbDesc = (UILabel *)[cell viewWithTag:102];
-    lbDesc.text = app.description;
+    NSData *data = [NSData dataFromBase64String:app.description];
+    NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    lbDesc.text = convertedString;
     
     lbCreateDate = (UILabel *)[cell viewWithTag:103];
     lbCreateDate.text = app.create_date;

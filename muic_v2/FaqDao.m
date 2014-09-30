@@ -76,7 +76,7 @@ static FaqDao *_faqDao = nil;
      {
      NSLog(@"New data, Insert Please");
      NSString *insertSQL = [NSString stringWithFormat:
-     @"INSERT INTO tb_faq (id,app_id,question,status,create_date,isRead,answer) VALUES (%dl,%dl, '%@', '%@', '%@', '%@', '%@')",
+     @"INSERT INTO tb_faq (id,app_id,question,status,create_date,isRead,answer) VALUES (%d,%d, '%@', '%@', '%@', '%@', '%@')",
      model.id,
      model.app_id,
      model.question,model.status,model.create_date,model.isRead,model.answer ];
@@ -92,7 +92,6 @@ static FaqDao *_faqDao = nil;
      sqlite3_close(db);
      
      }
-    
     
     return success;
 }
@@ -214,5 +213,33 @@ static FaqDao *_faqDao = nil;
      */
     return success;
 }
+
+
+- (BOOL) deleteAll{
+    BOOL success = false;
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSLog(@"Exitsing data, Delete Please");
+        NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_Faq"];
+        
+        const char *delete_stmt = [deleteSQL UTF8String];
+        sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+        
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
+    
+    return success;
+}
+
 
 @end

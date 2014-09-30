@@ -68,32 +68,45 @@ static BookDao *_bookDao = nil;
 - (BOOL) saveModel:(ModelBook *)model
 {
     BOOL success = false;
-    /*
-     sqlite3_stmt *statement = NULL;
-     const char *dbpath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-     {
-     NSLog(@"New data, Insert Please");
-     NSString *insertSQL = [NSString stringWithFormat:
-     @"INSERT INTO tb_app (id, stationId, lane) VALUES (\"%@\", \"%@\", \"%@\")",
-     [NSString stringWithFormat:@"%d", model.id],
-     config.stationId,
-     config.lane ];
-     
-     const char *insert_stmt = [insertSQL UTF8String];
-     sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
-     if (sqlite3_step(statement) == SQLITE_DONE)
-     {
-     success = true;
-     }
-     
-     
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
-     
-     }
-     */
+    
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSLog(@"New data, Insert Please");
+        NSString *insertSQL = [NSString stringWithFormat:
+                               @"INSERT INTO tb_book (id,book_name,book_cover,book_title,book_author,callNo,division,program,type,status,flag,recommented,create_date) VALUES (%d,'%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                               model.id,
+                               model.book_name,
+                               model.book_cover,
+                               model.book_title,
+                               model.book_author,
+                               model.callNo,
+                               model.division,
+                               model.program,
+                               model.type,
+                               model.status,
+                               model.flag,
+                               model.recommended,
+                               model.create_date];
+        
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }else{
+
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+        
+        sqlite3_finalize(statement);
+        sqlite3_close(db);
+        
+    }
+    
+
     
     return success;
 }
@@ -342,5 +355,27 @@ static BookDao *_bookDao = nil;
      */
     return success;
 }
-
+- (BOOL) deleteAll{
+    BOOL success = false;
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSLog(@"Exitsing data, Delete Please");
+        NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_book"];
+        
+        const char *delete_stmt = [deleteSQL UTF8String];
+        sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+        
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
+    
+    return success;
+}
 @end

@@ -19,11 +19,13 @@
     
     NSTimer *timer;
 }
-
+/*
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 
 @property (strong, nonatomic) IBOutlet UIView *vMain;
+*/
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
 
 @property (weak, nonatomic) IBOutlet UITableView *tvContent;
 
@@ -37,5 +39,5 @@
 
 - (void)setupScrollView:(UIScrollView*)svMain ;
 
-- (void)setCustomProgress;
+- (void)syncronizeData;
 @end

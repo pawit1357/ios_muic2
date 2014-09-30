@@ -13,11 +13,13 @@
 }
 +(id)Webservice;
 
-- (NSMutableArray*) getBanner;
-- (NSMutableArray*) getMenu;
-- (NSMutableArray*) getContent;
-- (NSMutableArray*) GetBook;
-- (NSMutableArray*) GetQuestion;
+- (void) syncronizeData;
+
+- (BOOL) getBanner;
+- (BOOL) getMenu;
+- (BOOL) getContent;
+- (BOOL) GetBook;
+- (BOOL) GetQuestion;
 - (BOOL) registerDevice:(NSString*) udid;
 - (BOOL) sendFAQ:(NSString*) question andUdid:(NSString*) udid;
 @end

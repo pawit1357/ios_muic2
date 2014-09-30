@@ -68,32 +68,34 @@ static BannerDao * _bannerDao = nil;
 - (BOOL) saveModel:(ModelBanner *)model
 {
     BOOL success = false;
-    /*
-     sqlite3_stmt *statement = NULL;
-     const char *dbpath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-     {
-     NSLog(@"New data, Insert Please");
-     NSString *insertSQL = [NSString stringWithFormat:
-     @"INSERT INTO tb_app (id, stationId, lane) VALUES (\"%@\", \"%@\", \"%@\")",
-     [NSString stringWithFormat:@"%d", model.id],
-     config.stationId,
-     config.lane ];
-     
-     const char *insert_stmt = [insertSQL UTF8String];
-     sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
-     if (sqlite3_step(statement) == SQLITE_DONE)
-     {
-     success = true;
-     }
-     
-     
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
-     
-     }
-     */
+    
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSLog(@"New data, Insert Please");
+        NSString *insertSQL = [NSString stringWithFormat:
+                               @"INSERT INTO tb_banner (id,app_id,image_url,status) VALUES (%d, %d, '%@', '%@')",
+                               model.id,
+                               model.app_id,
+                               model.image_url,@"A"];
+        
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+        
+        sqlite3_finalize(statement);
+        sqlite3_close(db);
+        
+    }
+    
+
     
     return success;
 }
@@ -206,6 +208,31 @@ static BannerDao * _bannerDao = nil;
      
      }
      */
+    return success;
+}
+//delete the employee from the database
+- (BOOL) deleteAll
+{
+    BOOL success = false;
+     sqlite3_stmt *statement = NULL;
+     const char *dbpath = [databasePath UTF8String];
+     
+     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+     {
+         NSLog(@"Exitsing data, Delete Please");
+         NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_banner"];
+     
+         const char *delete_stmt = [deleteSQL UTF8String];
+         sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+         
+         if (sqlite3_step(statement) == SQLITE_DONE)
+         {
+             success = true;
+         }
+     }
+     sqlite3_finalize(statement);
+     sqlite3_close(db);
+    
     return success;
 }
 
