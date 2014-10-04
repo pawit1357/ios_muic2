@@ -21,8 +21,8 @@
 
 - (void) initDatabase;
 
-- (BOOL) update:(ModelConfig*)model;
+- (BOOL) updateVersion:(NSInteger)version;
 
-- (NSArray *) getSingle;
+- (NSInteger) getCurrentVersion;
 
 @end

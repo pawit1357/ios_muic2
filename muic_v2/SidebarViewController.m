@@ -8,11 +8,11 @@
 
 #import "SidebarViewController.h"
 #import "SWRevealViewController.h"
+#import "Webservice.h"
 #import "ModelMenu.h"
 #import "Menudao.h"
 #import "AppDelegate.h"
-//#import "AppDao.h"
-//#import "modelapp.h"
+
 #import "Modelcontent.h"
 #import "ContentDao.h"
 #import "Bookdao.h"
@@ -43,21 +43,18 @@ ModelMenu *selectedMenu;
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
     
-    
     self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
-    //self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
-    //self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
-    
-    //UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
-    //backButton.target = self.revealViewController;
-    //backButton.action = @selector(revealToggle:);
-    //self.navigationItem.leftBarButtonItem= backButton;
-    
+
     self.parentAr =  [NSMutableArray array];
-    
-    [self prepareData];
+    [self syncronizeData];
 }
 
+- (void)syncronizeData{
+
+    //[[Webservice Webservice] getMenu];
+
+    [self prepareContent];
+}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // create the parent view that will hold header Label
@@ -86,26 +83,20 @@ ModelMenu *selectedMenu;
     
     return customView;
 }
-/*
-- (void)infoButtonClicked:(id)sender {
-    [self getPreviousMenu:selectedMenu];
-    
-}
-*/
+
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 20;
 }
 
--(void) prepareData{
+-(void) prepareContent{
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getAllMainMenu];
-    [self.tvMenuList reloadData];
+    //NSLog(@" menu size: %d",menuList.count);
 }
 
 -(void) getNextMenu:(ModelMenu*)selectedMenu{
     
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:selectedMenu];
-   // NSLog(@"menuList size: %d",menuList.count);
 
     if (![parentAr containsObject:[NSNumber numberWithInt:selectedMenu.parent]]) {
         // modify objectToSearchFor
@@ -140,8 +131,6 @@ ModelMenu *selectedMenu;
 
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
 {
-
-    
     if ([segue.identifier isEqualToString:@"menuDetail"]) {
         
          MenuDetailController *transferViewController = segue.destinationViewController;
@@ -189,8 +178,6 @@ ModelMenu *selectedMenu;
     }
 }
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -230,8 +217,8 @@ ModelMenu *selectedMenu;
             }else{
                 cell.detailTextLabel.text = @" ";
             }
-            cell.imageView.image = [UIImage imageNamed:menu.icon];
-            /*
+            //cell.imageView.image = [UIImage imageNamed:menu.icon];
+            
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [spinner setCenter:CGPointMake(CGRectGetWidth(cell.imageView.bounds)/2, CGRectGetHeight(cell.imageView.bounds)/2)];
             [spinner setColor:[UIColor grayColor]];
@@ -265,9 +252,6 @@ ModelMenu *selectedMenu;
                 });
             }
             
-            
-            //cell.imageView.image = [UIImage imageNamed:menu.icon];
-             */
         }
     }
     

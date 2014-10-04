@@ -20,14 +20,14 @@
 +(id)ContentDao;
 
 - (void) initDatabase;
-- (BOOL) saveModel:(ModelContent*)model;
-- (BOOL) updateModel:(ModelContent*)model;
-- (BOOL) deleteModel:(ModelContent*)model;
-- (BOOL) deleteAll;
+- (BOOL) saveContent:(ModelContent*)model;
+- (BOOL) updateContent:(ModelContent*)model;
+- (BOOL) deleteContent:(ModelContent*)model;
+- (BOOL) deleteAllContent;
 
-- (NSMutableArray *) getAll;
+- (NSMutableArray *) getAllContent;
 - (NSMutableArray *) getNews;
-- (NSArray *) getSingle:(NSInteger) id;
+- (NSMutableArray *) getSingleContent:(NSInteger) id;
 
 - (BOOL) updateReadContent:(ModelContent*)model;
 

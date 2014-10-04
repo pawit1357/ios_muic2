@@ -21,10 +21,12 @@
 
 - (void) initDatabase;
 
-- (BOOL) saveModel:(ModelFaq*)model;
-- (BOOL) updateModel:(ModelFaq*)model;
-- (BOOL) deleteModel:(ModelFaq*)model;
-- (BOOL) deleteAll;
-- (NSArray *) getSingle:(NSInteger) id;
+
+- (BOOL) saveQuestion:(ModelFaq*)model;
+- (BOOL) updateQuestion:(ModelFaq*)model;
+- (BOOL) deleteQuestion:(ModelFaq*)model;
+- (BOOL) deleteAllQuestion;
+- (NSMutableArray *) getAllQuestion;
+- (NSMutableArray *) getSingleQuestion:(NSInteger) id;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Webservice.h"
 
 @implementation AppDelegate
 
@@ -19,6 +20,13 @@
     // Override point for customization after application launch.
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
+    //Syncronize update data
+    if([[Webservice Webservice]isUpdateApp]){
+        NSLog(@"Update Complete.");
+    }else{
+        NSLog(@"Your app is updated.");
+    }
     
     return YES;
 }

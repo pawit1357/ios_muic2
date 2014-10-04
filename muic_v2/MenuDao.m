@@ -66,7 +66,7 @@ static MenuDao *_menuDao = nil;
 }
 
 
-- (BOOL) saveModel:(ModelMenu *)model
+- (BOOL) saveMenu:(ModelMenu *)model
 {
     BOOL success = false;
     
@@ -75,17 +75,17 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSLog(@"New data, Insert Please");
+        //NSLog(@"New data, Insert Please");
         NSString *insertSQL = [NSString stringWithFormat:
-                               @"INSERT INTO tb_menu (id,app_id,parent,menu_item,menu_icon,menu_type,menu_order,status,menu_item_src) VALUES (%d, %d, %d, '%@', '%@', %d,%d,'%@','%@')",
-                               model.id,
-                               model.app_id,
-                               model.parent,
+                               @"INSERT INTO tb_menu (id,app_id,parent,menu_item,menu_icon,menu_type,menu_order,status,menu_item_src) VALUES (%ld, %ld, %ld, '%@', '%@', %ld,%ld,'%@','%@')",
+                               (long)model.id,
+                               (long)model.app_id,
+                               (long)model.parent,
                                model.name,
                                model.icon,
-                               model.type,
-                               model.order,
-                               @"A",
+                               (long)model.type,
+                               (long)model.order,
+                               model.status,
                                model.description
                                ];
         
@@ -96,55 +96,43 @@ static MenuDao *_menuDao = nil;
             success = true;
         }else{
             NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
-        }
-        
-        sqlite3_finalize(statement);
-        sqlite3_close(db);
-        
-    }
-    
+        }    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     return success;
 }
 
-- (BOOL) updateModel:(ModelMenu *)model
+- (BOOL) updateMenu:(ModelMenu *)model
 {
     
     BOOL success = false;
-    /*
+    
      sqlite3_stmt *statement = NULL;
      const char *dbpath = [databasePath UTF8String];
      
      if (sqlite3_open(dbpath, &db) == SQLITE_OK)
      {
-     NSLog(@"Exitsing data, Update Please");
-     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE TB_CONFIG set stationId = '%@', lane = '%@'  WHERE id = 1",
-     config.stationId,
-     config.lane];
+         NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_menu set app_id='%ld',parent='%ld',menu_item='%@',menu_icon='%@',menu_type='%ld',menu_order='%ld',status='%@',menu_item_src='%@' WHERE id = %ld",
+                                (long)model.app_id,
+                                (long)model.parent,model.name,model.icon,(long)model.type,(long)model.order,model.status,model.description,(long)model.id];
      
-     const char *update_stmt = [updateSQL UTF8String];
-     //sqlite3_bind_int(statement, 1, config.id);
-     if (sqlite3_prepare_v2(db, update_stmt, -1, &statement, NULL)==SQLITE_OK) {
-     
-     NSLog(@"Query Prepared to execute");
+         const char *update_stmt = [updateSQL UTF8String];
+         if (sqlite3_prepare_v2(db, update_stmt, -1, &statement, NULL)==SQLITE_OK) {
+             if(sqlite3_step(statement) != SQLITE_DONE){
+                 NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+             }else{
+                 success = true;
+                 //NSLog(@"Executed");
+             }
+         }
      }
-     
-     if(sqlite3_step(statement) != SQLITE_DONE){
-     NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
-     }else{
-     success = true;
-     NSLog(@"Executed");
-     }
-     
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
-     
-     }
-     */
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     return success;
 }
 //get a list of all our employees
 
-- (NSMutableArray *) getAll
+- (NSMutableArray *) getAllMenu
 {
     NSMutableArray *resultList = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
@@ -152,7 +140,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1 order by menu_order asc";
+        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71) order by menu_order asc";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -195,7 +183,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1 and parent = -1 order by menu_order asc";
+        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71) and parent = -1 order by menu_order asc";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -222,6 +210,7 @@ static MenuDao *_menuDao = nil;
                                 model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
                 [resultList addObject:model];
             }
+            
             sqlite3_finalize(statement);
         }
         sqlite3_close(db);
@@ -237,7 +226,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=(select parent from tb_menu where id  =%ld) order by menu_order asc",(long)model.parent];
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71)  and parent=(select parent from tb_menu where id  =%ld) order by menu_order asc",(long)model.parent];
         //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
@@ -284,7 +273,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type <>1  and parent=%ld order by menu_order asc",(long)model.id];
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71)  and parent=%ld order by menu_order asc",(long)model.id];
         //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
@@ -324,50 +313,68 @@ static MenuDao *_menuDao = nil;
     
     return resultList;
 }
-- (NSArray *) getSingle:(NSInteger)id
+
+- (NSArray *) getSingleMenu:(NSInteger)id
 {
-    NSMutableArray *resultList = [self getAll];
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
     
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL =[NSString stringWithFormat: @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where id=%ld",(long)id];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelMenu *model = [[ModelMenu alloc] init];
+                model.id= sqlite3_column_int(statement, 0);
+                model.app_id= sqlite3_column_int(statement, 1);
+                model.parent= sqlite3_column_int(statement, 2);
+                model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.type= sqlite3_column_int(statement,5);
+                model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(db);
+    }
     
-    return [resultList objectAtIndex:0];
+    return resultList;
 }
 
 //delete the employee from the database
-- (BOOL) deleteModel:(ModelMenu *)model
+- (BOOL) deleteMenu:(ModelMenu *)model
 {
     BOOL success = false;
-    /*
+
      sqlite3_stmt *statement = NULL;
      const char *dbpath = [databasePath UTF8String];
      
      if (sqlite3_open(dbpath, &db) == SQLITE_OK)
      {
-     if (config.id > 0) {
-     NSLog(@"Exitsing data, Delete Please");
-     NSString *deleteSQL = [NSString stringWithFormat:@"DELETE from TB_CONFIG WHERE id = ?"];
+
+
+     NSString *deleteSQL = [NSString stringWithFormat:@"DELETE from tb_menu WHERE id = %ld",(long)model.id];
      
      const char *delete_stmt = [deleteSQL UTF8String];
      sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
-     sqlite3_bind_int(statement, 1, config.id);
+
      if (sqlite3_step(statement) == SQLITE_DONE)
      {
-     success = true;
+         success = true;
      }
-     
      }
-     else{
-     NSLog(@"New data, Nothing to delete");
-     success = true;
-     }
-     
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
-     
-     }
-     */
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     return success;
 }
-- (BOOL) deleteAll{
+
+- (BOOL) deleteAllMenu{
     BOOL success = false;
     sqlite3_stmt *statement = NULL;
     const char *dbpath = [databasePath UTF8String];

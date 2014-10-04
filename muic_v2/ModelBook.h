@@ -22,7 +22,7 @@
     NSString * status;
     NSString * flag;
     NSString * recommended;
-    NSDate * create_date;
+    NSString * create_date;
 
 }
 
@@ -38,7 +38,7 @@
 @property (nonatomic, retain) NSString *status;
 @property (nonatomic, retain) NSString *flag;
 @property (nonatomic, retain) NSString *recommended;
-@property (nonatomic, retain) NSDate *create_date;
+@property (nonatomic, retain) NSString *create_date;
 
 
 @end

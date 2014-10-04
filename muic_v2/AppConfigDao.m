@@ -63,26 +63,25 @@ static AppConfigDao *_appConfigDao = nil;
     
 }
 
-- (NSArray *) getSingle
+- (NSInteger) getCurrentVersion
 {
-    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    //NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    NSInteger currentVersion = 0;
+    
     const char *dbpath = [databasePath UTF8String];
     sqlite3_stmt    *statement;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,app_version FROM tb_config where status='A'";
+        NSString *querySQL = @"SELECT id,app_version FROM tb_config where id=1";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                ModelConfig *model = [[ModelConfig alloc] init];
-                model.id = sqlite3_column_int(statement, 0);
-                model.app_version = sqlite3_column_int(statement, 1);
+                currentVersion = sqlite3_column_int(statement, 1);
 
-                [resultList addObject:model];
             }
             sqlite3_finalize(statement);
         }else{
@@ -91,10 +90,10 @@ static AppConfigDao *_appConfigDao = nil;
         sqlite3_close(db);
     }
     
-    return resultList;
+    return currentVersion;
 }
 
-- (BOOL) update:(ModelConfig*)model;
+- (BOOL) updateVersion:(NSInteger)version
 {
     
     BOOL success = false;
@@ -105,7 +104,7 @@ static AppConfigDao *_appConfigDao = nil;
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
         NSLog(@"Exitsing data, Update Please");
-        NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_config set app_version = '%ld' WHERE id =1",(long)model.app_version];
+        NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_config set app_version = '%ld' WHERE id =1",(long)version];
         
         const char *update_stmt = [updateSQL UTF8String];
         //sqlite3_bind_int(statement, 1, config.id);

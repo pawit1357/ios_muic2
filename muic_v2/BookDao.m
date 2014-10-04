@@ -65,7 +65,7 @@ static BookDao *_bookDao = nil;
 }
 
 
-- (BOOL) saveModel:(ModelBook *)model
+- (BOOL) saveBook:(ModelBook *)model
 {
     BOOL success = false;
     
@@ -74,10 +74,10 @@ static BookDao *_bookDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSLog(@"New data, Insert Please");
+        //NSLog(@"New data, Insert Please");
         NSString *insertSQL = [NSString stringWithFormat:
-                               @"INSERT INTO tb_book (id,book_name,book_cover,book_title,book_author,callNo,division,program,type,status,flag,recommented,create_date) VALUES (%d,'%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
-                               model.id,
+                               @"INSERT INTO tb_book (id,book_name,book_cover,book_title,book_author,callNo,division,program,type,status,flag,recommended,create_date) VALUES (%ld,'%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                               (long)model.id,
                                model.book_name,
                                model.book_cover,
                                model.book_title,
@@ -95,9 +95,9 @@ static BookDao *_bookDao = nil;
         sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
         {
+            //NSLog(@"Added banner:%@",model.image_url);
             success = true;
         }else{
-
             NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
         }
         
@@ -111,45 +111,41 @@ static BookDao *_bookDao = nil;
     return success;
 }
 
-- (BOOL) updateModel:(ModelBook *)model
+- (BOOL) updateBook:(ModelBook *)model
 {
     
     BOOL success = false;
-    /*
+
      sqlite3_stmt *statement = NULL;
      const char *dbpath = [databasePath UTF8String];
      
      if (sqlite3_open(dbpath, &db) == SQLITE_OK)
      {
-     NSLog(@"Exitsing data, Update Please");
-     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE TB_CONFIG set stationId = '%@', lane = '%@'  WHERE id = 1",
-     config.stationId,
-     config.lane];
+     //NSLog(@"Exitsing data, Update Please");
+     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_book set book_name= '%@',book_cover= '%@',book_title= '%@',book_author= '%@',callNo= '%@',division= '%@',program= '%@',type= '%@',status= '%@',flag= '%@',recommended= '%@',create_date= '%@'   WHERE id = %ld",
+     model.book_name,model.book_cover,model.book_title,model.book_author,model.callNo,model.division,model.program,model.type,model.status,model.flag,model.recommended,model.create_date,
+     (long)model.id];
      
      const char *update_stmt = [updateSQL UTF8String];
      //sqlite3_bind_int(statement, 1, config.id);
      if (sqlite3_prepare_v2(db, update_stmt, -1, &statement, NULL)==SQLITE_OK) {
      
-     NSLog(@"Query Prepared to execute");
+         //NSLog(@"Query Prepared to execute");
+         success = true;
+
      }
-     
-     if(sqlite3_step(statement) != SQLITE_DONE){
-     NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
-     }else{
-     success = true;
-     NSLog(@"Executed");
-     }
-     
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
+         if(sqlite3_step(statement) != SQLITE_DONE){
+             NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+         }
      
      }
-     */
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     return success;
 }
 //get a list of all our employees
 
-- (NSMutableArray *) getAll
+- (NSMutableArray *) getAllBook
 {
     NSMutableArray *resultList = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
@@ -158,6 +154,7 @@ static BookDao *_bookDao = nil;
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
         NSString *querySQL = @"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A'";
+
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -178,7 +175,7 @@ static BookDao *_bookDao = nil;
                 model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
                 model.flag = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 10)];
                 model.recommended = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 11)];
-                //model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 12)];
+                model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 12)];
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
@@ -312,50 +309,75 @@ static BookDao *_bookDao = nil;
     
     return resultList;
 }
-- (NSArray *) getSingle:(NSInteger)id
+- (NSMutableArray *) getSingleBook:(NSInteger)id
 {
-    NSMutableArray *resultList = [self getAll];
     
+    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
     
-    return [resultList objectAtIndex:0];
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where id=%ld",(long)id];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                ModelBook *model = [[ModelBook alloc] init];
+                
+                model.id = sqlite3_column_int(statement, 0);
+                model.book_name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                model.book_title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                model.book_cover = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.book_author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.callNo = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                model.division = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                model.program = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+                model.type = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                model.flag = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 10)];
+                model.recommended = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 11)];
+                model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 12)];
+                [resultList addObject:model];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(db);
+    }
+    
+    return resultList;
+
 }
 
 //delete the employee from the database
-- (BOOL) deleteModel:(ModelBook *)model
+- (BOOL) deleteBook:(ModelBook *)model
 {
     BOOL success = false;
-    /*
-     sqlite3_stmt *statement = NULL;
-     const char *dbpath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-     {
-     if (config.id > 0) {
-     NSLog(@"Exitsing data, Delete Please");
-     NSString *deleteSQL = [NSString stringWithFormat:@"DELETE from TB_CONFIG WHERE id = ?"];
-     
-     const char *delete_stmt = [deleteSQL UTF8String];
-     sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
-     sqlite3_bind_int(statement, 1, config.id);
-     if (sqlite3_step(statement) == SQLITE_DONE)
-     {
-     success = true;
-     }
-     
-     }
-     else{
-     NSLog(@"New data, Nothing to delete");
-     success = true;
-     }
-     
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
-     
-     }
-     */
+    
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        
+        //NSLog(@"Exitsing data, Delete Please");
+        NSString *deleteSQL = [NSString stringWithFormat:@"DELETE from tb_book WHERE id = %ld",(long)model.id];
+        
+        const char *delete_stmt = [deleteSQL UTF8String];
+        sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }
+        
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     return success;
 }
-- (BOOL) deleteAll{
+- (BOOL) deleteAllBook{
     BOOL success = false;
     sqlite3_stmt *statement = NULL;
     const char *dbpath = [databasePath UTF8String];

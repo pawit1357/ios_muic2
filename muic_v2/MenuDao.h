@@ -21,14 +21,14 @@
 +(id)MenuDao;
 
 - (void) initDatabase;
-- (BOOL) saveModel:(ModelMenu*)model;
-- (BOOL) updateModel:(ModelMenu*)model;
-- (BOOL) deleteModel:(ModelMenu*)model;
-- (BOOL) deleteAll;
+- (BOOL) saveMenu:(ModelMenu*)model;
+- (BOOL) updateMenu:(ModelMenu*)model;
+- (BOOL) deleteMenu:(ModelMenu*)model;
+- (BOOL) deleteAllMenu;
 
 - (NSMutableArray *) getChildMenu:(ModelMenu*)model;
 - (NSMutableArray *) getParentMenu:(ModelMenu *)model;
 - (NSMutableArray *) getAllMainMenu;
-- (NSMutableArray *) getAll;
-- (NSArray *) getSingle:(NSInteger) id;
+- (NSMutableArray *) getAllMenu;
+- (NSArray *) getSingleMenu:(NSInteger) id;
 @end

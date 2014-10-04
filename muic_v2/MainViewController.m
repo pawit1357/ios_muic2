@@ -28,8 +28,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     self.title = @"News & Events";
+    
+    [self syncronizeData];
     
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -38,12 +39,8 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"simpleMenuButton.png"] style:UIBarButtonItemStyleDone target:self action:@selector(revealToggle:)];
     backButton.target = self.revealViewController;
     
-    
     self.navigationItem.leftBarButtonItem = backButton;
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-
-    [self prepareContent];
-
     [self setupScrollView:svBanner];
     UIPageControl *pgCtr = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 120, 280, 36)];
     [pgCtr setTag:12];
@@ -53,41 +50,25 @@
     
     self.svBanner.userInteractionEnabled = false;
     
-    [self syncronizeData];
-
 }
 
 - (void)syncronizeData{
-    [spiner startAnimating];
     
-
-    //[[Webservice Webservice] getBanner];
-    //[[Webservice Webservice] getMenu];
-    //[[Webservice Webservice] getContent];
+    /*
+    [[Webservice Webservice] getBanner];
+    [[Webservice Webservice] getContent];
     
-    //[[Webservice Webservice] GetBook];
+    [[Webservice Webservice] GetBook];
     [[Webservice Webservice] GetQuestion];
-    
-    
-    
-    
-    NSMutableArray *xxxx = (NSMutableArray*)[[FaqDao FaqDao]getAll];
-    
-    NSLog(@"==>%d,",xxxx.count);
-    
-    
-    
-    [spiner stopAnimating];
-    spiner.hidden=YES;
-[timer invalidate];
-    //}
+*/
+    [self prepareContent];
 }
 
 -(void)prepareContent{
     
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
     self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
-
+    //NSLog(@"==>%lu,",(unsigned long)bannerList.count);
 }
 
 - (void)didReceiveMemoryWarning

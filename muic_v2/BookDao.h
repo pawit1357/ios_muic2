@@ -20,14 +20,14 @@
 +(id)BookDao;
 
 - (void) initDatabase;
-- (BOOL) saveModel:(ModelBook*)model;
-- (BOOL) updateModel:(ModelBook*)model;
-- (BOOL) deleteModel:(ModelBook*)model;
-- (BOOL) deleteAll;
-- (NSMutableArray *) getAll;
+- (BOOL) saveBook:(ModelBook*)model;
+- (BOOL) updateBook:(ModelBook*)model;
+- (BOOL) deleteBook:(ModelBook*)model;
+- (BOOL) deleteAllBook;
+- (NSMutableArray *) getAllBook;
 - (NSMutableArray *) getBookByType:(NSString*) type;
 - (NSMutableArray *) getBookRecommted:(NSString*) type;
 - (NSMutableArray *) getBookRelease:(NSString*) type;
-- (NSArray *) getSingle:(NSInteger) id;
+- (NSMutableArray *) getSingleBook:(NSInteger) id;
 @end
 

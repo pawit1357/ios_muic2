@@ -23,4 +23,6 @@
 
 @property (strong, nonatomic) NSMutableArray *parentAr;
 
+- (void)syncronizeData;
+
 @end
