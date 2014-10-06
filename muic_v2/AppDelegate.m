@@ -22,6 +22,8 @@
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     //Syncronize update data
+
+    
     if([[Webservice Webservice]isUpdateApp]){
         NSLog(@"Update Complete.");
     }else{

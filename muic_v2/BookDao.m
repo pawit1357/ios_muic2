@@ -8,6 +8,7 @@
 
 #import "BookDao.h"
 #import "ModelBook.h"
+#import "MyUtils.h"
 
 @implementation BookDao
 
@@ -78,10 +79,10 @@ static BookDao *_bookDao = nil;
         NSString *insertSQL = [NSString stringWithFormat:
                                @"INSERT INTO tb_book (id,book_name,book_cover,book_title,book_author,callNo,division,program,type,status,flag,recommended,create_date) VALUES (%ld,'%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
                                (long)model.id,
-                               model.book_name,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.book_name],
                                model.book_cover,
                                model.book_title,
-                               model.book_author,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.book_author ],
                                model.callNo,
                                model.division,
                                model.program,
@@ -90,7 +91,7 @@ static BookDao *_bookDao = nil;
                                model.flag,
                                model.recommended,
                                model.create_date];
-        
+       NSLog(@"%@",insertSQL);
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -153,7 +154,7 @@ static BookDao *_bookDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A'";
+        NSString *querySQL = @"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where status='A'";
 
         const char *query_stmt = [querySQL UTF8String];
         
@@ -194,7 +195,7 @@ static BookDao *_bookDao = nil;
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
         
-        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and flag='T' and type='%@'",type];
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where status='A' and flag='T' and type='%@'",type];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -236,7 +237,7 @@ static BookDao *_bookDao = nil;
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
 
-        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and type='%@'",type];
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where status='A' and type='%@'",type];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -277,7 +278,7 @@ static BookDao *_bookDao = nil;
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
         
-        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where status='A' and recommented='T' and type='%@'",type];
+        NSString *querySQL=[NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where status='A' and recommented='T' and type='%@'",type];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -318,7 +319,9 @@ static BookDao *_bookDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommented,create_date FROM tb_book Where id=%ld",(long)id];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where id=%ld",(long)id];
+        
+                NSLog(@"%@",querySQL);
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)

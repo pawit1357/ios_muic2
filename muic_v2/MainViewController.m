@@ -53,7 +53,7 @@
 }
 
 - (void)syncronizeData{
-    
+
     /*
     [[Webservice Webservice] getBanner];
     [[Webservice Webservice] getContent];

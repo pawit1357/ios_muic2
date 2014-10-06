@@ -246,7 +246,7 @@ static Webservice *_webservice = nil;
                 [[BookDao BookDao]  updateBook:book];
             }
         }else{
-           // [[BookDao BookDao]  saveBook:book];
+            [[BookDao BookDao]  saveBook:book];
         }
 
     }
