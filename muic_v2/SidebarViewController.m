@@ -16,6 +16,7 @@
 #import "Modelcontent.h"
 #import "ContentDao.h"
 #import "Bookdao.h"
+#import "FaqDao.h"
 
 #import "MenuDetailController.h"
 #import "SidebarViewController.h"
@@ -23,6 +24,7 @@
 #import "PromotionDetailController.h"
 #import "GalleryDetailController.h"
 #import "LibraryDetailController.h"
+#import "FaqDetailControllerViewController.h"
 
 @interface SidebarViewController ()
 
@@ -47,6 +49,12 @@ ModelMenu *selectedMenu;
 
     self.parentAr =  [NSMutableArray array];
     [self syncronizeData];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)syncronizeData{
@@ -165,7 +173,15 @@ ModelMenu *selectedMenu;
         
         [transferViewController setBookList:books];
     }
-    
+    if ([segue.identifier isEqualToString:@"faqDetail"]) {
+        
+         FaqDetailControllerViewController *transferViewController = segue.destinationViewController;
+        
+        
+        NSMutableArray *faq = (NSMutableArray*)[[FaqDao FaqDao] getAllQuestion];
+        
+        [transferViewController setFaqList:faq];
+    }
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;
         
@@ -178,11 +194,7 @@ ModelMenu *selectedMenu;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 #pragma mark - Table view data source
 
@@ -310,8 +322,7 @@ ModelMenu *selectedMenu;
                     [self performSegueWithIdentifier:@"bookDetail" sender:@" "];
                     break;
                 case 8:
-                    [self.parentAr removeLastObject];
-                    NSLog(@"");
+                    [self performSegueWithIdentifier:@"faqDetail" sender:@" "];
                     break;
                 default:
                     [self performSegueWithIdentifier:@"menuDetail" sender:@" "];

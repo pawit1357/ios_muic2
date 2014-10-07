@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController: UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
+@interface MainViewController: UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UITabBarDelegate>{
     
     UILabel *lbTitle;
     UILabel *lbDesc;
@@ -19,12 +19,10 @@
     
     NSTimer *timer;
 }
-/*
-@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
+@property (weak, nonatomic) IBOutlet UITabBarItem *btnNews;
+@property (weak, nonatomic) IBOutlet UITabBarItem *btnAnnounce;
 
-@property (strong, nonatomic) IBOutlet UIView *vMain;
-*/
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
 
 @property (weak, nonatomic) IBOutlet UITableView *tvContent;
@@ -36,6 +34,11 @@
 @property (strong, nonatomic) NSMutableArray *bannerList;
 @property (strong, nonatomic) NSMutableArray *contentList;
 @property (strong, nonatomic) NSArray *appInfo;
+
+
+
+@property (nonatomic,retain) NSMutableDictionary *sections;
+
 
 - (void)setupScrollView:(UIScrollView*)svMain ;
 

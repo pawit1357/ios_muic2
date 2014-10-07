@@ -17,6 +17,8 @@
 #import "NewsDetailController.h"
 #import "Webservice.h"
 #import "NSData+Base64.h"
+#import "NSString_stripHtml.h"
+
 @interface MainViewController ()
 
 @end
@@ -24,6 +26,8 @@
 @implementation MainViewController
 
 @synthesize contentList,appInfo,svBanner,bannerList,spiner;
+
+
 
 - (void)viewDidLoad
 {
@@ -54,21 +58,58 @@
 
 - (void)syncronizeData{
 
-    /*
-    [[Webservice Webservice] getBanner];
-    [[Webservice Webservice] getContent];
-    
-    [[Webservice Webservice] GetBook];
-    [[Webservice Webservice] GetQuestion];
-*/
     [self prepareContent];
+    
 }
 
 -(void)prepareContent{
     
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
     self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
-    //NSLog(@"==>%lu,",(unsigned long)bannerList.count);
+
+    [self generateGruped];
+}
+- (void) generateGruped{
+    
+    //Group new & event & annouce
+    self.sections = [[NSMutableDictionary alloc] init];
+    BOOL found;
+    // Loop through the books and create our keys
+    for (NSDictionary *content in self.contentList)
+    {
+        ModelContent *c= (ModelContent *)content;
+        
+        found = NO;
+        
+        for (NSString *str in [self.sections allKeys])
+        {
+            if ([str isEqualToString:[NSString stringWithFormat:@"%ld",(long)c.app_id]])
+            {
+                found = YES;
+            }
+        }
+        
+        if (!found)
+        {
+            [self.sections setValue:[[NSMutableArray alloc] init] forKey:[NSString stringWithFormat:@"%ld",(long)c.app_id]];
+        }
+    }
+    
+    // Loop again and sort the books into their respective keys
+    for (NSDictionary *content in self.contentList)
+    {
+        ModelContent *c= (ModelContent *)content;
+        
+        [[self.sections objectForKey:[NSString stringWithFormat:@"%ld",(long)c.app_id]] addObject:c];
+        
+    }
+    // Sort each section array
+    /*
+     for (NSString *key in [self.sections allKeys])
+     {
+     [[self.sections objectForKey:key] sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES]]];
+     }
+     */
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,8 +117,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 - (void)setupScrollView:(UIScrollView*)svMain {
     // we have 3 images here.
@@ -161,29 +200,25 @@
 
 }
 
-
-
 #pragma mark - Table view data source
 
-/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     //For each section, you must return here it's label
-    if(section == 0) return @"header 1";
-    if(section == 1) return @"header 1";
-    if(section == 2) return @"header 1";
-    if(section == 3) return @"header 1";
 
+    NSString *app_id = [[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+    
+    ModelMenu *app = [[MenuDao MenuDao]getAppInfo:[app_id integerValue]];
+    return app.name;
 }
-*/
 
 - (NSInteger)numberOfSectionsInTableView: (UITableView *)tableView {
-    return 1;
+    return [[self.sections allKeys] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.contentList.count;
+    return [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -196,15 +231,21 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-	ModelContent *app= (ModelContent *)[self.contentList objectAtIndex:indexPath.row];
     
+        NSDictionary *content = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    
+    
+
+    ModelContent *app= (ModelContent *)content;
+    
+
     lbTitle = (UILabel *)[cell viewWithTag:101];
     lbTitle.text = app.title;
     
     lbDesc = (UILabel *)[cell viewWithTag:102];
     NSData *data = [NSData dataFromBase64String:app.description];
     NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    lbDesc.text = convertedString;
+    lbDesc.text = [convertedString stripHtml];
     
     lbCreateDate = (UILabel *)[cell viewWithTag:103];
     lbCreateDate.text = app.create_date;
@@ -252,12 +293,14 @@
     }else{
         lvView.backgroundColor = [UIColor clearColor];
     }
+    
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //selectedRow = indexPath.row;
+    
 }
  
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -276,5 +319,18 @@
     }
 }
 
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    
 
+    if([item.title isEqualToString:@"News"]){
+        self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
+
+    }
+    if([item.title isEqualToString:@"Announcements"]){
+        self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getAnnounce];
+
+    }
+    [self generateGruped];
+    [self.tvContent reloadData];
+}
 @end

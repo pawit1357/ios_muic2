@@ -31,4 +31,5 @@
 - (NSMutableArray *) getAllMainMenu;
 - (NSMutableArray *) getAllMenu;
 - (NSArray *) getSingleMenu:(NSInteger) id;
+- (ModelMenu *) getAppInfo:(NSInteger)id;
 @end

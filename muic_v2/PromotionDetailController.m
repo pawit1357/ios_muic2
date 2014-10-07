@@ -10,6 +10,8 @@
 #import "ModelContent.h"
 #import "SWRevealViewController.h"
 #import "PromotoinSubDetailController.h"
+#import "NSData+Base64.h"
+#import "NSString_stripHtml.h"
 
 @interface PromotionDetailController ()
 
@@ -19,13 +21,11 @@
 
 @synthesize tvMain,contentList;
 
-NSInteger selectedItem;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title = @"Promotion";
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
@@ -75,7 +75,9 @@ NSInteger selectedItem;
     lbTitle.text = app.title;
     
     lbDesc = (UILabel *)[cell viewWithTag:102];
-    lbDesc.text = app.description;
+    NSData *data = [NSData dataFromBase64String:app.description];
+    NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    lbDesc.text = [convertedString stripHtml];
     
     lbCreateDate = (UILabel *)[cell viewWithTag:103];
     lbCreateDate.text = app.create_date;
@@ -147,8 +149,8 @@ NSInteger selectedItem;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    selectedItem = indexPath.row;
 }
+
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
@@ -157,9 +159,9 @@ NSInteger selectedItem;
         
         PromotoinSubDetailController *transferViewController = segue.destinationViewController;
         
-        //NSIndexPath *indexPath = [self.tvMain indexPathForSelectedRow];
+        NSIndexPath *selectedIndexPath = [self.tvMain indexPathForSelectedRow];
         
-        ModelContent *content= (ModelContent *)self.contentList[selectedItem];
+        ModelContent *content= (ModelContent *)self.contentList[selectedIndexPath.row];
         
         [transferViewController setContentItem:content];
     }

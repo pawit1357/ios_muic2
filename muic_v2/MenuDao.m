@@ -140,7 +140,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71) order by menu_order asc";
+        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,2,21,31,41,61,71) order by menu_order asc";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -183,7 +183,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71) and parent = -1 order by menu_order asc";
+        NSString *querySQL = @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,2,21,31,41,61,71) and parent = -1 order by menu_order asc";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -226,7 +226,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71)  and parent=(select parent from tb_menu where id  =%ld) order by menu_order asc",(long)model.parent];
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,2,21,31,41,61,71)  and parent=(select parent from tb_menu where id  =%ld) order by menu_order asc",(long)model.parent];
         //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
@@ -273,7 +273,7 @@ static MenuDao *_menuDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,21,31,41,61,71)  and parent=%ld order by menu_order asc",(long)model.id];
+        NSString *querySQL = [NSString stringWithFormat:@"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where status='A' and menu_type not in(1,11,2,21,31,41,61,71)  and parent=%ld order by menu_order asc",(long)model.id];
         //NSLog(@"Get menu sql = %@",querySQL);
         
         const char *query_stmt = [querySQL UTF8String];
@@ -345,6 +345,39 @@ static MenuDao *_menuDao = nil;
     }
     
     return resultList;
+}
+
+- (ModelMenu *) getAppInfo:(NSInteger)id;
+{
+    ModelMenu *model = nil;
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL =[NSString stringWithFormat: @"select id,app_id,parent,menu_item,menu_icon,menu_type,menu_item_src from tb_menu where app_id=%ld and parent=-1",(long)id];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                model = [[ModelMenu alloc] init];
+                model.id= sqlite3_column_int(statement, 0);
+                model.app_id= sqlite3_column_int(statement, 1);
+                model.parent= sqlite3_column_int(statement, 2);
+                model.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                model.type= sqlite3_column_int(statement,5);
+                model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(db);
+    }
+
+    
+    return model;
 }
 
 //delete the employee from the database

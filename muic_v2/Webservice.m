@@ -375,6 +375,7 @@ static Webservice *_webservice = nil;
         for (NSMutableDictionary *dataDict in result)
         {
             version =  [[dataDict objectForKey:@"version"] integerValue];
+            
         }
     }
     if([[AppConfigDao AppConfigDao] getCurrentVersion] != version){

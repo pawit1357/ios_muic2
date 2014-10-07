@@ -27,6 +27,7 @@
 
 - (NSMutableArray *) getAllContent;
 - (NSMutableArray *) getNews;
+- (NSMutableArray *) getAnnounce;
 - (NSMutableArray *) getSingleContent:(NSInteger) id;
 
 - (BOOL) updateReadContent:(ModelContent*)model;

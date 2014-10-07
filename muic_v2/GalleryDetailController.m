@@ -19,12 +19,12 @@
 
 @synthesize cvMain,contentList;
 
-NSInteger selectedItemIndex;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"Gallery";
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
@@ -105,7 +105,6 @@ NSInteger selectedItemIndex;
  
  -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
  {
-     selectedItemIndex = indexPath.row;
      
  }
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -115,8 +114,8 @@ NSInteger selectedItemIndex;
         
         ImagePreviewController *transferViewController = segue.destinationViewController;
         
-        
-        ModelContent *content= (ModelContent *)self.contentList[selectedItemIndex];
+        NSIndexPath *selectedIndexPath = [[self.cvMain indexPathsForSelectedItems] objectAtIndex:0];
+        ModelContent *content= (ModelContent *)self.contentList[selectedIndexPath.row];
         
         [transferViewController setContentItem:content];
     }
