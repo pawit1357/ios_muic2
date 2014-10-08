@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Webservice.h"
+#import "InternetStatus.h"
 
 @implementation AppDelegate
 
@@ -18,18 +19,33 @@
 {
     [NSThread sleepForTimeInterval:3.0];
     // Override point for customization after application launch.
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+    }
+    //[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     //(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     //Syncronize update data
 
+    InternetStatus *internet  = [[InternetStatus alloc]init];
     
-    if([[Webservice Webservice]isUpdateApp]){
-        NSLog(@"Update Complete.");
-    }else{
-        NSLog(@"Your app is updated.");
+    if([internet checkWiFiConnection]){
+        if([[Webservice Webservice]isUpdateApp]){
+            NSLog(@"Update Complete.");
+        }else{
+            NSLog(@"Your app is updated.");
     }
-    
+    }else{
+        NSLog(@"Can't Connect to internet.");
+    }
     return YES;
 }
 

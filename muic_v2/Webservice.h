@@ -21,6 +21,6 @@
 - (BOOL) GetBook;
 - (BOOL) GetQuestion;
 - (BOOL) registerDevice:(NSString*) udid;
-- (BOOL) sendFAQ:(NSString*) question andUdid:(NSString*) udid;
+//- (BOOL) sendFAQ:(NSString*) question andUdid:(NSString*) udid;
 - (BOOL) isUpdateApp;
 @end

@@ -18,6 +18,8 @@
 #import "Webservice.h"
 #import "NSData+Base64.h"
 #import "NSString_stripHtml.h"
+#import "PopupViewController.h"
+#import "WebPopUpViewController.h"
 
 @interface MainViewController ()
 
@@ -33,7 +35,10 @@
 {
     [super viewDidLoad];
     self.title = @"News & Events";
+    // ------------- TEST ---------------
+        // ------------- TEST ---------------
     
+    [self showToolBar];
     [self syncronizeData];
     
     fileManager = [NSFileManager defaultManager];
@@ -54,6 +59,37 @@
     
     self.svBanner.userInteractionEnabled = false;
     
+}
+
+-(void)showToolBar
+{
+    CGRect frame, remain;
+    CGRectDivide(self.view.bounds, &frame, &remain, 55, CGRectMaxYEdge);
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
+    
+    UIImage *image = [[UIImage imageNamed:@"2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *btnNews = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(btnNewsClicked)];
+    
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIImage *image1 = [[UIImage imageNamed:@"5.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *btnAnouce = [[UIBarButtonItem alloc] initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(btnAnouceClicked)];
+    
+    [toolbar setItems:[[NSArray alloc] initWithObjects:btnNews,spacer,btnAnouce,nil]];
+    [toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin];
+    [self.view addSubview:toolbar];
+}
+
+-(void)btnNewsClicked{
+    self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
+    [self generateGruped];
+    [self.tvContent reloadData];
+}
+
+-(void)btnAnouceClicked{
+    self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getAnnounce];
+    [self generateGruped];
+    [self.tvContent reloadData];
 }
 
 - (void)syncronizeData{
@@ -319,18 +355,5 @@
     }
 }
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    
 
-    if([item.title isEqualToString:@"News"]){
-        self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
-
-    }
-    if([item.title isEqualToString:@"Announcements"]){
-        self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getAnnounce];
-
-    }
-    [self generateGruped];
-    [self.tvContent reloadData];
-}
 @end

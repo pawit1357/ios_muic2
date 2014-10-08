@@ -20,9 +20,10 @@
     NSTimer *timer;
 }
 
+/*
 @property (weak, nonatomic) IBOutlet UITabBarItem *btnNews;
 @property (weak, nonatomic) IBOutlet UITabBarItem *btnAnnounce;
-
+*/
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
 
 @property (weak, nonatomic) IBOutlet UITableView *tvContent;

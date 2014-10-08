@@ -31,7 +31,7 @@
     NSString *URL_BOOK= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBook";
     NSString *URL_QUESTION= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetQuestion";
     NSString *URL_REGISTER= @"http://prdapp.net/itechservice/index.php/ServiceAccount/Register/user/%@/phone_type/%d";
-    NSString *URL_SENDFAQ =@"http://prdapp.net/itechservice/index.php/ServiceLib/SendQuestion/question/%@/udid/%@";
+    //NSString *URL_SENDFAQ =@"http://prdapp.net/itechservice/index.php/ServiceLib/SendQuestion/question/%@/udid/%@";
     NSString *URL_VERSION =@"http://prdapp.net/itechservice/index.php/ServiceApp/GetVersion";
 
 static Webservice *_webservice = nil;
@@ -325,7 +325,7 @@ static Webservice *_webservice = nil;
     }
     return true;
 }
-
+/*
 - (BOOL) sendFAQ:(NSString*) question andUdid:(NSString*) udid{
     NSString *escapedUrlString = [NSString stringWithFormat:URL_SENDFAQ,question,udid];
     
@@ -351,7 +351,7 @@ static Webservice *_webservice = nil;
     }
     return true;
 }
-
+*/
 
 - (BOOL) isUpdateApp{
     //-- Make URL request with server

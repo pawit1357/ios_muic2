@@ -10,6 +10,7 @@
 #import "SWRevealViewController.h"
 #import "ModelBook.h"
 #import "BookDao.h"
+#import "NSString_stripHtml.h"
 
 @interface LibraryDetailController ()
 
@@ -25,7 +26,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title = @"Book list";
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
@@ -99,7 +100,7 @@
     lbBook.text = model.book_name;
     
     UILabel *lbTitle = (UILabel *)[cell viewWithTag:102];
-    lbTitle.text = model.book_title;
+    lbTitle.text = [model.book_title stripHtml];
     
     
     //col 1
