@@ -105,7 +105,13 @@ ModelMenu *selectedMenu;
 -(void) getNextMenu:(ModelMenu*)selectedMenu{
     
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:selectedMenu];
-
+    
+    
+    
+    ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:0];
+    menu.name   =@"fafafa";
+    [self.menuList replaceObjectAtIndex:0 withObject:menu];
+    
     if (![parentAr containsObject:[NSNumber numberWithInt:selectedMenu.parent]]) {
         // modify objectToSearchFor
         [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
@@ -216,12 +222,17 @@ ModelMenu *selectedMenu;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-    if(indexPath.row == 0){
-        cell.textLabel.text =@"Home";
-        cell.detailTextLabel.text = @" ";
-    }else{
-        if( indexPath.row < self.menuList.count){
-            ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
+    
+    if( indexPath.row < self.menuList.count){
+        
+        ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
+        
+        if(indexPath.row == 0){
+            cell.textLabel.text =menu.name;
+            cell.detailTextLabel.text = @" ";
+            cell.imageView.image =[UIImage imageNamed:menu.icon];
+        }else{
+
     
             cell.textLabel.text = menu.name;
             if(menu.parent == -1){
