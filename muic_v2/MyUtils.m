@@ -22,7 +22,7 @@ static MyUtils *_myUtils = nil;
 }
 
 -(NSString*) cleanSpecialChar:(NSString*)str{
-    
+    if (str != nil){
     NSRegularExpression *re = [NSRegularExpression regularExpressionWithPattern:@"[@#$.',!\\d]" options:0 error:nil];
     
     NSString *output = [re stringByReplacingMatchesInString:str
@@ -30,6 +30,8 @@ static MyUtils *_myUtils = nil;
                                                       range:NSMakeRange(0, [str length])
                                                withTemplate:@""];
     return output;
+    }
+    return @" ";
 }
 
 @end

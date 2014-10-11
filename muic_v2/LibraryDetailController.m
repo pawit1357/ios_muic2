@@ -12,6 +12,7 @@
 #import "BookDao.h"
 #import "NSString_stripHtml.h"
 #import "NSData+Base64.h"
+#import "BookSubDetailController.h"
 
 @interface LibraryDetailController ()
 
@@ -195,20 +196,22 @@
     return rowCount;
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    /*
-    ShowWimDetailController *transferViewController = segue.destinationViewController;
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    NSLog(@"prepareForSegue: %@", segue.identifier);
-    if([segue.identifier isEqualToString:@"showWimDetail"])
-    {
+    
+    if([segue.identifier isEqualToString:@"bookSubDetail"]){
         
-        NSIndexPath *indexPath = [self.viewList indexPathForSelectedRow];
-        NSArray *info = self.wimData[indexPath.row];
+        BookSubDetailController *transferViewController = segue.destinationViewController;
         
-        [transferViewController setWimDetailItem:info];
+        NSIndexPath *selectedIndexPath = [self.tvMain indexPathForSelectedRow];
+        
+        ModelBook *book= (ModelBook *)self.bookList[selectedIndexPath.row];
+        
+        [transferViewController setBookItem:book];
     }
-    */
+    
+    
 }
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text

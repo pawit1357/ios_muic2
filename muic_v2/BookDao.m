@@ -125,7 +125,7 @@ static BookDao *_bookDao = nil;
      //NSLog(@"Exitsing data, Update Please");
      NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_book set book_name= '%@',book_cover= '%@',book_title= '%@',book_author= '%@',callNo= '%@',division= '%@',program= '%@',type= '%@',status= '%@',flag= '%@',recommended= '%@',create_date= '%@'   WHERE id = %ld",
      [[MyUtils MyUtils]cleanSpecialChar:model.book_name],
-                            [[MyUtils MyUtils]cleanSpecialChar:model.book_cover],
+                            model.book_cover,
                             [[MyUtils MyUtils]cleanSpecialChar:model.book_title],
                             [[MyUtils MyUtils]cleanSpecialChar:model.book_author],
                             [[MyUtils MyUtils]cleanSpecialChar:model.callNo],
