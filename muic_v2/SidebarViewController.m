@@ -105,13 +105,7 @@ ModelMenu *selectedMenu;
 -(void) getNextMenu:(ModelMenu*)selectedMenu{
     
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getChildMenu:selectedMenu];
-    
-    
-    
-    ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:0];
-    menu.name   =@"fafafa";
-    [self.menuList replaceObjectAtIndex:0 withObject:menu];
-    
+
     if (![parentAr containsObject:[NSNumber numberWithInt:selectedMenu.parent]]) {
         // modify objectToSearchFor
         [self.parentAr addObject:[NSNumber numberWithInt:selectedMenu.parent]];
@@ -228,9 +222,31 @@ ModelMenu *selectedMenu;
         ModelMenu *menu= (ModelMenu *)[self.menuList objectAtIndex:indexPath.row];
         
         if(indexPath.row == 0){
-            cell.textLabel.text =menu.name;
-            cell.detailTextLabel.text = @" ";
-            cell.imageView.image =[UIImage imageNamed:menu.icon];
+            
+            //------------ Set home detail ------------
+            ModelMenu *childMenu= (ModelMenu *)[self.menuList objectAtIndex:1];
+            if(childMenu != nil){
+             ModelMenu *modifyMenu = [[ModelMenu alloc] init];
+            if (childMenu.parent != -1) {
+                ModelMenu *parentMenu= (ModelMenu*)[[MenuDao MenuDao] getSingleMenu:childMenu.parent];
+                modifyMenu.name   = @" < UP >";
+                modifyMenu.description = parentMenu.name;
+            }else{
+                modifyMenu.name   = @"Home";
+                modifyMenu.description =@" ";
+            }
+            
+            //----------------- END -------------------
+
+            cell.textLabel.text =modifyMenu.name;
+            cell.detailTextLabel.text = modifyMenu.description;
+            cell.imageView.image =[UIImage imageNamed:@"home_menu.png"];
+            }else{
+                cell.textLabel.text =menu.name;
+                cell.detailTextLabel.text = menu.description;
+                cell.imageView.image =[UIImage imageNamed:menu.icon];
+            }
+    
         }else{
 
     

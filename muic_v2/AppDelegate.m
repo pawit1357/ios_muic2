@@ -30,28 +30,38 @@
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
          (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
     }
-    //[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     //(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    
-    //Syncronize update data
 
     InternetStatus *internet  = [[InternetStatus alloc]init];
     
     if([internet checkWiFiConnection]){
+
         if([[Webservice Webservice]isUpdateApp]){
             NSLog(@"Update Complete.");
         }else{
             NSLog(@"Your app is updated.");
-    }
+        }
     }else{
         NSLog(@"Can't Connect to internet.");
     }
+    
+
     return YES;
 }
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@" Registered device for remote notifications: %@",
-          [deviceToken.description stringByReplacingOccurrencesOfString:@" " withString:@""]);
+    //NSLog(@" Registered device for remote notifications: %@",
+    //     [deviceToken.description stringByReplacingOccurrencesOfString:@" " withString:@""]);
+    
+    //Syncronize update data
+    
+    NSString *tokenid = [NSString stringWithFormat:@"%@",deviceToken];
+    
+    tokenid = [tokenid stringByReplacingOccurrencesOfString:@" " withString:@""];
+    tokenid = [tokenid stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    tokenid = [tokenid stringByReplacingOccurrencesOfString:@">" withString:@""];
+    
+    [[Webservice Webservice]registerDevice:tokenid andPhoneType:@"1"];
+
     
 }
 

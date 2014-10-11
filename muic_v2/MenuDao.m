@@ -9,6 +9,7 @@
 #import "MenuDao.h"
 #import <CoreData/CoreData.h>
 #import "ModelMenu.h"
+#import "MyUtils.h"
 
 @implementation MenuDao
 
@@ -81,12 +82,12 @@ static MenuDao *_menuDao = nil;
                                (long)model.id,
                                (long)model.app_id,
                                (long)model.parent,
-                               model.name,
-                               model.icon,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.name],
+                               [[MyUtils MyUtils]cleanSpecialChar:model.icon],
                                (long)model.type,
                                (long)model.order,
                                model.status,
-                               model.description
+                               [[MyUtils MyUtils]cleanSpecialChar:model.description]
                                ];
         
         const char *insert_stmt = [insertSQL UTF8String];
@@ -114,7 +115,14 @@ static MenuDao *_menuDao = nil;
      {
          NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_menu set app_id='%ld',parent='%ld',menu_item='%@',menu_icon='%@',menu_type='%ld',menu_order='%ld',status='%@',menu_item_src='%@' WHERE id = %ld",
                                 (long)model.app_id,
-                                (long)model.parent,model.name,model.icon,(long)model.type,(long)model.order,model.status,model.description,(long)model.id];
+                                (long)model.parent,
+                                [[MyUtils MyUtils]cleanSpecialChar:model.name],
+                                [[MyUtils MyUtils]cleanSpecialChar:model.icon],
+                                (long)model.type,
+                                (long)model.order,
+                                model.status,
+                                [[MyUtils MyUtils]cleanSpecialChar:model.description],
+                                (long)model.id];
      
          const char *update_stmt = [updateSQL UTF8String];
          if (sqlite3_prepare_v2(db, update_stmt, -1, &statement, NULL)==SQLITE_OK) {
@@ -314,9 +322,9 @@ static MenuDao *_menuDao = nil;
     return resultList;
 }
 
-- (NSArray *) getSingleMenu:(NSInteger)id
+- (ModelMenu *) getSingleMenu:(NSInteger)id
 {
-    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+      ModelMenu *model = nil;
     const char *dbpath = [databasePath UTF8String];
     sqlite3_stmt    *statement;
     
@@ -329,7 +337,7 @@ static MenuDao *_menuDao = nil;
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                ModelMenu *model = [[ModelMenu alloc] init];
+                model = [[ModelMenu alloc] init];
                 model.id= sqlite3_column_int(statement, 0);
                 model.app_id= sqlite3_column_int(statement, 1);
                 model.parent= sqlite3_column_int(statement, 2);
@@ -337,14 +345,14 @@ static MenuDao *_menuDao = nil;
                 model.icon= [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
                 model.type= sqlite3_column_int(statement,5);
                 model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
-                [resultList addObject:model];
+
             }
             sqlite3_finalize(statement);
         }
         sqlite3_close(db);
     }
     
-    return resultList;
+    return model;
 }
 
 - (ModelMenu *) getAppInfo:(NSInteger)id;

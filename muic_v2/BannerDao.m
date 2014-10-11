@@ -8,6 +8,7 @@
 
 #import "BannerDao.h"
 #import "ModelBanner.h"
+#import "MyUtils.h"
 
 @implementation BannerDao
 
@@ -79,7 +80,8 @@ static BannerDao * _bannerDao = nil;
                                @"INSERT INTO tb_banner (id,app_id,image_url,status) VALUES (%ld, %ld, '%@', '%@')",
                                (long)model.id,
                                (long)model.app_id,
-                               model.image_url,model.status];
+                               [[MyUtils MyUtils]cleanSpecialChar:model.image_url],
+                               model.status];
         
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
@@ -113,7 +115,9 @@ static BannerDao * _bannerDao = nil;
 
      NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_banner set app_id = '%ld', image_url = '%@',status='%@'  WHERE id = %ld",
      (long)model.app_id,
-     model.image_url,model.status,(long)model.id];
+     [[MyUtils MyUtils]cleanSpecialChar:model.image_url],
+                            model.status,
+                            (long)model.id];
      
      const char *update_stmt = [updateSQL UTF8String];
 

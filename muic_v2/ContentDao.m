@@ -8,6 +8,7 @@
 
 #import "ContentDao.h"
 #import "ModelContent.h"
+#import "MyUtils.h"
 
 @implementation ContentDao
 
@@ -80,12 +81,12 @@ static ContentDao * _contentDao = nil;
                                (long)model.id,
                                (long)model.app_id,
                                (long)model.menu_id,
-                               model.title,
-                               model.description,
-                               model.image_url,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.title],
+                               [[MyUtils MyUtils]cleanSpecialChar:model.description],
+                               [[MyUtils MyUtils]cleanSpecialChar:model.image_url],
                                model.status,
                                model.create_date,
-                               model.sub_title,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.sub_title],
                                @"0"];//model.read];
         
         const char *insert_stmt = [insertSQL UTF8String];
@@ -116,7 +117,15 @@ static ContentDao * _contentDao = nil;
      //NSLog(@"Exitsing data, Update Please");
      NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_content set app_id='%ld',menu_id='%ld',title='%@',sub_title='%@',description='%@',image_url='%@',status='%@',read='%@',create_date='%@' WHERE id = %ld",
      (long)model.app_id,
-     (long)model.menu_id,model.title,model.sub_title,model.description,model.image_url,model.status,model.read,model.create_date,(long)model.id];
+     (long)model.menu_id,
+                            [[MyUtils MyUtils]cleanSpecialChar:model.title],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.sub_title],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.description],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.image_url],
+                            model.status,
+                            model.read,
+                            model.create_date,
+                            (long)model.id];
      
      const char *update_stmt = [updateSQL UTF8String];
      //sqlite3_bind_int(statement, 1, config.id);
@@ -579,4 +588,72 @@ static ContentDao * _contentDao = nil;
     return success;
 }
 
+-(ModelContent*) getContentById:(ModelContent*)modelContent{
+    
+    ModelContent *model = nil;
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL =[NSString stringWithFormat: @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where id=%ld",(long)modelContent.id];
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                model = [[ModelContent alloc] init];
+                model.id = sqlite3_column_int(statement, 0);
+                model.app_id = sqlite3_column_int(statement, 1);
+                model.menu_id = sqlite3_column_int(statement, 2);
+                
+                if ( sqlite3_column_type(statement, 3) != SQLITE_NULL )
+                {
+                    model.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                }else{
+                    model.title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 4) != SQLITE_NULL )
+                {
+                    model.sub_title =[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                }else{
+                    model.sub_title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 5) != SQLITE_NULL )
+                {
+                    model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                }else{
+                    model.description = @" ";
+                }
+                if ( sqlite3_column_type(statement, 6) != SQLITE_NULL )
+                {
+                    model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                }else{
+                    model.image_url = @" ";
+                }
+                if ( sqlite3_column_type(statement, 7) != SQLITE_NULL )
+                {
+                    model.read = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+                }else{
+                    model.read = @" ";
+                }
+                if ( sqlite3_column_type(statement, 8) != SQLITE_NULL )
+                {
+                    model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                }else{
+                    model.create_date = @" ";
+                }
+            }
+            sqlite3_finalize(statement);
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+        sqlite3_close(db);
+    }
+    
+    return model;
+
+}
 @end

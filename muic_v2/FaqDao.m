@@ -9,6 +9,7 @@
 //
 
 #import "FaqDao.h"
+#import "MyUtils.h"
 
 @implementation FaqDao
 
@@ -81,7 +82,11 @@ static FaqDao *_faqDao = nil;
      @"INSERT INTO tb_faq (id,app_id,question,status,create_date,isRead,answer) VALUES (%ld,%ld, '%@', '%@', '%@', '%@', '%@')",
      (long)model.id,
      (long)model.app_id,
-     model.question,model.status,model.create_date,model.isRead,model.answer ];
+    [[MyUtils MyUtils]cleanSpecialChar: model.question],
+                            model.status,
+                            model.create_date,
+                            model.isRead,
+                            [[MyUtils MyUtils]cleanSpecialChar:model.answer] ];
      
      const char *insert_stmt = [insertSQL UTF8String];
      sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
@@ -111,7 +116,12 @@ static FaqDao *_faqDao = nil;
         
         NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_faq set app_id=%ld,question='%@',status='%@',create_date='%@',isRead='%@',answer='%@'  WHERE id = %ld",
                                (long)model.app_id,
-                               model.question,model.status,model.create_date,model.isRead,model.answer,(long)model.id];
+                               [[MyUtils MyUtils]cleanSpecialChar:model.question],
+                               model.status,
+                               model.create_date,
+                               model.isRead,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.answer],
+                               (long)model.id];
         
         const char *update_stmt = [updateSQL UTF8String];
         

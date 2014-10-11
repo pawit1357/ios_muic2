@@ -81,7 +81,7 @@ static BookDao *_bookDao = nil;
                                (long)model.id,
                                [[MyUtils MyUtils]cleanSpecialChar:model.book_name],
                                model.book_cover,
-                               model.book_title,
+                               [[MyUtils MyUtils]cleanSpecialChar:model.book_title],
                                [[MyUtils MyUtils]cleanSpecialChar:model.book_author ],
                                model.callNo,
                                model.division,
@@ -124,7 +124,18 @@ static BookDao *_bookDao = nil;
      {
      //NSLog(@"Exitsing data, Update Please");
      NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_book set book_name= '%@',book_cover= '%@',book_title= '%@',book_author= '%@',callNo= '%@',division= '%@',program= '%@',type= '%@',status= '%@',flag= '%@',recommended= '%@',create_date= '%@'   WHERE id = %ld",
-     model.book_name,model.book_cover,model.book_title,model.book_author,model.callNo,model.division,model.program,model.type,model.status,model.flag,model.recommended,model.create_date,
+     [[MyUtils MyUtils]cleanSpecialChar:model.book_name],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.book_cover],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.book_title],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.book_author],
+                            [[MyUtils MyUtils]cleanSpecialChar:model.callNo],
+                            model.division,
+                            model.program,
+                            model.type,
+                            model.status,
+                            model.flag,
+                            model.recommended,
+                            model.create_date,
      (long)model.id];
      
      const char *update_stmt = [updateSQL UTF8String];

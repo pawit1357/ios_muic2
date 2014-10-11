@@ -20,7 +20,6 @@
 - (BOOL) getContent;
 - (BOOL) GetBook;
 - (BOOL) GetQuestion;
-- (BOOL) registerDevice:(NSString*) udid;
-//- (BOOL) sendFAQ:(NSString*) question andUdid:(NSString*) udid;
+- (BOOL) registerDevice:(NSString*) udid andPhoneType:(NSString*)phone_type;
 - (BOOL) isUpdateApp;
 @end

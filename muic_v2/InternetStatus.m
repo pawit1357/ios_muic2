@@ -14,7 +14,7 @@
 
 -(BOOL)checkWiFiConnection {
     
-    Reachability *netReach = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    Reachability *netReach = [Reachability reachabilityWithHostName:@"www.google.co.th"];
     NetworkStatus netStatus = [netReach currentReachabilityStatus];
     if (netStatus==ReachableViaWiFi) {
         NSLog(@"Reachable (WiFi)!");

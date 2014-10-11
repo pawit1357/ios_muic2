@@ -30,8 +30,7 @@
     NSString *URL_CONTENT= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContent";
     NSString *URL_BOOK= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBook";
     NSString *URL_QUESTION= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetQuestion";
-    NSString *URL_REGISTER= @"http://prdapp.net/itechservice/index.php/ServiceAccount/Register/user/%@/phone_type/%d";
-    //NSString *URL_SENDFAQ =@"http://prdapp.net/itechservice/index.php/ServiceLib/SendQuestion/question/%@/udid/%@";
+    NSString *URL_REGISTER= @"http://prdapp.net/itechservice/index.php/ServiceApp/Register/udid/%@/phone_type/%d";
     NSString *URL_VERSION =@"http://prdapp.net/itechservice/index.php/ServiceApp/GetVersion";
 
 static Webservice *_webservice = nil;
@@ -116,7 +115,7 @@ static Webservice *_webservice = nil;
         menu.description = [dataDict objectForKey:@"description"];
         menu.status = [dataDict objectForKey:@"status"];
         
-        if( [[[MenuDao MenuDao] getSingleMenu:menu.id ] count]> 0 ){
+        if( [[MenuDao MenuDao] getSingleMenu:menu.id ] != nil ){
             if( [menu.status isEqualToString:@"I"] ){
                 [[MenuDao MenuDao] deleteMenu:menu];
             }else{
@@ -299,35 +298,9 @@ static Webservice *_webservice = nil;
     return TRUE;
 }
 
-- (BOOL) registerDevice:(NSString*) udid{
+- (BOOL) registerDevice:(NSString*) udid andPhoneType:(NSString*)phone_type{
     
-    NSString *escapedUrlString = [NSString stringWithFormat:URL_REGISTER,udid,@"2"];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:escapedUrlString]
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:300];
-    NSData *postData = [escapedUrlString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if (theConnection) {
-        [theConnection start];
-    }
-    else
-    {
-        
-    }
-    return true;
-}
-/*
-- (BOOL) sendFAQ:(NSString*) question andUdid:(NSString*) udid{
-    NSString *escapedUrlString = [NSString stringWithFormat:URL_SENDFAQ,question,udid];
+    NSString *escapedUrlString = [NSString stringWithFormat:URL_REGISTER,udid,@"1"];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:escapedUrlString]
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -351,7 +324,6 @@ static Webservice *_webservice = nil;
     }
     return true;
 }
-*/
 
 - (BOOL) isUpdateApp{
     //-- Make URL request with server
@@ -359,7 +331,7 @@ static Webservice *_webservice = nil;
     NSInteger version = 0;
     NSHTTPURLResponse *response = nil;
     
-    NSString *jsonUrlString = [NSString stringWithFormat:@"%@",URL_VERSION ];
+    NSString *jsonUrlString = [NSString stringWithFormat:URL_VERSION,@""];
     
     NSURL *url = [NSURL URLWithString:[jsonUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     

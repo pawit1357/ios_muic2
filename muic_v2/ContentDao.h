@@ -25,6 +25,8 @@
 - (BOOL) deleteContent:(ModelContent*)model;
 - (BOOL) deleteAllContent;
 
+-(ModelContent*) getContentById:(ModelContent*)modelContent;
+
 - (NSMutableArray *) getAllContent;
 - (NSMutableArray *) getNews;
 - (NSMutableArray *) getAnnounce;

@@ -11,6 +11,7 @@
 #import "ModelBook.h"
 #import "BookDao.h"
 #import "NSString_stripHtml.h"
+#import "NSData+Base64.h"
 
 @interface LibraryDetailController ()
 
@@ -100,7 +101,11 @@
     lbBook.text = model.book_name;
     
     UILabel *lbTitle = (UILabel *)[cell viewWithTag:102];
-    lbTitle.text = [model.book_title stripHtml];
+    
+    NSData *data = [NSData dataFromBase64String:model.book_title];
+    NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    lbTitle.text = [convertedString stripHtml];
     
     
     //col 1

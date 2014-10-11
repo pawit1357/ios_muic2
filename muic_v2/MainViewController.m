@@ -27,6 +27,7 @@
 
 @implementation MainViewController
 
+
 @synthesize contentList,appInfo,svBanner,bannerList,spiner;
 
 
@@ -35,8 +36,6 @@
 {
     [super viewDidLoad];
     self.title = @"News & Events";
-    // ------------- TEST ---------------
-        // ------------- TEST ---------------
     
     [self showToolBar];
     [self syncronizeData];
@@ -67,15 +66,15 @@
     CGRectDivide(self.view.bounds, &frame, &remain, 55, CGRectMaxYEdge);
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
     
-    UIImage *image = [[UIImage imageNamed:@"2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *image = [[UIImage imageNamed:@"news.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *btnNews = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(btnNewsClicked)];
     
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    //UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    UIImage *image1 = [[UIImage imageNamed:@"5.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *image1 = [[UIImage imageNamed:@"anounce.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *btnAnouce = [[UIBarButtonItem alloc] initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(btnAnouceClicked)];
     
-    [toolbar setItems:[[NSArray alloc] initWithObjects:btnNews,spacer,btnAnouce,nil]];
+    [toolbar setItems:[[NSArray alloc] initWithObjects:btnNews,btnAnouce,nil]];
     [toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin];
     [self.view addSubview:toolbar];
 }
@@ -340,17 +339,19 @@
 }
  
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
+
 
     if([segue.identifier isEqualToString:@"newDetail"]){
         
         NewsDetailController *transferViewController = segue.destinationViewController;
-
+        
         NSIndexPath *indexPath = [self.tvContent indexPathForSelectedRow];
+        NSDictionary *content = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         
-        ModelContent *content= (ModelContent *)self.contentList[indexPath.row];
+        ModelContent *selectedModel= (ModelContent *)content;
         
-        [transferViewController setContentItem:content];
+        
+        [transferViewController setContentItem:selectedModel];
         
     }
 }

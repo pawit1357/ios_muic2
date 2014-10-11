@@ -19,9 +19,9 @@
 
 -(void) seContentItem:(id)newContentItem{
     
-    if(_contentItem != newContentItem){
+    //if(_contentItem != newContentItem){
         _contentItem = newContentItem;
-    }
+    //}
     [self prepareContent];
 }
 
