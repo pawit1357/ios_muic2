@@ -91,6 +91,11 @@
     [spinner setCenter:CGPointMake(CGRectGetWidth(newImg.bounds)/2, CGRectGetHeight(newImg.bounds)/2)];
     [spinner setColor:[UIColor grayColor]];
     [newImg addSubview:spinner];
+    
+    
+    if([app.image_url isEqualToString:@""]){
+        newImg.image =[UIImage imageNamed:@"news_layout.png"];
+    }else{
     [spinner startAnimating];
     
     
@@ -116,6 +121,7 @@
             }
             
         });
+    }
     }
     
     /*

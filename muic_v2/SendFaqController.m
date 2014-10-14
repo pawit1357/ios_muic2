@@ -46,7 +46,7 @@ NSString *URL_SENDFAQ =@"http://prdapp.net/itechservice/index.php/ServiceLib/Sen
                                                            timeoutInterval:300];
         NSData *postData = [escapedUrlString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
         
         [request setHTTPMethod:@"POST"];
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];

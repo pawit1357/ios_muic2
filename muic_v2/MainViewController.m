@@ -39,32 +39,7 @@
     [super viewDidLoad];
     self.title = @"News & Events";
     //Adjust tableview size
-    
-    // Portrait
-    CGRect frame = [UIScreen mainScreen].applicationFrame;
-    self.tvContent = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-    
-    //CGRect frame = self.svBanner.frame;
-    //frame.size.width = [[UIScreen mainScreen] bounds].size.width;
-    
-    
-    
-    // Alternative way to do the similar thing - gives the same result in my case
-    // frame.size.width = [[UIScreen mainScreen] applicationFrame].size.width;
-    //fImage.frame = frame;
-    
-    ///CGRect frame = self.tvContent.frame;
-    //frame.size.height = self.view.frame.size.height - self.tvContent.frame.size.height
-    //- (self.navigationController.toolbar.frame.size.height)
-    //- (self.navigationController.navigationBar.frame.size.height)-200;
-    
-    //MIN(40 * [self.tvContent count], 400); // 400 is the maximum height that the table view can have. You can change it to whatever you like
-    
-    //self.svBanner.frame = frame;
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
-    
-
-    
     
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

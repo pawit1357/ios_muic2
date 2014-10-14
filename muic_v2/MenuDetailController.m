@@ -11,7 +11,7 @@
 #import "ModelContent.h"
 #import "ContentDao.h"
 #import "NSData+Base64.h"
-#import "MyUtils.h";
+#import "MyUtils.h"
 @interface MenuDetailController ()
 
 @end

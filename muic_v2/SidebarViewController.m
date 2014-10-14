@@ -133,7 +133,7 @@ ModelMenu *selectedMenu;
 
 -(void) prepareContent{
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getAllMainMenu];
-    NSLog(@" menu size: %d",menuList.count);
+    NSLog(@" menu size: %lu",(unsigned long)menuList.count);
 }
 
 -(void) getNextMenu:(ModelMenu*)selectedMenu{
