@@ -43,5 +43,4 @@
 
 - (void)setupScrollView:(UIScrollView*)svMain ;
 
-- (void)syncronizeData;
 @end

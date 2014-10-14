@@ -14,15 +14,9 @@
     NSString *documentsDirectory;
 }
 
-
-
-
 @property (weak, nonatomic) IBOutlet UITableView *tvMenuList;
-
 @property (strong, nonatomic) NSMutableArray *menuList;
-
 @property (strong, nonatomic) NSMutableArray *parentAr;
 
-- (void)syncronizeData;
 
 @end

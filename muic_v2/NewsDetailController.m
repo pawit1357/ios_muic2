@@ -19,9 +19,7 @@
 
 -(void) seContentItem:(id)newContentItem{
     
-    //if(_contentItem != newContentItem){
-        _contentItem = newContentItem;
-    //}
+    _contentItem = newContentItem;
     [self prepareContent];
 }
 
@@ -46,10 +44,14 @@
             NSLog(@"Complete update read status.");
         }
         
-        NSData *data = [NSData dataFromBase64String:content.description];
-        NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
-        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 16px sans-serif;background: #fff;padding: 5px;color: #000;margin: 5;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",convertedString];
+        NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"style" ofType:@"css"];
+        NSString *css = [NSString stringWithContentsOfFile:cssPath encoding:NSUTF8StringEncoding error:nil];
+        
+        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style type=\"text/css\">%@</style></head><body>%@</body></html>",css,[[NSString alloc] initWithData:[NSData dataFromBase64String:content.description] encoding:NSUTF8StringEncoding]];
+        
+        
+
         
         self.wvMain.scrollView.scrollEnabled = TRUE;
         [self.wvMain loadHTMLString: embedHTML baseURL: nil];

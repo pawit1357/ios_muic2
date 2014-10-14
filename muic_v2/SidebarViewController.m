@@ -26,6 +26,9 @@
 #import "LibraryDetailController.h"
 #import "FaqDetailControllerViewController.h"
 
+#import "MyUtils.h"
+#import "InternetStatus.h"
+
 @interface SidebarViewController ()
 
 @end
@@ -45,10 +48,45 @@ ModelMenu *selectedMenu;
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
     
-    self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    
+    self.view.backgroundColor =[[MyUtils MyUtils] colorFromHexString:@"#0b162b"];
 
+
+    UIRefreshControl *refreshControl=[[UIRefreshControl alloc] initWithFrame:CGRectMake(15, 50, 290, 30)];
+    [refreshControl setTintColor:[UIColor whiteColor]];
+    [refreshControl setBackgroundColor:[[MyUtils MyUtils] colorFromHexString:@"#0b162b"]];
+    [refreshControl setAutoresizingMask:(UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin)];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tvMenuList addSubview:refreshControl];
+
+    
     self.parentAr =  [NSMutableArray array];
-    [self syncronizeData];
+    [self prepareContent];
+}
+
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    
+    NSLog(@"Begin update menu..");
+    
+    if(refreshControl){
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM d, h:mm a"];
+        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle;
+    }
+    InternetStatus *internet  = [[InternetStatus alloc]init];
+    if([internet checkWiFiConnection]){
+        [[Webservice Webservice] getMenu];
+        //[[Webservice Webservice] getContent];
+        [self prepareContent];
+        [self.parentAr removeAllObjects];
+        [self.tvMenuList reloadData];
+    }
+    [refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,12 +95,8 @@ ModelMenu *selectedMenu;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)syncronizeData{
 
-    //[[Webservice Webservice] getMenu];
 
-    [self prepareContent];
-}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // create the parent view that will hold header Label
@@ -99,7 +133,7 @@ ModelMenu *selectedMenu;
 
 -(void) prepareContent{
     self.menuList = (NSMutableArray*)[[MenuDao MenuDao] getAllMainMenu];
-    //NSLog(@" menu size: %d",menuList.count);
+    NSLog(@" menu size: %d",menuList.count);
 }
 
 -(void) getNextMenu:(ModelMenu*)selectedMenu{
@@ -175,12 +209,9 @@ ModelMenu *selectedMenu;
     }
     if ([segue.identifier isEqualToString:@"faqDetail"]) {
         
-         FaqDetailControllerViewController *transferViewController = segue.destinationViewController;
-        
-        
-        NSMutableArray *faq = (NSMutableArray*)[[FaqDao FaqDao] getAllQuestion];
-        
-        [transferViewController setFaqList:faq];
+         //FaqDetailControllerViewController *transferViewController = segue.destinationViewController;
+        //NSMutableArray *faq = (NSMutableArray*)[[FaqDao FaqDao] getAllQuestion];
+        //[transferViewController setFaqList:faq];
     }
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;
@@ -235,7 +266,6 @@ ModelMenu *selectedMenu;
                 modifyMenu.name   = @"Home";
                 modifyMenu.description =@" ";
             }
-            
             //----------------- END -------------------
 
             cell.textLabel.text =modifyMenu.name;

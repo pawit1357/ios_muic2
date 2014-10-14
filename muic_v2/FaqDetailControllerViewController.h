@@ -10,8 +10,11 @@
 
 @interface FaqDetailControllerViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>{
         UIBarButtonItem *backButton;
+    
+    NSInteger expandedRowIndex;
 }
 
 @property (strong, nonatomic) NSMutableArray *faqList;
+@property (weak, nonatomic) IBOutlet UITableView *tvFaqList;
 
 @end

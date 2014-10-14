@@ -20,6 +20,8 @@
 #import "NSString_stripHtml.h"
 #import "PopupViewController.h"
 #import "WebPopUpViewController.h"
+#import "MyUtils.h"
+#import "InternetStatus.h"
 
 @interface MainViewController ()
 
@@ -36,9 +38,33 @@
 {
     [super viewDidLoad];
     self.title = @"News & Events";
+    //Adjust tableview size
     
-    [self showToolBar];
-    [self syncronizeData];
+    // Portrait
+    CGRect frame = [UIScreen mainScreen].applicationFrame;
+    self.tvContent = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+    
+    //CGRect frame = self.svBanner.frame;
+    //frame.size.width = [[UIScreen mainScreen] bounds].size.width;
+    
+    
+    
+    // Alternative way to do the similar thing - gives the same result in my case
+    // frame.size.width = [[UIScreen mainScreen] applicationFrame].size.width;
+    //fImage.frame = frame;
+    
+    ///CGRect frame = self.tvContent.frame;
+    //frame.size.height = self.view.frame.size.height - self.tvContent.frame.size.height
+    //- (self.navigationController.toolbar.frame.size.height)
+    //- (self.navigationController.navigationBar.frame.size.height)-200;
+    
+    //MIN(40 * [self.tvContent count], 400); // 400 is the maximum height that the table view can have. You can change it to whatever you like
+    
+    //self.svBanner.frame = frame;
+    self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
+    
+
+    
     
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -55,16 +81,53 @@
     pgCtr.numberOfPages=self.bannerList.count;
     pgCtr.autoresizingMask=UIViewAutoresizingNone;
     [self.view addSubview:pgCtr];
-    
     self.svBanner.userInteractionEnabled = false;
     
+    //Refresh control
+    UIRefreshControl *refreshControl=[[UIRefreshControl alloc] initWithFrame:CGRectMake(15, 50, 290, 30)];
+    [refreshControl setTintColor:[UIColor whiteColor]];
+    [refreshControl setBackgroundColor:[[MyUtils MyUtils] colorFromHexString:@"#0b162b"]];
+    [refreshControl setAutoresizingMask:(UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin)];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tvContent addSubview:refreshControl];
+    
+    
+    
+    [self showToolBar];
+    [self prepareContent];
+    
 }
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    
+    NSLog(@"Begin update menu..");
+    
+    if(refreshControl){
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM d, h:mm a"];
+        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+        refreshControl.attributedTitle = attributedTitle;
+    }
+    InternetStatus *internet  = [[InternetStatus alloc]init];
+    if([internet checkWiFiConnection]){
+        [[Webservice Webservice] getBanner];
+        [[Webservice Webservice] getContent];
+        [self prepareContent];
+        [self.tvContent reloadData];
+    }
+    [refreshControl endRefreshing];
+}
+
 
 -(void)showToolBar
 {
     CGRect frame, remain;
     CGRectDivide(self.view.bounds, &frame, &remain, 55, CGRectMaxYEdge);
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
+    //toolbar.backgroundColor = [UIColor blackColor];
     
     UIImage *image = [[UIImage imageNamed:@"news.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *btnNews = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(btnNewsClicked)];
@@ -91,15 +154,10 @@
     [self.tvContent reloadData];
 }
 
-- (void)syncronizeData{
 
-    [self prepareContent];
-    
-}
 
 -(void)prepareContent{
     
-    self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
     self.contentList = (NSMutableArray*)[[ContentDao ContentDao] getNews];
 
     [self generateGruped];
@@ -287,15 +345,19 @@
     
     
     newImg = (UIImageView *)[cell viewWithTag:100];
-    
-    
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [spinner setCenter:CGPointMake(CGRectGetWidth(newImg.bounds)/2, CGRectGetHeight(newImg.bounds)/2)];
     [spinner setColor:[UIColor grayColor]];
     [newImg addSubview:spinner];
-    [spinner startAnimating];
-
     
+    
+
+
+    newImg.image =[UIImage imageNamed:@"news_layout.png"];
+    if([app.image_url isEqualToString:@""]){
+         newImg.image =[UIImage imageNamed:@"news_layout.png"];
+    }else{
+        [spinner startAnimating];
     NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[app.image_url lastPathComponent]];
     if ([fileManager fileExistsAtPath:filePath]){
         newImg.image =[UIImage imageWithContentsOfFile:filePath];
@@ -318,6 +380,7 @@
             }
             
         });
+    }
     }
 
     UIView *lvView = (UIView *)[cell viewWithTag:13];

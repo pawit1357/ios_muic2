@@ -11,7 +11,7 @@
 #import "ModelContent.h"
 #import "ContentDao.h"
 #import "NSData+Base64.h"
-
+#import "MyUtils.h";
 @interface MenuDetailController ()
 
 @end
@@ -42,7 +42,8 @@
     self.navigationItem.leftBarButtonItem= backButton;
     
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
+    //set background color
+    self.view.backgroundColor =[[MyUtils MyUtils] colorFromHexString:@"#0b162b"];
     [self prepareContent];
 }
 
@@ -50,25 +51,13 @@
 - (void) prepareContent{
     if(_contentItem){
         
-        /*
-        NSString* url = @"http://google.com?get=something&...";
-        
-        NSURL* nsUrl = [NSURL URLWithString:url];
-        
-        NSURLRequest* request = [NSURLRequest requestWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
-        
-        [self.wvContent loadRequest:request];
-         */
-        
         ModelContent *content = (ModelContent*)_contentItem;
         self.title = content.title;
 
-
-        NSData *data = [NSData dataFromBase64String:content.description];
-        NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"style" ofType:@"css"];
+        NSString *css = [NSString stringWithContentsOfFile:cssPath encoding:NSUTF8StringEncoding error:nil];
         
-        
-        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style>body{font: 33px sans-serif;background: #fff;padding: 30px;color: #000;margin: 50;text-align: justify;text-justify: inter-word;}</style></head><body>%@</p></body></html>",convertedString];
+        NSString *embedHTML =[NSString stringWithFormat: @"<html><head><style type=\"text/css\">%@</style></head><body>%@</body></html>",css,[[NSString alloc] initWithData:[NSData dataFromBase64String:content.description] encoding:NSUTF8StringEncoding]];
         
         //self.wvContent.userInteractionEnabled = NO;
         //self.wvContent.opaque = NO;

@@ -98,23 +98,23 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    
+   
+    
+    
     UILabel *lbBook = (UILabel *)[cell viewWithTag:101];
-    lbBook.text = model.book_name;
+    lbBook.text =  [[NSString alloc] initWithData:[NSData dataFromBase64String:model.book_name] encoding:NSUTF8StringEncoding];
     
     UILabel *lbTitle = (UILabel *)[cell viewWithTag:102];
-    
-    NSData *data = [NSData dataFromBase64String:model.book_title];
-    NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    lbTitle.text = [convertedString stripHtml];
+    lbTitle.text = [[[NSString alloc] initWithData:[NSData dataFromBase64String:model.book_title] encoding:NSUTF8StringEncoding] stripHtml];
     
     
     //col 1
     UILabel *lbAuthor = (UILabel *)[cell viewWithTag:103];
-    lbAuthor.text = model.book_author;
+    lbAuthor.text = [[NSString alloc] initWithData:[NSData dataFromBase64String:model.book_author] encoding:NSUTF8StringEncoding];;
     
     UILabel *lbCallNo = (UILabel *)[cell viewWithTag:104];
-    lbCallNo.text = model.callNo;
+    lbCallNo.text = [[NSString alloc] initWithData:[NSData dataFromBase64String:model.callNo] encoding:NSUTF8StringEncoding];;
     
     UIImageView *bookImg = (UIImageView *)[cell viewWithTag:100];
     
@@ -150,28 +150,6 @@
             
         });
     }
-    /*
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [spinner setCenter:CGPointMake(CGRectGetWidth(bookImg.bounds)/2, CGRectGetHeight(bookImg.bounds)/2)];
-    [spinner setColor:[UIColor grayColor]];
-    
-    [bookImg addSubview:spinner];
-    
-    // start spinner
-    [spinner startAnimating];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // retrive image on global queue
-        UIImage * img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.book_cover]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // assign cell image on main thread
-            bookImg.image = img;
-            
-            [spinner stopAnimating];
-        });
-    });
-    */
     return cell;
 }
 
@@ -180,7 +158,6 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -216,7 +193,6 @@
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
 {
-    //[self.searchDisplayController setActive:YES];
     if(text.length == 0)
     {
         isFiltered = FALSE;
@@ -249,22 +225,6 @@
 {
     
     [self.searchBar resignFirstResponder];
-    /*
-    LibraryDetailController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"bookDetail"];
-    ModelBook* book;
-    
-    if(isFiltered)
-    {
-        book = [filteredBookList objectAtIndex:indexPath.row];
-    }
-    else
-    {
-        book = [bookList objectAtIndex:indexPath.row];
-    }
-    
-    vc.food = book;
-     */
-    //[self.navigationController pushViewController:vc animated:true];
      
 }
 

@@ -9,6 +9,7 @@
 #import "SendFaqController.h"
 #import "Webservice.h"
 #import "InternetStatus.h"
+#import "NSData+Base64.h"
 
 @implementation SendFaqController
 
@@ -35,7 +36,10 @@ NSString *URL_SENDFAQ =@"http://prdapp.net/itechservice/index.php/ServiceLib/Sen
 
     if([internet checkWiFiConnection]){
         
-        NSString *escapedUrlString = [NSString stringWithFormat:URL_SENDFAQ,txtMsg.text,0];
+        
+        NSString* str = [NSString stringWithUTF8String:[txtMsg.text cStringUsingEncoding:NSUTF8StringEncoding]];
+        
+        NSString *escapedUrlString = [NSString stringWithFormat:URL_SENDFAQ,str,0];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:escapedUrlString]
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
