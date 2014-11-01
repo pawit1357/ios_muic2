@@ -78,9 +78,16 @@
      
      
      NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[app.image_url lastPathComponent]];
-     if ([fileManager fileExistsAtPath:filePath]){
+     
+     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+     
+     if( [[filePath pathExtension] isEqualToString:@""] ){
+         recipeImageView.image =[UIImage imageNamed:@"news_layout.png"];
+     }else if ( fileExists ){
+         
          recipeImageView.image =[UIImage imageWithContentsOfFile:filePath];
          [spinner stopAnimating];
+         
      }else{
          // download the image asynchronously
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -96,6 +103,8 @@
                      recipeImageView.image =[UIImage imageWithData:urlData];
                      [spinner stopAnimating];
                  });
+             }else{
+                 recipeImageView.image =[UIImage imageNamed:@"news_layout.png"];
              }
              
          });

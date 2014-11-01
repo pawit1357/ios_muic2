@@ -18,10 +18,10 @@
 #import "Webservice.h"
 #import "NSData+Base64.h"
 #import "NSString_stripHtml.h"
-#import "PopupViewController.h"
-#import "WebPopUpViewController.h"
 #import "MyUtils.h"
 #import "InternetStatus.h"
+#import "AppConfigDao.h"
+#import "ModelPopup.h"
 
 @interface MainViewController ()
 
@@ -33,11 +33,14 @@
 @synthesize contentList,appInfo,svBanner,bannerList,spiner;
 
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"News & Events";
+
+    //ModelMenu *menu = [[MenuDao MenuDao]getSingleMenu:395];
+    //ModelContent *ccc = [[ContentDao ContentDao]getSingleContent:325];
+    
     //Adjust tableview size
     self.bannerList = (NSMutableArray*)[[BannerDao BannerDao] getAll];
     
@@ -67,11 +70,86 @@
     [self.tvContent addSubview:refreshControl];
     
     
-    
+
     [self showToolBar];
     [self prepareContent];
     
+    InternetStatus *internet  = [[InternetStatus alloc]init];
+    if([internet checkWiFiConnection]){
+        ModelPopup *popup = [[Webservice Webservice]GetPopup];
+        if( [[AppConfigDao AppConfigDao] getPopupId] != popup.id){
+            if( ![popup.url isEqualToString:@""] ){
+                [self showAlertPopup:popup];
+            }
+        }
+    }else{
+        NSLog(@"Can't Connect to internet.");
+    }
 }
+
+
+
+-(void) showAlertPopup:(ModelPopup *)model{
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+    UIView *demoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width-20, 100)];
+    // Add some custom content to the alert view
+    [alertView setContainerView:demoView];
+    
+    // Modify the parameters
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+    [alertView setDelegate:self];
+    
+    
+    [alertView setUseMotionEffects:true];
+    
+    // And launch the dialog
+    [alertView show];
+    
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner setCenter:CGPointMake(20, 20)];
+    [spinner setColor:[UIColor grayColor]];
+    [demoView addSubview:spinner];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width/2)-110, 10, 220, 81)];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL  *url = [NSURL URLWithString:model.url];
+        NSData *urlData = [NSData dataWithContentsOfURL:url];
+        if ( urlData )
+        {
+            [spinner startAnimating];
+            //saving is done on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[AppConfigDao AppConfigDao] updatePopupURLid:model.id];
+                [imageView setImage:[UIImage imageWithData:urlData]];
+                [spinner stopAnimating];
+                [demoView addSubview:imageView];
+            });
+        }
+        
+    });
+    
+    
+
+    //
+    //UILabel *lbText =[[UILabel alloc] initWithFrame:CGRectMake(50,0,self.view.bounds.size.width-20,50)];
+    //lbText.textColor = [UIColor redColor];
+    //[demoView addSubview:lbText];
+    
+
+    
+    
+    [self.view addSubview:alertView];
+}
+
+- (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+{
+    NSLog(@"Delegate: Button at position %d is clicked on alertView %d.", (int)buttonIndex, (int)[alertView tag]);
+    [alertView close];
+}
+
+
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
     
@@ -86,14 +164,23 @@
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
     }
+    
+    //Syncronize download update menu
     InternetStatus *internet  = [[InternetStatus alloc]init];
     if([internet checkWiFiConnection]){
         [[Webservice Webservice] getBanner];
+        [[Webservice Webservice]getMenu];
         [[Webservice Webservice] getContent];
-        [self prepareContent];
-        [self.tvContent reloadData];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //saving is done on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self prepareContent];
+                [self.tvContent reloadData];
+            });
+        });
     }
     [refreshControl endRefreshing];
+    
 }
 
 
@@ -325,24 +412,28 @@
     [spinner setColor:[UIColor grayColor]];
     [newImg addSubview:spinner];
     
-    
-
-
-    newImg.image =[UIImage imageNamed:@"news_layout.png"];
-    if([app.image_url isEqualToString:@""]){
-         newImg.image =[UIImage imageNamed:@"news_layout.png"];
-    }else{
-        [spinner startAnimating];
+    [spinner startAnimating];
     NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[app.image_url lastPathComponent]];
-    if ([fileManager fileExistsAtPath:filePath]){
+    
+    
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+    
+    if( [[filePath pathExtension] isEqualToString:@""] ){
+        newImg.image =[UIImage imageNamed:@"news_layout.png"];
+    }else if ( fileExists ){
+        
         newImg.image =[UIImage imageWithContentsOfFile:filePath];
         [spinner stopAnimating];
+        
     }else{
+        
         // download the image asynchronously
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
             NSLog(@"News & Events: Downloading Started");
             NSURL  *url = [NSURL URLWithString:app.image_url];
             NSData *urlData = [NSData dataWithContentsOfURL:url];
+            
             if ( urlData )
             {
                 //saving is done on main thread
@@ -352,11 +443,13 @@
                     newImg.image =[UIImage imageWithData:urlData];
                     [spinner stopAnimating];
                 });
+            }else{
+                newImg.image =[UIImage imageNamed:@"news_layout.png"];
             }
             
         });
     }
-    }
+    //}
 
     UIView *lvView = (UIView *)[cell viewWithTag:13];
     [lvView.layer setCornerRadius:6.0f];

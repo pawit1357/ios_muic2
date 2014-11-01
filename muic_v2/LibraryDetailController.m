@@ -128,9 +128,17 @@
     [spinner startAnimating];
     
     NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[model.book_cover lastPathComponent]];
-    if ([fileManager fileExistsAtPath:filePath]){
+    
+    
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+    
+    if( [[filePath pathExtension] isEqualToString:@""] ){
+        bookImg.image =[UIImage imageNamed:@"news_layout.png"];
+    }else if ( fileExists ){
+        
         bookImg.image =[UIImage imageWithContentsOfFile:filePath];
         [spinner stopAnimating];
+        
     }else{
         // download the image asynchronously
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -146,6 +154,8 @@
                     bookImg.image =[UIImage imageWithData:urlData];
                     [spinner stopAnimating];
                 });
+            }else{
+                bookImg.image =[UIImage imageNamed:@"news_layout.png"];
             }
             
         });

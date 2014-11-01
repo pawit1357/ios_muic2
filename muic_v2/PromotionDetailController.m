@@ -100,10 +100,19 @@
     
     
     NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[app.image_url lastPathComponent]];
-    if ([fileManager fileExistsAtPath:filePath]){
-        newImg.image =[UIImage imageWithContentsOfFile:filePath];
-        [spinner stopAnimating];
-    }else{
+        
+        
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+        
+        if( [[filePath pathExtension] isEqualToString:@""] ){
+            newImg.image =[UIImage imageNamed:@"news_layout.png"];
+        }else if ( fileExists ){
+            
+            newImg.image =[UIImage imageWithContentsOfFile:filePath];
+            [spinner stopAnimating];
+            
+        }else{
+    
         // download the image asynchronously
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSLog(@"Promotion: Downloading Started");
@@ -118,12 +127,14 @@
                     newImg.image =[UIImage imageWithData:urlData];
                     [spinner stopAnimating];
                 });
+            }else{
+                newImg.image =[UIImage imageNamed:@"news_layout.png"];
             }
             
         });
     }
     }
-    
+
     /*
     cell.textLabel.text = app.title;
     cell.detailTextLabel.text = app.title;

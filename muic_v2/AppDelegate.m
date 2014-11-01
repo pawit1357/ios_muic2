@@ -10,6 +10,8 @@
 #import "Webservice.h"
 #import "InternetStatus.h"
 #import "MyUtils.h"
+#import "AppConfigDao.h"
+
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -20,7 +22,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     
     [[UINavigationBar appearance] setBarTintColor:[[MyUtils MyUtils] colorFromHexString:@"#0b162b"]];
     
@@ -46,21 +47,32 @@
          (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
     }
     
-
-
-    //first time update
     InternetStatus *internet  = [[InternetStatus alloc]init];
     if([internet checkWiFiConnection]){
+        
+        NSInteger version = [[Webservice Webservice]isUpdateApp];
+        if( [[AppConfigDao AppConfigDao] getCurrentVersion] !=version ){
+                //Start load data.
+                
+                [[Webservice Webservice] getMenu];
+                [[Webservice Webservice] getBanner];
+                [[Webservice Webservice] getContent];
+                
+                [[Webservice Webservice] GetBook];
+                [[Webservice Webservice] GetQuestion];
+                
+                    //update version
+                [[AppConfigDao AppConfigDao] updateVersion:version];
 
-        if([[Webservice Webservice]isUpdateApp]){
-            NSLog(@"Update Complete.");
         }else{
-            NSLog(@"Your app is updated.");
+             NSLog(@"Your app is lasted versions.");
         }
     }else{
         NSLog(@"Can't Connect to internet.");
     }
 
+    
+    
     return YES;
 }
 
@@ -74,11 +86,13 @@
     tokenid = [tokenid stringByReplacingOccurrencesOfString:@"<" withString:@""];
     tokenid = [tokenid stringByReplacingOccurrencesOfString:@">" withString:@""];
     
-    InternetStatus *internet  = [[InternetStatus alloc]init];
-    if([internet checkWiFiConnection]){
-        [[Webservice Webservice]registerDevice:tokenid andPhoneType:@"1"];
+    if( ![[[AppConfigDao AppConfigDao] getUdid] isEqualToString:@"0"] ){
+        InternetStatus *internet  = [[InternetStatus alloc]init];
+        if([internet checkWiFiConnection]){
+            [[Webservice Webservice]registerDevice:tokenid andPhoneType:@"1"];
+            [[AppConfigDao AppConfigDao] updateUdid:tokenid];
+        }
     }
-
     
 }
 

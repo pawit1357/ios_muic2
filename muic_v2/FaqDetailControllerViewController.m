@@ -90,6 +90,7 @@
     
     //initial current type
    self.faqList =(NSMutableArray*)[[FaqDao FaqDao] getAllQuestion];
+    NSLog(@"");
     
 }
 
@@ -110,7 +111,9 @@
         if (!cell)
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         cell.imageView.image =[UIImage imageNamed:@"help_faq.png"];
-        cell.textLabel.text = [[[NSString alloc] initWithData:[NSData dataFromBase64String:model.question] encoding:NSUTF8StringEncoding] stripHtml];
+        
+        NSString *question = [[[NSString alloc] initWithData:[NSData dataFromBase64String:model.question] encoding:NSUTF8StringEncoding] stripHtml];
+        cell.textLabel.text = question;
         cell.detailTextLabel.text = @"";
         return cell;
     }
@@ -120,7 +123,7 @@
         if (!cell)
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"expanded"];
         //cell.imageView.image =[UIImage imageNamed:@"help_faq.png"];
-        //cell.textLabel.text = [[[NSString alloc] initWithData:[NSData dataFromBase64String:model.question] encoding:NSUTF8StringEncoding] stripHtml];
+        cell.textLabel.text = [[[NSString alloc] initWithData:[NSData dataFromBase64String:model.question] encoding:NSUTF8StringEncoding] stripHtml];
         cell.detailTextLabel.text = [[[NSString alloc] initWithData:[NSData dataFromBase64String:model.answer] encoding:NSUTF8StringEncoding] stripHtml];
         cell.detailTextLabel.numberOfLines = 6;
         //cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;

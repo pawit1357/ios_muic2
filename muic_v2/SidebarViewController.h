@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ModelMenu.h"
+
 
 @interface SidebarViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>{
     
     NSFileManager *fileManager;
     NSString *documentsDirectory;
+    ModelMenu *selectedMenu;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tvMenuList;

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomIOS7AlertView.h"
 
-@interface MainViewController: UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UITabBarDelegate>{
+@interface MainViewController: UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UITabBarDelegate,CustomIOS7AlertViewDelegate>{
     
     UILabel *lbTitle;
     UILabel *lbDesc;

@@ -17,6 +17,7 @@
 #import "ContentDao.h"
 #import "Bookdao.h"
 #import "FaqDao.h"
+#import "AppConfigDao.h"
 
 #import "MenuDetailController.h"
 #import "SidebarViewController.h"
@@ -38,11 +39,15 @@
 @synthesize menuList,tvMenuList,parentAr;
 
 
-ModelMenu *selectedMenu;
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //NSLog(@"XX Sidebar XX");
+
+
+    
     
     fileManager = [NSFileManager defaultManager];
     NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -78,14 +83,21 @@ ModelMenu *selectedMenu;
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
         refreshControl.attributedTitle = attributedTitle;
     }
+    
+    //Syncronize download update menu
     InternetStatus *internet  = [[InternetStatus alloc]init];
     if([internet checkWiFiConnection]){
         [[Webservice Webservice] getMenu];
-        //[[Webservice Webservice] getContent];
-        [self prepareContent];
-        [self.parentAr removeAllObjects];
-        [self.tvMenuList reloadData];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //saving is done on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self prepareContent];
+                [self.parentAr removeAllObjects];
+                [self.tvMenuList reloadData];
+            });
+        });
     }
+
     [refreshControl endRefreshing];
 }
 
@@ -114,14 +126,8 @@ ModelMenu *selectedMenu;
     
 
     headerLabel.text = @"  SELECT ORGANIZATIONS :"; // i.e. array element
-    /*
-    UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.frame = CGRectMake(0, 0, 18, 18); // x,y,width,height
-    infoButton.enabled = YES;
-    [infoButton addTarget:self action:@selector(infoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-     */
+
     [customView addSubview:headerLabel];
-    //[customView addSubview:infoButton];
     
     return customView;
 }
@@ -260,8 +266,8 @@ ModelMenu *selectedMenu;
              ModelMenu *modifyMenu = [[ModelMenu alloc] init];
             if (childMenu.parent != -1) {
                 ModelMenu *parentMenu= (ModelMenu*)[[MenuDao MenuDao] getSingleMenu:childMenu.parent];
-                modifyMenu.name   = @" < UP >";
-                modifyMenu.description = parentMenu.name;
+                modifyMenu.name   = [NSString stringWithFormat: @" :: Pevios menu[%@] ::",parentMenu.name ];
+                modifyMenu.description = @"";//parentMenu.name;
             }else{
                 modifyMenu.name   = @"Home";
                 modifyMenu.description =@" ";
@@ -389,5 +395,8 @@ ModelMenu *selectedMenu;
     }
     }
 }
+
+
+
 
 @end
