@@ -446,7 +446,6 @@
 				62B04C2819E37A650029227E /* FaqDetailControllerViewController.m */,
 				62B57F1219E429F600BD20E1 /* SendFaqController.h */,
 				62B57F1319E429F600BD20E1 /* SendFaqController.m */,
-				D5C43910198E871D004D9294 /* Images.xcassets */,
 				628518DA19DA7910001EEA16 /* lib */,
 				62B5341119C93ADF002B6DFC /* db */,
 				62B5341219C93AE9002B6DFC /* dao */,
@@ -468,6 +467,7 @@
 				D5C43901198E871D004D9294 /* main.m */,
 				D5C43903198E871D004D9294 /* muic_v2-Prefix.pch */,
 				6271EE1719E980E500CD19D0 /* style.css */,
+				D5C43910198E871D004D9294 /* Images.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
