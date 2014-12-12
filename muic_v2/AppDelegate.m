@@ -97,7 +97,7 @@
 }
 
 - (void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@" Failed to register for remote notifications: %@", error);
+    NSLog(@" Failed to register for remote notifications:  %@", error);
 }
 
 
