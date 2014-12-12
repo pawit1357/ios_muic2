@@ -77,16 +77,16 @@ static FaqDao *_faqDao = nil;
      
      if (sqlite3_open(dbpath, &db) == SQLITE_OK)
      {
-     NSLog(@"New data, Insert Please");
+     //NSLog(@"New data, Insert Please");
      NSString *insertSQL = [NSString stringWithFormat:
      @"INSERT INTO tb_faq (id,app_id,question,status,create_date,isRead,answer) VALUES (%ld,%ld, '%@', '%@', '%@', '%@', '%@')",
      (long)model.id,
      (long)model.app_id,
-    [[MyUtils MyUtils]cleanSpecialChar: model.question],
+    [[MyUtils MyUtils]cleanSQLInjectionChar: model.question],
                             model.status,
                             model.create_date,
                             model.isRead,
-                            [[MyUtils MyUtils]cleanSpecialChar:model.answer] ];
+                            [[MyUtils MyUtils]cleanSQLInjectionChar:model.answer] ];
      
      const char *insert_stmt = [insertSQL UTF8String];
      sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
@@ -116,11 +116,11 @@ static FaqDao *_faqDao = nil;
         
         NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_faq set app_id=%ld,question='%@',status='%@',create_date='%@',isRead='%@',answer='%@'  WHERE id = %ld",
                                (long)model.app_id,
-                               [[MyUtils MyUtils]cleanSpecialChar:model.question],
+                               [[MyUtils MyUtils]cleanSQLInjectionChar:model.question],
                                model.status,
                                model.create_date,
                                model.isRead,
-                               [[MyUtils MyUtils]cleanSpecialChar:model.answer],
+                               [[MyUtils MyUtils]cleanSQLInjectionChar:model.answer],
                                (long)model.id];
         
         const char *update_stmt = [updateSQL UTF8String];
@@ -178,9 +178,9 @@ static FaqDao *_faqDao = nil;
     return resultList;
 }
 
-- (NSMutableArray *) getSingleQuestion:(NSInteger)id
+- (ModelFaq *) getSingleQuestion:(NSInteger)id
 {
-    NSMutableArray *resultList = [[NSMutableArray alloc] init];
+    ModelFaq *model =nil;
     const char *dbpath = [databasePath UTF8String];
     sqlite3_stmt    *statement;
     
@@ -195,7 +195,7 @@ static FaqDao *_faqDao = nil;
             {
     
                 
-                ModelFaq *model = [[ModelFaq alloc] init];
+                model = [[ModelFaq alloc] init];
                 model.id = sqlite3_column_int(statement, 0);
                 model.app_id = sqlite3_column_int(statement, 1);
                 model.question = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
@@ -203,14 +203,13 @@ static FaqDao *_faqDao = nil;
                 model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
                 model.isRead = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
                 model.answer = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
-                [resultList addObject:model];
             }
             sqlite3_finalize(statement);
         }
         sqlite3_close(db);
     }
     
-    return resultList;
+    return model;
 }
 
 //delete the employee from the database
@@ -248,7 +247,7 @@ static FaqDao *_faqDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSLog(@"Exitsing data, Delete Please");
+        //NSLog(@"Exitsing data, Delete Please");
         NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_Faq"];
         
         const char *delete_stmt = [deleteSQL UTF8String];
@@ -274,7 +273,7 @@ static FaqDao *_faqDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSLog(@"Exitsing data, Delete Please");
+        //NSLog(@"Exitsing data, Delete Please");
         NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_Faq where id=%ld",(long)model.id];
         
         const char *delete_stmt = [deleteSQL UTF8String];

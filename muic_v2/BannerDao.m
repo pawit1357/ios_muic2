@@ -8,7 +8,6 @@
 
 #import "BannerDao.h"
 #import "ModelBanner.h"
-#import "MyUtils.h"
 
 @implementation BannerDao
 
@@ -80,9 +79,10 @@ static BannerDao * _bannerDao = nil;
                                @"INSERT INTO tb_banner (id,app_id,image_url,status) VALUES (%ld, %ld, '%@', '%@')",
                                (long)model.id,
                                (long)model.app_id,
-                               [[MyUtils MyUtils]cleanSpecialChar:model.image_url],
+                               model.image_url,
                                model.status];
         
+        //NSLog(@"%@",insertSQL);
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -115,7 +115,7 @@ static BannerDao * _bannerDao = nil;
 
      NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_banner set app_id = '%ld', image_url = '%@',status='%@'  WHERE id = %ld",
      (long)model.app_id,
-     [[MyUtils MyUtils]cleanSpecialChar:model.image_url],
+     model.image_url,
                             model.status,
                             (long)model.id];
      
@@ -126,7 +126,7 @@ static BannerDao * _bannerDao = nil;
             NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
         }else{
             success = true;
-            NSLog(@"Executed");
+            //NSLog(@"Executed");
         }
      }
 
@@ -145,7 +145,7 @@ static BannerDao * _bannerDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,app_id,image_url FROM tb_banner where status='A'";
+        NSString *querySQL = @"SELECT id,app_id,image_url,status FROM tb_banner where status='A'";
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -156,6 +156,7 @@ static BannerDao * _bannerDao = nil;
                 model.id = sqlite3_column_int(statement, 0);
                 model.app_id = sqlite3_column_int(statement, 1);
                 model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
@@ -174,7 +175,7 @@ static BannerDao * _bannerDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat: @"SELECT id,app_id,image_url FROM tb_banner where id=%ld",(long)id];
+        NSString *querySQL = [NSString stringWithFormat: @"SELECT id,app_id,image_url,status FROM tb_banner where id=%ld",(long)id];
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -185,6 +186,7 @@ static BannerDao * _bannerDao = nil;
                 model.id = sqlite3_column_int(statement, 0);
                 model.app_id = sqlite3_column_int(statement, 1);
                 model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);

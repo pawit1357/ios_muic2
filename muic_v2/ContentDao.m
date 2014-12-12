@@ -75,20 +75,20 @@ static ContentDao * _contentDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSLog(@"New data, Insert Please");
+        //NSLog(@"New data, Insert Please");
         NSString *insertSQL = [NSString stringWithFormat:
                                @"INSERT INTO tb_content (id,app_id,menu_id,title,description,image_url,status,create_date,sub_title,read) VALUES (%ld,%ld, %ld, '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
                                (long)model.id,
                                (long)model.app_id,
                                (long)model.menu_id,
-                               [[MyUtils MyUtils]cleanSpecialChar:model.title],
-                               [[MyUtils MyUtils]cleanSpecialChar:model.description],
+                               [[MyUtils MyUtils]cleanSQLInjectionChar:model.title],
+                               [[MyUtils MyUtils]cleanSQLInjectionChar:model.description],
                                model.image_url,
                                model.status,
                                model.create_date,
-                               [[MyUtils MyUtils]cleanSpecialChar:model.sub_title],
+                               [[MyUtils MyUtils]cleanSQLInjectionChar:model.sub_title],
                                @"0"];//model.read];
-        
+         //NSLog(@"%@",insertSQL);
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(db, insert_stmt, -1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -118,9 +118,9 @@ static ContentDao * _contentDao = nil;
      NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_content set app_id='%ld',menu_id='%ld',title='%@',sub_title='%@',description='%@',image_url='%@',status='%@',read='%@',create_date='%@' WHERE id = %ld",
      (long)model.app_id,
      (long)model.menu_id,
-                            [[MyUtils MyUtils]cleanSpecialChar:model.title],
-                            [[MyUtils MyUtils]cleanSpecialChar:model.sub_title],
-                            [[MyUtils MyUtils]cleanSpecialChar:model.description],
+                            [[MyUtils MyUtils]cleanSQLInjectionChar:model.title],
+                            [[MyUtils MyUtils]cleanSQLInjectionChar:model.sub_title],
+                            [[MyUtils MyUtils]cleanSQLInjectionChar:model.description],
                             model.image_url,
                             model.status,
                             model.read,
@@ -154,7 +154,7 @@ static ContentDao * _contentDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A'";
+        NSString *querySQL = @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status FROM tb_content where status='A'";
         //NSString *querySQL=[NSString stringWithFormat:
                             //@"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date from tb_content where menu_id=%ld and status='A' union select //id,app_id,menu_id,title,sub_title,description,image_url,read,create_date from tb_content where menu_id in(select id from tb_menu where parent =%ld) and //status='A'" ,(long)model.menu_id,(long)model.menu_id];
         const char *query_stmt = [querySQL UTF8String];
@@ -204,6 +204,12 @@ static ContentDao * _contentDao = nil;
                 }else{
                     model.create_date = @" ";
                 }
+                if ( sqlite3_column_type(statement, 9) != SQLITE_NULL )
+                {
+                    model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                }else{
+                    model.status = @"I";
+                }
                 [resultList addObject:model];
             }
             sqlite3_finalize(statement);
@@ -227,7 +233,7 @@ static ContentDao * _contentDao = nil;
         //NSString *querySQL=[NSString stringWithFormat:@"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where status='A' and menu_id=%ld" ,(long)menu_id];
         
         NSString *querySQL=[NSString stringWithFormat:
-        @"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date from tb_content where menu_id=%ld and status='A' union select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date from tb_content where menu_id in(select id from tb_menu where parent =%ld) and status='A'" ,(long)menu_id,(long)menu_id];
+        @"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status from tb_content where menu_id=%ld and status='A' union select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status from tb_content where menu_id in(select id from tb_menu where parent =%ld) and status='A'" ,(long)menu_id,(long)menu_id];
         
         
         //NSLog(@"getMenuContent:%@",querySQL);
@@ -279,6 +285,12 @@ static ContentDao * _contentDao = nil;
                 }else{
                     model.create_date = @" ";
                 }
+                if ( sqlite3_column_type(statement, 9) != SQLITE_NULL )
+                {
+                    model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                }else{
+                    model.status = @"I";
+                }
                 [resultList addObject:model];
                 
             }
@@ -301,7 +313,7 @@ static ContentDao * _contentDao = nil;
     {
 
         NSString *querySQL=[NSString stringWithFormat:
-                            @"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date from tb_content where menu_id in(select id from tb_menu where menu_type in (11)) and status ='A' order by create_date desc" ];
+                            @"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status from tb_content where menu_id in(select id from tb_menu where menu_type in (11)) and status ='A' order by create_date desc" ];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -349,6 +361,12 @@ static ContentDao * _contentDao = nil;
                     model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
                 }else{
                     model.create_date = @" ";
+                }
+                if ( sqlite3_column_type(statement, 9) != SQLITE_NULL )
+                {
+                    model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                }else{
+                    model.status = @"I";
                 }
                 [resultList addObject:model];
             }
@@ -371,7 +389,7 @@ static ContentDao * _contentDao = nil;
     {
         
         NSString *querySQL=[NSString stringWithFormat:
-                            @"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date from tb_content where menu_id in(select id from tb_menu where menu_type in (21)) and status ='A' order by create_date desc" ];
+                            @"select id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status from tb_content where menu_id in(select id from tb_menu where menu_type in (21)) and status ='A' order by create_date desc" ];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -420,74 +438,11 @@ static ContentDao * _contentDao = nil;
                 }else{
                     model.create_date = @" ";
                 }
-                [resultList addObject:model];
-            }
-            sqlite3_finalize(statement);
-        }else{
-            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
-        }
-        sqlite3_close(db);
-    }
-    
-    return resultList;
-}
-
-- (NSMutableArray *) getSingleContent:(NSInteger)id
-{
-    NSMutableArray *resultList = [[NSMutableArray alloc] init];
-    const char *dbpath = [databasePath UTF8String];
-    sqlite3_stmt    *statement;
-    
-    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-    {
-        NSString *querySQL =[NSString stringWithFormat: @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where id=%ld",(long)id];
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            while (sqlite3_step(statement) == SQLITE_ROW)
-            {
-                ModelContent *model = [[ModelContent alloc] init];
-                model.id = sqlite3_column_int(statement, 0);
-                model.app_id = sqlite3_column_int(statement, 1);
-                model.menu_id = sqlite3_column_int(statement, 2);
-                
-                if ( sqlite3_column_type(statement, 3) != SQLITE_NULL )
+                if ( sqlite3_column_type(statement, 9) != SQLITE_NULL )
                 {
-                    model.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                    model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
                 }else{
-                    model.title = @" ";
-                }
-                if ( sqlite3_column_type(statement, 4) != SQLITE_NULL )
-                {
-                    model.sub_title =[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-                }else{
-                    model.sub_title = @" ";
-                }
-                if ( sqlite3_column_type(statement, 5) != SQLITE_NULL )
-                {
-                    model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
-                }else{
-                    model.description = @" ";
-                }
-                if ( sqlite3_column_type(statement, 6) != SQLITE_NULL )
-                {
-                    model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
-                }else{
-                    model.image_url = @" ";
-                }
-                if ( sqlite3_column_type(statement, 7) != SQLITE_NULL )
-                {
-                    model.read = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
-                }else{
-                    model.read = @" ";
-                }
-                if ( sqlite3_column_type(statement, 8) != SQLITE_NULL )
-                {
-                    model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
-                }else{
-                    model.create_date = @" ";
+                    model.status = @"I";
                 }
                 [resultList addObject:model];
             }
@@ -501,102 +456,15 @@ static ContentDao * _contentDao = nil;
     return resultList;
 }
 
-//delete the employee from the database
-- (BOOL) deleteContent:(ModelContent *)model
+- (ModelContent *) getSingleContent:(NSInteger)id
 {
-    BOOL success = false;
-
-     sqlite3_stmt *statement = NULL;
-     const char *dbpath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-     {
-
-     //NSLog(@"Exitsing data, Delete Please");
-     NSString *deleteSQL = [NSString stringWithFormat:@"DELETE from tb_content WHERE id = %ld",(long)model.id];
-     
-     const char *delete_stmt = [deleteSQL UTF8String];
-     sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
-     if (sqlite3_step(statement) == SQLITE_DONE)
-     {
-         success = true;
-     }
-         
-     }
-    
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
-
-    return success;
-}
-- (BOOL) updateReadContent:(ModelContent*)model;
-{
-    
-    BOOL success = false;
-    
-     sqlite3_stmt *statement = NULL;
-     const char *dbpath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-     {
-     NSLog(@"Exitsing data, Update Please");
-     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_content set read = '%@' WHERE id = %ld",
-     model.read,
-     (long)model.id];
-     
-     const char *update_stmt = [updateSQL UTF8String];
-     //sqlite3_bind_int(statement, 1, config.id);
-     if (sqlite3_prepare_v2(db, update_stmt, -1, &statement, NULL)==SQLITE_OK) {
-     
-     NSLog(@"Query Prepared to execute");
-     }
-     
-     if(sqlite3_step(statement) != SQLITE_DONE){
-     NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
-     }else{
-     success = true;
-     NSLog(@"Executed");
-     }
-
-     }
-    sqlite3_finalize(statement);
-    sqlite3_close(db);
-    return success;
-}
-
-- (BOOL) deleteAllContent{
-    BOOL success = false;
-    sqlite3_stmt *statement = NULL;
-    const char *dbpath = [databasePath UTF8String];
-    
-    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-    {
-        NSLog(@"Exitsing data, Delete Please");
-        NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_content"];
-        
-        const char *delete_stmt = [deleteSQL UTF8String];
-        sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
-        
-        if (sqlite3_step(statement) == SQLITE_DONE)
-        {
-            success = true;
-        }
-    }
-    sqlite3_finalize(statement);
-    sqlite3_close(db);
-    
-    return success;
-}
-
--(ModelContent*) getContentById:(ModelContent*)modelContent{
-    
     ModelContent *model = nil;
     const char *dbpath = [databasePath UTF8String];
     sqlite3_stmt    *statement;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL =[NSString stringWithFormat: @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date FROM tb_content where id=%ld",(long)modelContent.id];
+        NSString *querySQL =[NSString stringWithFormat: @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status FROM tb_content where id=%ld",(long)id];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -644,6 +512,174 @@ static ContentDao * _contentDao = nil;
                     model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
                 }else{
                     model.create_date = @" ";
+                }
+                if ( sqlite3_column_type(statement, 9) != SQLITE_NULL )
+                {
+                    model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                }else{
+                    model.status = @"I";
+                }
+
+            }
+            sqlite3_finalize(statement);
+        }else{
+            NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+        }
+        sqlite3_close(db);
+    }
+    
+    return model;
+}
+
+//delete the employee from the database
+- (BOOL) deleteContent:(ModelContent *)model
+{
+    BOOL success = false;
+
+     sqlite3_stmt *statement = NULL;
+     const char *dbpath = [databasePath UTF8String];
+     
+     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+     {
+
+     //NSLog(@"Exitsing data, Delete Please");
+     NSString *deleteSQL = [NSString stringWithFormat:@"DELETE from tb_content WHERE id = %ld",(long)model.id];
+     
+     const char *delete_stmt = [deleteSQL UTF8String];
+     sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+     if (sqlite3_step(statement) == SQLITE_DONE)
+     {
+         success = true;
+     }
+         
+     }
+    
+     sqlite3_finalize(statement);
+     sqlite3_close(db);
+
+    return success;
+}
+- (BOOL) updateReadContent:(ModelContent*)model;
+{
+    
+    BOOL success = false;
+    
+     sqlite3_stmt *statement = NULL;
+     const char *dbpath = [databasePath UTF8String];
+     
+     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+     {
+     //NSLog(@"Exitsing data, Update Please");
+     NSString *updateSQL = [NSString stringWithFormat:@"UPDATE tb_content set read = '%@' WHERE id = %ld",
+     model.read,
+     (long)model.id];
+     
+     const char *update_stmt = [updateSQL UTF8String];
+     //sqlite3_bind_int(statement, 1, config.id);
+     if (sqlite3_prepare_v2(db, update_stmt, -1, &statement, NULL)==SQLITE_OK) {
+     
+     //NSLog(@"Query Prepared to execute");
+     }
+     
+     if(sqlite3_step(statement) != SQLITE_DONE){
+         NSAssert1(0, @"Error while updating. '%s'", sqlite3_errmsg(db));
+     }else{
+     success = true;
+     //NSLog(@"Executed");
+     }
+
+     }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
+    return success;
+}
+
+- (BOOL) deleteAllContent{
+    BOOL success = false;
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        //NSLog(@"Exitsing data, Delete Please");
+        NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_content"];
+        
+        const char *delete_stmt = [deleteSQL UTF8String];
+        sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+        
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
+    
+    return success;
+}
+
+-(ModelContent*) getContentById:(ModelContent*)modelContent{
+    
+    ModelContent *model = nil;
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        NSString *querySQL =[NSString stringWithFormat: @"SELECT id,app_id,menu_id,title,sub_title,description,image_url,read,create_date,status FROM tb_content where id=%ld",(long)modelContent.id];
+        
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                model = [[ModelContent alloc] init];
+                model.id = sqlite3_column_int(statement, 0);
+                model.app_id = sqlite3_column_int(statement, 1);
+                model.menu_id = sqlite3_column_int(statement, 2);
+                
+                if ( sqlite3_column_type(statement, 3) != SQLITE_NULL )
+                {
+                    model.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                }else{
+                    model.title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 4) != SQLITE_NULL )
+                {
+                    model.sub_title =[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                }else{
+                    model.sub_title = @" ";
+                }
+                if ( sqlite3_column_type(statement, 5) != SQLITE_NULL )
+                {
+                    model.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                }else{
+                    model.description = @" ";
+                }
+                if ( sqlite3_column_type(statement, 6) != SQLITE_NULL )
+                {
+                    model.image_url = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                }else{
+                    model.image_url = @" ";
+                }
+                if ( sqlite3_column_type(statement, 7) != SQLITE_NULL )
+                {
+                    model.read = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+                }else{
+                    model.read = @" ";
+                }
+                if ( sqlite3_column_type(statement, 8) != SQLITE_NULL )
+                {
+                    model.create_date = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+                }else{
+                    model.create_date = @" ";
+                }
+                if ( sqlite3_column_type(statement, 9) != SQLITE_NULL )
+                {
+                    model.status = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+                }else{
+                    model.status = @"I";
                 }
             }
             sqlite3_finalize(statement);

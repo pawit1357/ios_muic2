@@ -11,6 +11,11 @@
 @interface MyUtils : NSObject
 
 +(id)MyUtils;
+
 -(NSString*) cleanSpecialChar:(NSString*)str;
+
+-(NSString*) cleanSQLInjectionChar:(NSString*)str;
+
+-(UIColor *)colorFromHexString:(NSString *)hexString;
 
 @end

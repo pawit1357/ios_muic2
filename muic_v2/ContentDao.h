@@ -30,7 +30,7 @@
 - (NSMutableArray *) getAllContent;
 - (NSMutableArray *) getNews;
 - (NSMutableArray *) getAnnounce;
-- (NSMutableArray *) getSingleContent:(NSInteger) id;
+- (ModelContent *) getSingleContent:(NSInteger) id;
 
 - (BOOL) updateReadContent:(ModelContent*)model;
 

@@ -22,7 +22,12 @@
 - (void) initDatabase;
 
 - (BOOL) updateVersion:(NSInteger)version;
+- (BOOL) updateUdid:(NSString*)udid;
+
+- (BOOL) updatePopupURLid:(NSInteger) popupid;
 
 - (NSInteger) getCurrentVersion;
+- (NSString*) getUdid;
+- (NSInteger) getPopupId;
 
 @end

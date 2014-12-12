@@ -10,6 +10,6 @@
 
 @implementation ModelConfig
 
-    @synthesize id,app_version;
+    @synthesize id,app_version,udid;
 
 @end

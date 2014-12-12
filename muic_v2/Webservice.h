@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ModelPopup.h"
 
 @interface Webservice : NSObject{
 
@@ -18,8 +19,10 @@
 - (BOOL) getBanner;
 - (BOOL) getMenu;
 - (BOOL) getContent;
+//- (BOOL) getNewsEvent;
 - (BOOL) GetBook;
 - (BOOL) GetQuestion;
 - (BOOL) registerDevice:(NSString*) udid andPhoneType:(NSString*)phone_type;
-- (BOOL) isUpdateApp;
+- (NSInteger) isUpdateApp;
+- (ModelPopup*) GetPopup;
 @end

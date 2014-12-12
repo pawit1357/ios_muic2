@@ -28,10 +28,12 @@
     NSString *URL_BANNER= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBanner";
     NSString *URL_MENU= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetMenu";
     NSString *URL_CONTENT= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContent";
+    //NSString *URL_CONTENT_NEWS= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContentNews";
     NSString *URL_BOOK= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBook";
     NSString *URL_QUESTION= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetQuestion";
     NSString *URL_REGISTER= @"http://prdapp.net/itechservice/index.php/ServiceApp/Register/udid/%@/phone_type/%d";
     NSString *URL_VERSION =@"http://prdapp.net/itechservice/index.php/ServiceApp/GetVersion";
+    NSString *URL_POPUP=@"http://prdapp.net/itechservice/index.php/ServiceLife/PushNews";
 
 static Webservice *_webservice = nil;
 
@@ -62,7 +64,8 @@ static Webservice *_webservice = nil;
         //-- JSON Parsing
         NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
         //NSLog(@"Result = %@",result);
-        if(result.count>0){
+    if( result != nil){
+        if( result.count>0 ){
             [[BannerDao BannerDao] deleteAll];
             for (NSMutableDictionary *dataDict in result)
             {
@@ -79,10 +82,13 @@ static Webservice *_webservice = nil;
                         [[BannerDao BannerDao]  updateModel:banner];
                     }
                 }else{
-                     [[BannerDao BannerDao]  saveModel:banner];
+                    if( ![banner.status isEqualToString:@"I"] ){
+                        [[BannerDao BannerDao]  saveModel:banner];
+                    }
                 }
             }
         }
+}
     return TRUE;
 }
 
@@ -101,7 +107,8 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-        if(result.count>0){
+    if( result != nil){
+        if( result.count>0 ){
     for (NSMutableDictionary *dataDict in result)
     {
         
@@ -122,9 +129,12 @@ static Webservice *_webservice = nil;
                 [[MenuDao MenuDao]  updateMenu:menu];
             }
         }else{
-            [[MenuDao MenuDao]  saveMenu:menu];
+            if( ![menu.status isEqualToString:@"I"] ){
+                [[MenuDao MenuDao]  saveMenu:menu];
+            }
         }
     }
+        }
 }
     return TRUE;
 }
@@ -142,7 +152,8 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-        if(result.count>0){
+    if( result != nil){
+        if( result.count>0 ){
     for (NSMutableDictionary *dataDict in result)
     {
         
@@ -163,8 +174,6 @@ static Webservice *_webservice = nil;
             content.sub_title = @" ";
         }
         if([dataDict objectForKey:@"description"] != nil){
-            //NSData *data = [NSData dataFromBase64String:[dataDict objectForKey:@"description"]];
-            //NSString *convertedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             
             content.description = [dataDict objectForKey:@"description"];
         }else{
@@ -186,21 +195,96 @@ static Webservice *_webservice = nil;
             content.create_date = @" ";
         }
         content.status = [dataDict objectForKey:@"status"];
-        
-        if( [[[ContentDao ContentDao] getSingleContent:content.id ] count]> 0 ){
+
+
+        if( [[ContentDao ContentDao] getSingleContent:content.id ] != nil ){
             if( [content.status isEqualToString:@"I"] ){
                 [[ContentDao ContentDao] deleteContent:content];
             }else{
                 [[ContentDao ContentDao]  updateContent:content];
             }
         }else{
-            [[ContentDao ContentDao]  saveContent:content];
+            if( ![content.status isEqualToString:@"I"] ){
+                 [[ContentDao ContentDao]  saveContent:content];
+            }
         }
         }
+         }
         }
     return TRUE;
 }
-
+/*
+- (BOOL) getNewsEvent{
+    NSHTTPURLResponse *response = nil;
+    NSString *jsonUrlString = [NSString stringWithFormat:@"%@",URL_CONTENT_NEWS ];
+    NSURL *url = [NSURL URLWithString:[jsonUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    //-- Get request and response though URL
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    
+    //-- JSON Parsing
+    NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
+    //NSLog(@"Result = %@",result);
+    if(result.count>0){
+        for (NSMutableDictionary *dataDict in result)
+        {
+            
+            ModelContent *content = [[ModelContent alloc] init];
+            
+            content.id = [[dataDict objectForKey:@"id"] integerValue];
+            content.app_id = [[dataDict objectForKey:@"app_id"] integerValue];
+            content.menu_id = [[dataDict objectForKey:@"menu_id"] integerValue];
+            
+            if( [dataDict objectForKey:@"title"] != nil){
+                content.title = [dataDict objectForKey:@"title"];
+            }else{
+                content.title = @" ";
+            }
+            if([dataDict objectForKey:@"sub_title"] != nil){
+                content.sub_title =[dataDict objectForKey:@"sub_title"];
+            }else{
+                content.sub_title = @" ";
+            }
+            if([dataDict objectForKey:@"description"] != nil){
+                
+                content.description = [dataDict objectForKey:@"description"];
+            }else{
+                content.description = @" ";
+            }
+            if([dataDict objectForKey:@"image_url"] != nil){
+                content.image_url = [dataDict objectForKey:@"image_url"];
+            }else{
+                content.image_url = @" ";
+            }
+            if([dataDict objectForKey:@"read"] != nil){
+                content.read = [dataDict objectForKey:@"read"];
+            }else{
+                content.read = @" ";
+            }
+            if([dataDict objectForKey:@"create_date"] != nil){
+                content.create_date =  [dataDict objectForKey:@"create_date"];
+            }else{
+                content.create_date = @" ";
+            }
+            content.status = [dataDict objectForKey:@"status"];
+            
+            if( [[[ContentDao ContentDao] getSingleContent:content.id ] count]> 0 ){
+                if( [content.status isEqualToString:@"I"] ){
+                    [[ContentDao ContentDao] deleteContent:content];
+                }else{
+                    [[ContentDao ContentDao]  updateContent:content];
+                }
+            }else{
+                if( ![content.status isEqualToString:@"I"] ){
+                    [[ContentDao ContentDao]  saveContent:content];
+                }
+            }
+        }
+    }
+    return TRUE;
+}
+ */
 - (BOOL) GetBook{
     //-- Make URL request with server
 
@@ -218,7 +302,8 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-        if(result.count>0){
+    if( result != nil){
+        if( result.count>0 ){
     for (NSMutableDictionary *dataDict in result)
     {
         
@@ -245,10 +330,13 @@ static Webservice *_webservice = nil;
                 [[BookDao BookDao]  updateBook:book];
             }
         }else{
-            [[BookDao BookDao]  saveBook:book];
+            if( ![book.status isEqualToString:@"I"] ){
+                [[BookDao BookDao]  saveBook:book];
+            }
         }
 
     }
+         }
         }
     return TRUE;
 }
@@ -269,7 +357,8 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-    if(result.count>0){
+    if( result != nil){
+        if( result.count>0 ){
 
     for (NSMutableDictionary *dataDict in result)
     {
@@ -284,19 +373,56 @@ static Webservice *_webservice = nil;
         quest.answer = [dataDict objectForKey:@"answer"];
         
 
-        if( [[[FaqDao FaqDao] getSingleQuestion:quest.id ] count]> 0 ){
+        if( [[FaqDao FaqDao] getSingleQuestion:quest.id ] != nil ){
             if( [quest.status isEqualToString:@"I"] ){
                 [[FaqDao FaqDao] deleteQuestion:quest];
             }else{
                 [[FaqDao FaqDao]  updateQuestion:quest];
             }
         }else{
-            [[FaqDao FaqDao]  saveQuestion:quest];
+            if( ![quest.status isEqualToString:@"I"] ){
+                [[FaqDao FaqDao]  saveQuestion:quest];
+            }
         }
+    }
     }
     }
     return TRUE;
 }
+
+
+- (ModelPopup*) GetPopup{
+    //-- Make URL request with server
+    ModelPopup *model = nil;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *jsonUrlString = [NSString stringWithFormat:@"%@",URL_POPUP ];
+    
+    NSURL *url = [NSURL URLWithString:[jsonUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    //-- Get request and response though URL
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    
+    //-- JSON Parsing
+    NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
+    //NSLog(@"Result = %@",result);
+    if( result != nil){
+        if( result.count>0 ){
+        
+        for (NSMutableDictionary *dataDict in result)
+        {
+            model = [[ModelPopup alloc] init];
+            model.id = [[dataDict objectForKey:@"id"] integerValue];
+            model.url = [dataDict objectForKey:@"url"];
+            model.message = [dataDict objectForKey:@"message"];
+        }
+        }
+    }
+
+    return model;
+}
+
 
 - (BOOL) registerDevice:(NSString*) udid andPhoneType:(NSString*)phone_type{
     
@@ -307,7 +433,7 @@ static Webservice *_webservice = nil;
                                                        timeoutInterval:300];
     NSData *postData = [escapedUrlString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
@@ -325,9 +451,8 @@ static Webservice *_webservice = nil;
     return true;
 }
 
-- (BOOL) isUpdateApp{
+- (NSInteger) isUpdateApp{
     //-- Make URL request with server
-    BOOL isUpdate = false;
     NSInteger version = 0;
     NSHTTPURLResponse *response = nil;
     
@@ -342,30 +467,19 @@ static Webservice *_webservice = nil;
     //-- JSON Parsing
     NSMutableArray *result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:nil];
     //NSLog(@"Result = %@",result);
-    if(result.count>0){
-        
+    if( result != nil){
+        if( result.count>0 ){
         for (NSMutableDictionary *dataDict in result)
         {
             version =  [[dataDict objectForKey:@"version"] integerValue];
             
         }
     }
-    if([[AppConfigDao AppConfigDao] getCurrentVersion] != version){
-        [[Webservice Webservice] getMenu];
-        
-        [[Webservice Webservice] getBanner];
-        [[Webservice Webservice] getContent];
-        
-        [[Webservice Webservice] GetBook];
-        [[Webservice Webservice] GetQuestion];
-        
-        //update versin
-        [[AppConfigDao AppConfigDao] updateVersion:version];
-        isUpdate = true;
-    }else{
-        isUpdate = false;
-    }
-    return isUpdate;
+}
+
+
+
+    return version;
 }
 
 @end

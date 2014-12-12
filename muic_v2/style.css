@@ -1,0 +1,2067 @@
+/*------------------------------------English Themes ---------------------------------------------------------*/
+
+/* Fix IE. Hide from IE Mac \*/
+/** html #tools ul li{ float: left; height: 1%; }
+ * html #tools ul li a{ height: 1%; }
+ * html #tools ul li a:hover{ height: 1%; }*/
+/* End */
+
+
+
+body{
+    margin:20;
+    padding:0;
+    font-size:10px;
+    font-family:Verdana, "Times New Roman", Times, serif;
+    color:#979797;
+    background-color:#0b162b;/*#06213F*, #222242*/
+    text-align:justify;
+    
+}
+
+
+
+
+ol.upper-alpha {padding-left:40px;list-style-type:upper-alpha; }
+ol.decimal {padding-left:20px;list-style-type:decimal;}
+ul.square{padding-left:20px;list-style-type:square}
+ul.fullpage{padding-left:20px;list-style:url(images/blue_file.gif);}
+ul.page{margin-bottom:15px;padding-left:30px;list-style:disc;line-height: 30px;}
+ol.page{margin-bottom:15px;padding-left:30px;}
+ol.pagesub{margin-bottom:15px;padding-left:30px;}
+ul.club{list-style:none;padding-bottom:120px;}
+ul.news{list-style:none;}
+
+
+
+img{margin:0; padding:0; border:none;}
+.justify{text-align:justify;}
+.bold{font-weight:bold;}
+.center{text-align:center;}
+.right{text-align:right;}
+.nostart{list-style-type:none; margin:0; padding:0;}
+
+.clear:after{content:"."; display:block; height:1%; clear:both; visibility:hidden; line-height:normal}
+/*.clear{display:inline-block;}*/
+html[xmlns] .clear{display:block;}
+* html .clear{height:10px;}
+
+a{outline:none; text-decoration:none; color:#004f8f;   } /*background-color:#F9F9F9,082485*/
+
+
+.fl_left{float:left;}
+.fl_right{float:right;}
+.imgopenhouse{ float:left;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;background-color:#F9F9F9;border:1px solid #e6e4db;}
+.imgflag{ float:right; padding-left:10px; padding-bottom:5px;}
+.imgholder, .imgl, .imgr{padding:2px; border:1px solid #DEDACB; text-align:center; background-color:#e6e4db;}/*#DEDACB*/
+.imgl{float:left; margin:0 0px 5px 0; clear:left; background-color:#ffffff; border:1px solid #e6e4db;}
+.imgr{float:right; margin:0 0 15px 15px; clear:right; background-color:#e6e4db}
+.imgfull{margin:25px 0 15px 0; padding:4px 4px 4px 4px;background-color:#f0f0f0; border:1px solid #e6e4db }/*#DEDACB*/
+.imgfullhome{padding:0px; border:1px solid #DEDACB; background-color:#e6e4db; margin-top:-25px; margin-right:20px;  }/*#DEDACB*/
+.imgl{float:left; margin:0px 0px 5px 0px; clear:left; background-color:#ffffff; border:1px solid #e6e4db;}
+.imgjob{float:left; margin:0 0px 5px 0; clear:left;}
+/* ----------------------------------------------Wrapper-------------------------------------*/
+
+div.wrapper{
+    position:relative;
+    margin:0px auto 20px;
+    width:960px;
+    text-align:left;
+    
+}
+
+div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6{
+    margin:0 0 15px 0;
+    padding:0;
+    font-size:14px;
+    font-weight:normal;
+    font-style:normal;
+    
+    color:#710069;
+}
+
+div.wrapper h6{
+    margin:0 0 15px 0;
+    padding:0;
+    font-size:14px;
+    font-weight:normal;
+    font-style:normal;
+    
+    color:#666666;
+}
+
+.row1{color:#21292e; background-color:#0b162b; }/*#222242*/
+
+.row2{color:#21292e; background-color:#e0e0e0;}/**/
+.row3 {color:#21292e; background-color:#e0e0e0;}/*#f0f0f0*/
+.row4{color:#21292e; background-color:#e0e0e0;}/*#f0f0f0*/
+.row5{color:#21292e; background-color:#e0e0e0;}/*#f0f0f0*/
+
+/* ----------------------------------------------Generalise-------------------------------------*/
+
+#container, #footer{
+    display:block;
+    width:960px;
+    
+    
+}
+
+.rnd{
+    display:block;
+    width:960px;
+    
+    padding:12px 0 0 0;
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/round_top.gif") top left no-repeat;
+}
+.rnd2{
+    display:block;
+    width:960px;
+    padding:12px 0 0 0;
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/round_top2.gif") top left no-repeat;
+}
+
+
+
+/* ----------------------------------------------container-home-------------------------------------*/
+
+#container-home{
+    clear:both;
+    width:900px;
+    padding:30px 6px 40px 4px;
+    
+    line-height:1.6em;
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/round_bot.gif") bottom left no-repeat;
+    
+    
+}
+
+#container-home a{
+    color:#d8ab4c;
+    font-weight:bold;/*#004f8f,#082485*/
+    /*background-color:#F9F9F9;*/
+}
+#container-home a:hover{
+    color:#000000;/*#55ABDA*/
+    
+}
+#container-home h4{
+    padding-bottom:8px;
+    
+    color:#ffffff;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:1px;
+    word-spacing:5px;
+    padding-left:10px;
+    font-weight:200;
+    
+    
+}
+
+#container-home h5{
+    padding-bottom:8px;
+    
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    text-align:center;
+    font-size:14px;
+    
+}
+#container-home h1, #container-home h2, #container-home h3{
+    padding-bottom:8px;
+    border-bottom: dotted 1px  #8d8d8b;
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    
+}
+
+
+
+
+#container-home .readmore{
+    display:block;
+    width:300px;
+    
+}
+
+
+
+
+/* ----------------------------------------------container-innerpage-------------------------------------*/
+
+#container{
+    
+    width:920px;
+    padding:30px 6px 100px 34px;
+    
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/round_bot.gif") bottom left no-repeat;
+    
+    
+}
+
+#container a{
+    color:#004f8f;
+    font-weight:bold;/*#55ABDA,#082485*/
+    /*background-color:#F9F9F9;*/
+}
+#container a:hover{
+    color:#d8ab4c;/*#55ABDA*/
+    
+}
+#container h4{
+    padding-bottom:8px;
+    
+    color:#ffffff;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:1px;
+    word-spacing:5px;
+    padding-left:10px;
+    font-weight:200;
+    
+    
+}
+
+#pc{
+    padding-bottom:8px;
+    
+    color:#ffffff;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:1px;
+    word-spacing:5px;
+    padding-left:10px;
+    
+    font-size:11px;
+    
+    
+}
+
+
+#container h5{
+    padding-bottom:8px;
+    
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    text-align:center;
+    font-size:14px;
+    
+}
+#container h2, #container h3{
+    padding-bottom:8px;
+    border-bottom: dotted 1px  #8d8d8b;
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    
+}
+
+
+#container h1{
+    padding: 10px 0 0 0;
+    
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    
+}
+
+#container .readmore{
+    display:block;
+    width:300px;
+    
+    line-height:normal;
+}
+
+#content{
+    float:left;
+    width:600px;
+    line-height:1.6em;
+}
+
+#full{
+    
+    height:auto;
+    line-height:1.6em;
+    width:800px;
+    
+    padding:30px 30px 100px 60px;
+    
+}
+
+#container-full{
+    
+    width:960px;
+    background-color:#00CCFF;
+    
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/round_bot.gif") bottom left no-repeat;
+}
+
+
+
+#container-full a{
+    color:#004f8f;
+    font-weight:bold;/*#55ABDA*/
+    /*background-color:#F9F9F9;*/
+}
+#container-full a:hover{
+    color:#d8ab4c;/*#55ABDA*/
+    
+}
+#container-full h4{
+    padding-bottom:8px;
+    
+    color:#ffffff;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:1px;
+    word-spacing:5px;
+    text-align:center;
+    font-weight:700;
+    
+    
+}
+
+#container-full h5{
+    padding-bottom:8px;
+    
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    text-align:center;
+    font-size:14px;
+    
+}
+#container-full h1, #container h2, #container h3, #container h6{
+    padding-bottom:8px;
+    border-bottom: dotted 1px  #8d8d8b;
+    color:#710069;/*#5b3970;*/
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:200;
+    
+}
+
+#container-full ul{
+    margin:5px 0 2px 50px;
+    line-height:25px;
+    padding:5px;
+    font-size:13px;
+    font-family:Verdana,Arial,sans-serif;
+    
+}
+
+
+/* ----------------------------------------------Column-------------------------------------*/
+
+#column{
+    display:block;
+    float:left;
+    width:250px;
+    
+}
+
+#column_news{
+    display:block;
+    float:left;
+    padding-left:20px;
+    width:250px;
+    
+}
+
+#column .holder, #column #featured{
+    display:block;
+    width:250px;
+    margin-bottom:30px;
+}
+
+#column .holder h2.title{
+    display:block;
+    width:250px;
+    height:35px;
+    margin:0;
+    padding:15px 0 0 0;
+    font-size:20px;
+    text-transform:none;
+    line-height:1.5em;
+    border-bottom:1px dotted #999999;
+}
+
+#column .holder h2.title img{
+    float:left;
+    margin:-15px 8px 0 0;
+    padding:5px;
+    border:1px solid #999999;
+}
+
+#column div.imgholder{
+    display:block;
+    width:290px;
+    margin:0 0 10px 0;
+}
+
+#column .holder p.readmore{
+    display:block;
+    width:300px;
+    font-weight:bold;
+    text-align:left;
+    line-height:normal;
+}
+
+/* Featured Block */
+
+#column #featured ul, #column #featured h2, #column #featured p{
+    margin:0;
+    padding:0;
+    list-style:none;
+    color:#666666;
+    background-color:#F7F7F7;
+}
+
+#column #featured a{
+    color:#55ABDA;
+    background-color:#F7F7F7;
+}
+
+#column #featured li{
+    display:block;
+    width:250px;
+    margin:0;
+    padding:20px 25px;
+    color:#666666;
+    background-color:#F7F7F7;
+}
+
+#column #featured li p.imgholder{
+    display:block;
+    width:240px;
+    height:90px;
+    margin:20px 0 15px 0;
+}
+
+#column #featured li h2{
+    margin:0;
+    padding:0 0 8px 0;
+    font-weight:normal;
+    font-family:Verdana,Arial,sans-serif;
+    line-height:normal;
+    border-bottom:1px dotted #999999;
+}
+
+#container #column .readmore a{
+    display:block;
+    width:400px;
+    margin-top:15px;
+    height:auto;
+    padding-left:0;
+    font-weight:bold;
+    text-align:left;
+    line-height:normal;
+    background:none;
+}
+
+#column .latestnews{
+    display:block;
+    width:400px;
+    margin:0;
+    padding:0;
+    list-style:none;
+    line-height:1.5em;
+}
+
+#column .latestnews li{
+    display:block;
+    width:300px;
+    height:99px;
+    margin:0 0 11px 0;
+    padding:0 0 21px 0;
+    border-bottom:1px dotted #C7C5C8;
+    overflow:hidden;
+}
+
+#column .latestnews li.last, #column .last{
+    margin-bottom:0;
+}
+
+#column .latestnews p{
+    display:inline;
+}
+
+#column .latestnews img{
+    float:left;
+    margin:0 10px 0 0;
+    padding:4px;
+    border:1px solid #C7C5C8;
+    clear:left;
+}
+
+/* ----------------------------------------------Footer-------------------------------------*/
+
+#footer{
+    
+    width:920px;
+    height:200px;
+    padding:5px 20px 15px 20px;
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/round_bot.gif") bottom left no-repeat;
+}
+
+#footer .fl_left img{
+    
+    margin-bottom:10px;}
+#footer .fl_left {
+    
+    width:250px;
+}
+
+#footer .address{
+    
+    display:block;
+    float:left;
+    margin-left:40px;
+    text-transform:none;
+    width:350px;
+    font-size:12px;
+    line-height:1.5em;
+    padding-top:25px;
+    
+}
+
+#footer .fl_right{
+    
+    height:50px;
+    
+    width:250px;
+    float:right;
+    padding-top:10px;
+    
+    
+}
+
+
+
+
+/* ----------------------------------------------Copyright-------------------------------------*/
+
+#copyright{
+    padding:14px 0px;
+    font-size:14px;
+    
+}
+
+
+
+#copyright a{
+    color:#082485;
+    
+}
+
+
+
+table{
+    width:auto;
+    border-collapse:collapse;
+    table-layout:auto;
+    vertical-align:text-top;
+    margin-bottom:15px;
+    /*border:1px solid #CCCCCC;*/
+}
+
+table thead th{
+    color:#FFFFFF;
+    background-color:#222242;
+    /*border:1px solid #CCCCCC;*/
+    border-collapse:collapse;
+    text-align:center;
+    table-layout:auto;
+    vertical-align:middle;
+}
+
+table tbody td{
+    vertical-align:top;
+    border-collapse:collapse;
+    /*border-left:1px solid #CCCCCC;
+     border-right:1px solid #CCCCCC;*/
+}
+
+table thead th, table tbody td{
+    padding:5px;
+    border-collapse:collapse;
+}
+
+table tbody tr.light{
+    color:#666666;
+    background-color:#F7F7F7;
+}
+
+table tbody tr.dark{
+    color:#666666;
+    background-color:#E8E8E8;
+}
+
+
+
+
+
+
+#portfolio{
+    display:block;
+    width:500px;
+    float:left;
+    padding-right:20px;
+    
+    padding-left:20px;
+    
+}
+
+/*#portfolio ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+	}
+ 
+ #portfolio li{
+	display:block;
+	float:left;
+	width:430px;
+	margin:0 60px 45px 0;
+	padding:0;
+	}
+ 
+ #portfolio li.last{
+	margin-right:0;
+	}
+ 
+ #portfolio li img{
+	width:420px;
+	height:190px;
+	margin:0 0 15px 0;
+	padding:4px;
+	border:1px solid #DEDACB;
+	}
+ 
+ #portfolio .readmore{
+	text-align:right;
+	}
+	
+	#portfolio h6{
+	color:#666666;
+	font-size:15px;
+	}*/
+
+/* ----------------------------------------------Column Navigation-------------------------------------*/
+
+#column .subnav{
+    float:left;
+    height:900px;
+    display:block;
+    width:220px;
+    padding:23px;
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/left_menu_bg.png") no-repeat;	    	    margin-bottom:30px;
+    line-height:normal;
+    
+}
+
+#column .subnav h2{
+    margin:0px 0 20px 0;
+    padding:0 0 14px 0;
+    background-color:#ffffff;
+    border-bottom:1px dotted #666666;
+    font-size:20px;
+    letter-spacing:1px;
+    color:#FFFFFF;
+}
+
+#column .subnav h4{
+    margin:0px 0 30px 5px;
+    padding:0px 0 0px 0px;
+    
+    font-size:14px;
+    letter-spacing:1px;
+    color:#e9e9e9;
+}
+
+
+#column .subnav h1{
+    font-size:14px;
+    
+    color:#45555f;
+    
+}
+
+
+#column .subnav ul{
+    
+    padding:0;
+    margin-top:10px;
+    list-style:none;
+}
+
+#column .subnav li{
+    margin:0 3px 3px 0px;
+    padding:0;
+}
+
+#column .subnav ul ul, #column .subnav ul ul ul, #column .subnav ul ul ul ul, #column .subnav ul ul ul ul ul{
+    border-top:none;
+    padding-top:0;
+}
+
+#column .subnav a{
+    display:block;
+    margin:0 0 0 0;
+    padding:5px 10px 5px 20px;
+    color:#004f8f;/*666666,#b46ede*/
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/blue_file.gif") no-repeat 10px center;
+    text-decoration:none;
+    border-bottom:1px dotted #666666;
+    font-weight:500;
+}
+
+#column .subnav a:hover{
+    color:#d8ab4c;
+    
+}
+
+#column .subnav ul ul a, #column .subnav ul ul ul a, #column .subnav ul ul ul ul a, #column .subnav ul ul ul ul ul a{
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/black_file.gif") no-repeat #F7F7F7;
+}
+
+#column .subnav ul ul a{
+    padding-left:40px;
+    background-position:30px center;
+}
+
+#column .subnav ul ul ul a{
+    padding-left:100px;
+    background-position:40px center;
+}
+
+#column .subnav ul ul ul ul a{
+    padding-left:60px;
+    background-position:50px center;
+}
+
+#column .subnav ul ul ul ul ul a{
+    padding-left:70px;
+    background-position:60px center;
+}
+
+/* ----------------------------------------------Pagination-------------------------------------*/
+
+.pagination{
+    display:block;
+    width:960px;
+    clear:both;
+    text-align:center;
+}
+
+.pagination ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+.pagination li{
+    display:inline;
+}
+
+.pagination .next{
+    margin:0;
+}
+
+.pagination a{
+    display:block;
+    margin:0 2px 0 0;
+    padding:2px 5px 3px 5px;
+    border:1px solid #D8D9DE;
+}
+
+.pagination .current, .pagination .splitter{
+    margin:0 2px 0 0;
+    padding:6px;
+}
+
+#container .pagination a:hover, .pagination .current, .pagination .splitter{
+    color:#979797;
+    background-color:#FFFFFF;
+}
+
+
+
+#homepage{
+    position:relative;
+    margin:0 10px 30px 20px;
+    display:block;
+    width:920px;
+}
+
+
+#homepage #left_column {
+    display:block;
+    float:left;
+    width:250px;
+    height:600px;
+    margin-right:10px;
+    margin-left:10px;
+    margin-bottom:0px;
+    
+    
+    
+}
+
+
+
+#aseanzone{
+    display:block;
+    float:left;
+    width:220px;
+    height:240px;
+    margin:0;
+    padding:0;
+    
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    /*background:#f0f0f0;
+     -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+     border-radius: 8px;
+     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     box-shadow: 0 1px 3px rgba(0,0,0,.4);*/
+    
+    
+}
+
+#career{
+    display:block;
+    float:left;
+    width:220px;
+    height:70px;
+    margin:0;
+    padding:0;
+    
+    margin-bottom: 20px;
+    padding: 5px 18px;
+    /*background:#f0f0f0;
+     -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+     border-radius: 8px;
+     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     box-shadow: 0 1px 3px rgba(0,0,0,.4);*/
+    
+    
+}
+
+
+#announcements{
+    display:block;
+    float:left;
+    width:230px;
+    height:260px;/*170*/
+    overflow:auto;
+    margin:0;
+    padding:0;
+    /*background: #f0f0f0;*/
+    margin-bottom: 20px;
+    padding: 0px 18px;
+    /*-webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+     border-radius: 8px;
+     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     box-shadow: 0 1px 3px rgba(0,0,0,.4);*/
+    
+    
+}
+
+#homepage #left_column .imgholder{
+    margin-bottom:10px;
+    
+}
+
+
+/* ----------------------------------------------Right Column for HOMEPAGE-------------------------------------*/
+
+#homepage  #right_column{
+    display:block;
+    float:left;
+    width:400px;
+    height:670px;
+    margin-left:50px;
+    border-left:#666666 dotted 1px;
+    padding-left:50px;
+    
+    
+}
+
+
+/* ----------------------------------------------Latest News-------------------------------------*/
+
+#latestnews1{
+    display:block;
+    float:left;
+    width:450px;
+    height:650px;
+    margin:0;
+    padding:0;
+    /*background:#f0f0f0;
+     
+     margin-bottom: 20px;
+     padding: 15px 18px;
+     -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+     border-radius: 8px;
+     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     box-shadow: 0 1px 3px rgba(0,0,0,.4);*/
+    
+}
+
+
+
+#latestnews1 li{
+    display: block;
+    padding: 6px 0px 7px 0px;
+    margin: 0 0 10px 0;
+    position: relative;
+    left:0px;
+    top: 5px;
+    
+    margin: 5px 10px 100px 5px;
+    list-style:circle;
+}
+
+
+
+#latestnews1 p{
+    
+    margin:0 0 30px 0;
+    padding:0;
+}
+
+
+#latestnews1 p.readmore{
+    display:block;
+    width:400px;
+    clear:both;
+    margin:0;
+    padding:0;
+    text-align:right;
+    float:right;
+}
+
+
+/* ---------------------------------------------Twitter-------------------------------------*/
+
+
+#twitter{
+    display:block;
+    width:850px;
+    height:86px;
+    margin:0 0 30px 10px;
+    padding:10px;
+    clear:both;
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/twitter_bg.gif") top left no-repeat;
+}
+
+#container #twitter a{
+    color:#ffffff;
+    background-color:#710069;
+}
+
+#twitter .fl_left{
+    display:block;
+    float:left;
+    width:800px;
+    height:61px;
+    margin:20px;
+    padding:15px 10px 0 10px;
+    
+    
+}
+
+#twitter .fl_left a{text-transform:uppercase;}
+
+
+
+
+
+
+/* ----------------------------------------------Search Form-------------------------------------*/
+
+#sitesearch{
+    display:block;
+    float:right;
+    margin-top:0px;
+}
+
+#sitesearch input{
+    display:block;
+    float:right;
+    width:100px;
+    height:20px;
+    margin:8px 5px 0 0;
+    padding:0px 5px;
+    color:#979797;
+    
+    border:none;
+}
+
+#sitesearch input#search{
+    width:23px;
+    height:23px;
+    margin:0px;
+    padding:0px;
+    cursor:pointer;
+    background:none;
+    float:left;
+}
+
+/* ----------------------------------------------featured slide : showcase-------------------------------------*/
+
+
+
+#featured_slide{
+    clear:both;
+    display:block;
+    position:relative;
+    width:960px;
+    height:350px;
+    margin:0px;
+    padding:0px;
+    overflow:hidden;
+    color:#666666;
+    background-color:#FFFFFF;
+    
+}
+
+#featured_slide a{
+    background:transparent;
+}
+
+#featured_slide a, #featured_slide ul, #featured_slide img{
+    margin:0;
+    padding:0;
+    border:none;
+    outline:none;
+    list-style:none;
+    text-decoration:none;
+}
+
+/* ----------------------------------------------Generalise-------------------------------------*/
+
+#featured_content, .featured_box, .featured_box img{
+    display:block;
+    
+    width:960px;
+    height:310px;
+    overflow:hidden;
+}
+
+.featured_box, .featured_box img{
+    
+    margin-top:5px;
+    float:left;
+    display:block;
+    
+    
+}
+
+/* ----------------------------------------------Content-------------------------------------*/
+
+.featured_box .floater{
+    display:block;
+    position:relative;
+    top:25px;
+    right:25px;
+    width:320px;
+    height:160px;
+    margin:5px 5px 5px 5px;
+    padding:20px;
+    background-image:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/featured_slide_trans.png");
+    overflow:hidden;
+}
+
+.featured_box p{
+    margin:0;
+    padding:0;
+    line-height:1.em;
+}
+
+.featured_box p.readmore{text-align:right; margin:0;}
+
+/* ----------------------------------------------Tabbed Navigation-------------------------------------*/
+
+#featured_slide .ui-tabs-hide{
+    display:none;
+}
+
+#featured_slide ul#featured_tabs{
+    display:block;
+    position:absolute;
+    bottom:5px;
+    left:4px;
+    
+    width:960px;
+    height:35px;
+    overflow:hidden;
+    font-size:9px;
+}
+
+#featured_slide ul#featured_tabs li{
+    /* This block makes it IE6 compatible*/
+    display:block;
+    float:left;
+    
+}
+
+#featured_slide ul#featured_tabs li a{
+    display:block;
+    float:left;
+    width:145px;
+    height:40px;
+    padding: 7px;
+    color:#c5c5c5;/**/
+    background-color:#710069;/*#DEDACB*/
+    
+    font-size:12px;
+    
+    text-align:center;
+    text-transform:capitalize;
+    border-right:1px solid #666666;
+    letter-spacing:-0.1px;
+}
+
+#featured_slide ul#featured_tabs li.last a{
+    border-right:none;
+}
+
+#featured_slide ul#featured_tabs li a:hover, #featured_slide ul#featured_tabs li.ui-state-active a{
+    color:#d8ab4c;
+    
+    
+}
+
+/* ----------------------------------------------Rounded Corners-------------------------------------*/
+
+#featured_slide .overlay_left, #featured_slide .overlay_right{
+    display:block;
+    position:absolute;
+    z-index:999;
+    top:0;
+    left:0;
+    width:15px;
+    height:350px;
+    background-image:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/featured_slide_left.png");
+}
+
+#featured_slide .overlay_right{
+    left:945px;
+    background-image:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/featured_slide_right.png");
+}
+
+
+
+#container #content{
+    
+    display:block;
+    float:left;
+    width:620px;
+    margin-left:20px;
+    margin-top:0px;
+    
+}
+
+
+/* ----------------------------------------------Generalise-------------------------------------*/
+
+#container #left_column .holder{
+    display:block;
+    width:960px;
+    margin-bottom:20px;
+}
+
+#container #left_column .imgholder{
+    display:block;
+    margin-bottom:10px;
+}
+
+#container #left_column .nostart li{
+    margin-bottom:3px;
+}
+
+#container #left_column .last{
+    margin-bottom:0;
+}
+
+/* ----------------------------------------------Left Column-------------------------------------*/
+
+#container #left_column{
+    display:block;
+    float:left;
+    width:250px;
+    
+    
+}
+
+#container #left_column .imgholder{
+    width:190px;
+}
+
+
+
+/*Right Column-inner page*/
+
+#container #right_column1{
+    clear:left;
+    display:block;
+    float:left;
+    width:300px;
+}
+
+#container #right_column1 .imgholder{
+    width:100px;
+}
+
+/********** infonbox***********/
+#infobox{
+    
+    margin: 10px 0 10px 0;
+    font-size: 11px;
+    width: 500px;
+    
+    
+}
+
+#infobox ul {color: #000000; margin-left: 0; padding-left: 0; white-space: nowrap;}
+#infobox li {display: inline;}
+#infobox a {padding: 8px 10px 8px 10px;}
+#infobox a:link {text-decoration: none; color: #ffffff; background-color: #48596a; }
+#infobox a:visited {text-decoration: none; color: #ffffff; background-color: #48596a;}
+#infobox a:hover {text-decoration: none; color: #ffffff; background-color: #2772bc;}
+#infobox a:active {text-decoration: none; color: #ffffff; background-color: #2772bc;}
+
+
+
+/********** boxadmission***********/
+#boxadmission{
+    
+    margin: 10px 0 10px 0;
+    font-size: 11px;
+    width: 500px;
+    
+    
+}
+
+#boxadmission ul {color: #000000; margin-left: 0; padding-left: 0; white-space: nowrap;}
+#boxadmission li {display: inline;}
+#boxadmission a {padding: 8px 10px 8px 10px;}
+#boxadmission a:link {text-decoration: none; color: #ffffff; background-color: #710069; }
+#boxadmission a:visited {text-decoration: none; color: #ffffff; background-color: #710069;}
+#boxadmission a:hover {text-decoration: none; color: #ffffff; background-color: #2772bc;}
+#boxadmission a:active {text-decoration: none; color: #ffffff; background-color: #2772bc;}
+
+
+
+.scroll-top {
+    float:right;
+}
+
+
+#videobox {width: 200px; margin: 5px 5px 5px 5px; padding: 0px; border-color:#666666; background-color:#993333}
+#videobox h4 {padding-top: 5px; padding-bottom: 10px;}
+#videobox p {margin: 0; padding: 0;}
+
+
+
+
+#tabpage table{
+    width:550px;
+    border-collapse:collapse;
+    table-layout:auto;
+    vertical-align:top;
+    margin-top:20px;
+    margin-bottom:15px;
+    background-color:#f4f4f4;
+    font-size:12px;
+    color:#00264b;
+    margin-left:40px;
+    
+    
+}
+
+#tabpage table tbody th{
+    color:#363636;
+    background-color:#a9aeb5;
+    border:1px solid #bbbbbb;
+    border-collapse:collapse;
+    
+    table-layout:auto;
+    vertical-align:middle;
+    padding:3px 10px 3px 10px;
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+#tabpage table tbody td{
+    vertical-align:top;
+    border-collapse:collapse;
+    border-left:1px solid #bbbbbb;
+    border-right:1px solid #bbbbbb;
+    border-top:1px solid #bbbbbb;
+    border-bottom:1px solid #bbbbbb;
+    
+    
+}
+
+#tabpage table thead th, table tbody td{
+    padding:5px;
+    border-collapse:collapse;
+}
+
+
+
+
+/************table undergraduate****/
+#table_undergrad table{
+    width:850px;
+    height:600px;
+    border-collapse:collapse;
+    margin-top:20px;
+    vertical-align:top;
+    margin-bottom:15px;
+    background-color:#e0e0e0;
+    font-size:13px;
+    color:#00264b;
+    margin-left:0px;
+    
+    
+}
+
+#table_undergrad table tbody th{
+    color:#333;
+    background-color:#a8b0b6;
+    
+    border-collapse:collapse;
+    
+    table-layout:auto;
+    vertical-align:middle;
+    padding:3px 10px 3px 10px;
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+#table_undergrad table tbody td{
+    vertical-align:top;
+    border-collapse:collapse;
+    border:none;
+    background-color:#e0e0e0;
+    
+    
+}
+
+#table_undergrad table thead th, table tbody td{
+    padding:5px;
+    border-collapse:collapse;
+    padding-right:20px;
+}
+#table_undergrad a{
+    font-weight:300;
+    
+    
+}
+
+
+/*************/
+
+
+/*************/
+
+/*/*************/
+
+/*#tools{
+ position:relative;  margin:20px auto 10px; padding:0px; width:960px;  font:0.9em; text-transform:uppercase; text-align:left; dispaly:block;
+ }
+ #tools ul{
+ 
+ list-style: none;
+ margin: 0;
+ background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/menu/menu_bar.png") no-repeat;
+ padding:5px 15px 0px 15px;
+ z-index: 999999;
+ height: 30px;
+ 
+ color: #f0f0f0;
+ -webkit-box-shadow:0 3px 3px rgba(0,0,0,0.2);
+ -moz-box-shadow:0 3px 3px rgba(0,0,0,0.2);
+ box-shadow:0 3px 3px rgba(0,0,0,0.2);
+ 
+ -moz-border-radius:10px;
+ border-radius:10px;
+ }
+	#tools li{ float: left; font-size:0.9em;}
+	
+ 
+ #tools ul li a{ clear:both; padding: 5px 12px 0 12px;  color: #dddfe1;  text-decoration: none; float: left; display: block; border-right:#575757 1px solid; }
+	
+ #tools ul li a.last{ border-right: 0; }
+ #tools ul li a:hover{color:#d8ab4c;}
+ #tools ul li:hover{ color: #ffffff; }
+	/*--subnav--***/
+
+/*	#tools li ul { clear:both; background: #84247e; opacity:0.9; position: absolute; width: 200px; height: auto; top:25px; padding:5px 10px; z-index: 9999; visibility:hidden;  }
+	
+ #tools  li ul li{  float: none; }
+ #tools  li ul li a{ display:block; padding: 4px 4px 4px 14px; color: #ffffff;  border-bottom:dashed 1px #999999;  float: left; font-size:11px ; word-spacing:5px; letter-spacing:3px; width:auto; border-right:none; }
+ 
+ #tools  li ul li a:hover{ background:none; }
+ #tools li:hover ul{  visibility:visible; }*/
+
+*/*/
+  
+  
+  /*----PROFILE----*/
+#profile{font-size:13px;padding:8px 0 8px 2px;margin:10px 0 10px 50px;clear:both;float:left;display:block;position:relative;width:510px;height:50px;padding-bottom:14px;}
+#profile-division{font-size:12px;padding:0px 0 8px 2px;margin:0px 0 10px 30px;border-bottom:1px solid #f3f3f3;clear:both;float:left;display:block;position:relative;width:510px;height:120px;padding-bottom:14px;line-height:15px}
+img.attachment-profile-thumb{float:left;width:78px;height:78px;margin-right:14px;border:3px solid #ffffff;position:relative;-moz-box-shadow:0 18px 10px -13px #a0a0a0, 1px 2px 4px 1px #afafaf;-webkit-box-shadow:0 18px 10px -13px #a0a0a0, 1px 2px 4px 1px #afafaf;box-shadow:0 18px 10px -13px #a0a0a0, 1px 2px 4px 1px #afafaf;margin-bottom:0px; padding-top:0px;}
+.profile-list-title{color:#9d7c39;text-decoration:none; padding-top:-10px;}
+.profile-list-meta {fcolor:#333;text-decoration:none;}
+.topic-text {color:#b36d00;text-decoration:none; padding-bottom:0px; font-weight:bold }
+.topic-text-full {color:#dcdcdc;text-decoration:none; }
+.profile-list-detail {color:#333;text-decoration:none; font-size:7px; font-family:verdana; }
+
+
+
+
+
+
+/* ----------------------------------------------Academic link Block-------------------------------------*/
+
+#academiclinks{
+    clear:both;
+    margin-top:10px;
+    
+    
+    display:block;
+    width:900px;
+    text-transform:inherit;
+    padding:0px 5px 5px 5px;
+    margin-left:0px;
+}
+
+
+#academiclinks .linkbox{
+    display:block;
+    float:left;
+    width:200px;
+    margin:0 12px 0 0;
+    font-size:12px;
+    
+}
+
+#academiclinks li{
+    list-style:url(images/blue_file.gif);
+    padding-top:5px;
+    
+    
+    
+    
+}
+
+#academiclinks ul{
+    margin:0px 0px 0px 10px;
+    padding:0 5px 0 10px;
+    list-style:none;
+}
+
+#academiclinks .last{
+    margin:0;
+}
+
+
+#academiclinks a:hover{
+    color: #d8ab4c;
+}
+#academiclinks a{
+    font-weight:normal;
+}
+
+
+/* ----------------------------------------------Header-------------------------------------*/
+
+#logo{
+    display:block;
+    margin:15px;
+    padding:0;
+    float:left;
+    width:510px;
+    
+    
+}
+
+
+#header{
+    background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/header_bg.jpg") top no-repeat;
+    font-size:12px;
+    width:960px;height:136px;position:relative;z-index:2000;background-color:#0b162b; margin:0px;
+    height:135px;
+    margin-bottom:0px;
+}
+
+#header a{color:#b3b9bd;}
+
+#header a:hover{color:#d8ab4c;}
+
+#header h1, #header p{
+    margin:0;
+    padding:0;
+    list-style:none;
+    
+}
+
+
+#header .flag{padding-top:2px; padding-left:5px;}
+
+
+#header .fl_right{
+    display:block;
+    width:auto;
+    text-align:right;
+    position:relative;
+    z-index:1px;
+    
+}
+
+
+
+#header .fl_right ul{
+    margin-top:0px;
+    margin-bottom:0px;
+    
+    
+}
+
+#header .fl_right li{
+    display:inline;
+    margin:0 0px 0 0;
+    padding:0 0px 0 6px;
+    
+    
+}
+
+#header .fl_right li.last{
+    margin:0;
+    padding:0;
+    border:none;
+}
+
+
+
+
+
+
+#topnav ul
+{margin:5px; padding:0px;}
+#topnav ul li
+{display:inline; height:20px; float:right; list-style:none; margin-left:15px; }
+#topnav a:hover
+{border-bottom:#CCCCCC solid 1px; }
+/*
+ .topnav ul{float:left;margin:0px;display:inline;z-index:800;height:30px;top:0; width:800px;}
+ 
+ .topnav li{float:left;position:relative; list-style:none; margin-right:0px; }
+ 
+ .topnav li a{float:right;display:inline;color:#c5c5c5;padding:2px 10px 0px 5px;}
+ 
+ .topnav a:hover{background:#e0e0e0;border-bottom:1px solid #4d0000;color:#500049;}
+ .topnav ul ul li a:hover{color:#dddfe1}*/
+/*
+ #menu{display:block;width:1000px;height:30px;background:url(img/menu.png) no-repeat;margin:10px 0 0 0;position:relative;z-index:10;}
+ #menu ul{float:left;margin:0 0 0 5px;display:inline;position:relative;}
+ #menu ul ul{padding:0;margin:0;border:none;display:none;position:absolute;background:none;z-index:10;width:190px;top:29px;left:0;}
+ #menu ul ul ul{top:0px;left:190px;width:190px;}
+ #menu li{float:left;position:relative;}
+ #menu a{display:block;color:#444;font-weight:bold;padding:9px 10px;background:url(img/menu_l.png) no-repeat right;}
+ #menu ul ul a{float:left;height:auto;color:#fff;padding:6px 10px;background:#333;border-bottom:1px solid #444;width:170px;}
+ #menu ul li a.current-cat-single, #menu ul li.current-cat a, #menu ul li.current-cat-parent a, #menu ul li.active-cat a, #menu ul li a:hover,
+ #menu ul li.current-menu-item a, #menu ul li.current-menu-ancestor a{color:#297eb9}
+ #menu ul li.active-cat ul a{color:#fff}
+ #menu ul ul li a:hover{background:#666;color:#fff}*/
+
+
+#date{float:left;margin:0px 0 0 0x;display:inline;background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/head_top_left.png") no-repeat;width:210px;height:20px;text-align:center;color:#dddfe1; padding-left:0px}
+
+/*** widget-right**/
+.widget_recent_entries li {
+    display: block;
+    padding: 6px 0px 7px 0px;
+    margin: 10px 0 20px 0;
+    position: relative;
+    left: -18px;
+    top: -16px;
+    
+    border-bottom: solid 1px #c5c5c5;
+    margin: 5px 10px 0 5px;
+    list-style:none;
+    
+    
+}
+
+.widget_recent_entries .wp-post-image {
+    float: left;
+    margin: 0 5px 0 5px;
+    width:50px;
+    background-color:#dedacb;
+    padding:2px 2px 2px 2px;
+    
+}
+
+.widget_recent_entries li p {
+    margin-top: 5px;
+    
+    color: #707070;
+    
+    padding-left:5px;
+}
+
+
+#widget_right{
+    display:block;
+    float:left;
+    width:300px;
+    
+    margin-left:15px;
+    border-top:solid 5px #004f8f;
+    background-color:#f4f4f4;
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    
+}
+
+#widget_right ul li{
+    margin-left:30px;
+    margin-bottom:2px;
+}
+
+.widget-title{
+    margin-top:20px;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+/************************************************************************************
+ SEARCH FORM
+ *************************************************************************************/
+#search_right {
+    position:relative;
+    clear:both;
+    float:right;
+    margin-bottom:20px;
+}
+
+
+/************************************************************************************
+ SIDEBAR
+ *************************************************************************************/
+.widget {
+    background: #fff;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 15px 18px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.widgettitle {
+    width: 100%;
+    display: block;
+    padding: 16px 18px 7px 18px;
+    margin: 10px 0 5px 0;
+    position: relative;
+    left: -18px;
+    top: -16px;
+    border-top: solid 1px #f5f5f5;
+    border-bottom: solid 1px #848484;
+    font: bold 14px/110% "Lucida Grande", Arial, "Lucida Sans Unicode", sans-serif;
+    color: #333;
+    background: #a9a9a9 url(images/widgettitle-bg.png) repeat-x;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d7d7d7), to(#a9a9a9));
+    background: -moz-linear-gradient(top,  #d7d7d7,  #a9a9a9);
+    background: linear-gradient(-90deg, #d7d7d7, #a9a9a9);
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+.widgettitle a {
+    color: #333;
+    text-decoration: none;
+}
+.widget ul {
+    margin: 0;
+    padding: 5px 0px 5px 10px;
+}
+.widget li {
+    margin: 0;
+    padding: 5px 0px 5px 10px;
+    list-style: none;
+    clear: both;
+    border-bottom: solid 1px #ddd;
+}
+.widget li:last-child {
+    border-bottom: none;
+}
+.widget ul ul {
+    margin: 6px 0 -6px 0px;
+    padding: 0px 0px 10px;
+    border-top: solid 1px #ddd;
+}
+.widget ul ul li {
+    margin: 0;
+    padding-left: 10px;
+}
+
+/**Post announcement**/
+.post_announcement{
+    width:220px;
+    display:block;
+    height:auto;
+    padding-top:0px;
+    padding-bottom:10px;
+    
+    
+}
+
+/**Post news**/
+.post_news{
+    width:450px;
+    display:block;
+    height:280px;
+    padding-top:20px;
+    padding-bottom:5px;
+    border-bottom: dotted 1px  #939494;
+}
+
+/* post date */
+
+#post-date {
+    display:block;
+    float: left;
+    width: 45px;
+    text-align: center;
+    margin: 0px 12px 5px 0;
+    border: solid 1px #bebebe;
+    background: #fff;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ecebeb');
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ecebeb));
+    background: -moz-linear-gradient(top,  #ffffff,  #ecebeb);
+    background: linear-gradient(-90deg, #ffffff, #ecebeb);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    box-shadow: 0 1px 1px rgba(0,0,0,.15);
+}
+#post-date .month {
+    display: block;
+    color: #fff;
+    font: 11px Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    padding: 2px 0px 0px 0px;
+    width: 43px;
+    
+    left: -1px;
+    top: -1px;
+    border: solid 1px #a11216;
+    background: #710069;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#710069', endColorstr='#460041');
+    background: -webkit-gradient(linear, left top, left bottom, from(#710069), to(#460041));
+    background: -moz-linear-gradient(top,  #710069,  #460041);
+    background: linear-gradient(-90deg, #710069, #460041);
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+    box-shadow: 0 1px 0 rgba(0,0,0,.2);
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#post-date .day {
+    color: #666;
+    padding: 2px 0 1px;
+    font: bold 18px Arial, Helvetica, sans-serif;
+    display: block;
+}
+#post-date .year {
+    color: #999;
+    padding: 0 0 4px;
+    font: 10px Arial, Helvetica, sans-serif;
+    display: block;
+}
+
+
+
+/**Quickly find*/
+
+#ContentNewEvents  {
+    width:860px;
+    
+    
+    height:200px;
+    margin-top:15px;
+    margin-left:10px;
+    overflow:hidden;
+    
+    
+    margin-bottom: 20px;
+    padding: 15px 0px;
+    
+}
+
+#online_publications  {
+    float:left;
+    
+    text-align:left;
+    
+    display:block;
+    width:240px;
+    background: #fff;
+    
+    margin-bottom: 20px;
+    padding: 15px 18px 15px 22px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    
+}
+
+#online_publications .swap  {
+    padding-right:10px;
+}
+
+
+/*
+ /* video-panel (/about/video/) */
+/*.video-panel{ background:#f2f2f1 url(./images/video_bg_tab_bottom.gif) bottom left no-repeat; width:776px; margin-top:30px}
+ .video-panel h2.tab{ background:transparent url(./images/video_bg_tab_top.gif) top left no-repeat; height:44px; color:#BD242F; font-size:10px; font-weight:normal; text-align:right; padding:5px 665px 0 0}
+ .video-panel h2.tab strong{ display:block; font-size:14px; background:transparent url(./images/video_arrow.jpg) 100% 50% no-repeat; padding-right:15px; margin-right:-15px}
+ .videos{ overflow:auto; padding:12px 16px}
+ .videos .video{ float:left; margin-right:16px; width:170px; font-size:11px; line-height:10px}
+ .videos .video p{ padding:0; line-height:12px; margin:5px 0}
+ .videos .video p.attribution{ text-align:right; line-height:10px}
+ .red{ color:#BD242F}
+ a.arrow{ background:transparent url(/images/video_arrow_small.gif) 100% 50% no-repeat;  padding-right:10px;  color:#333;  display:inline-block;  margin-bottom:5px}*/
+
+/************************************************/
+
+#clubpage{
+    width:550px;
+    
+}
+
+/* ==== featured image ==== */
+
+.attachment-post-thumbnail {
+    
+    width:150px;
+    
+    height:150px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    float:right;
+    margin-top:30px;
+    margin-left:20px;
+    border:3px solid #ffffff;position:relative;padding-top:0px;
+}
+
+.title_post{
+    text-transform:capitalize;
+    font-size:14px;
+    color:#1f56b2;
+    
+    
+    
+}
+
+.title_post ul{
+    text-decoration:none;
+    margin:0px 0px 0px 10px;
+    padding:0 5px 0 10px;
+    list-style:url(images/blue_file.gif);
+    
+    
+}
+
+.content_announcement{
+    color:#727272;
+    padding:0px 0px 0px 6px;
+}
+
+.title_head{
+    
+    color:#6c0064;
+    font-weight:bold;
+    font-size:14px;
+    margin-bottom:5px;
+    text-transform:capitalize;
+    
+    
+    
+    
+}
+#post_video  {
+    float:left;
+    
+    text-align:left;
+    
+    display:block;
+    width:240px;
+    height:100px;
+    margin-left:3px;
+    margin-bottom: 0px;
+    padding: 5px 18px 0px 17px;
+    
+    /*background: #f0f0f0;
+     -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+     border-radius: 8px;
+     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     box-shadow: 0 1px 3px rgba(0,0,0,.4);
+     */
+}
+
+
+/**Pagenavi**/
+.wp-pagenavi{
+    margin-top:20px;
+    
+}
+.wp-pagenavi a, .wp-pagenavi span {
+    background: #ffffff;
+    color: #ffffff;
+    padding: 5px; margin-right: 10px;
+    font-size: 15px; color: #004f8f; text-decoration: none;
+    border: 1px solid #ccc; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+}
+.wp-pagenavi a:hover, .wp-pagenavi span.current {
+    background: #54004e;
+    color: #ffffff;
+    border: 1px solid #AFAFAF;
+}
+.wp-pagenavi span.current { font-weight: 200; }
+
+
+
+
+
+/***--------**/
+ol,ul,li{margin:0;padding:0;border:0;outline:0;vertical-align:baseline}
+
+nav[role=navigation]{background:url("http://www.muic.mahidol.ac.th/eng/wp-content/themes/muic2012/images/menu/menu_bar.png") no-repeat;display:block;margin-bottom:5px;min-width:950px;position:relative;z-index:3100}
+nav[role=navigation] > ul{clear:both;position:relative;left:2px;  top:-3px; }
+
+nav[role=navigation] ul,.info-nav{margin:0px;list-style:none;width:950px}
+
+nav[role=navigation] ul li,.info-nav li{display:inline-block;float:left;line-height:18px;position:relative;z-index:5000; padding-right:5px;}
+nav[role=navigation] ul li .dropdown,.info-nav li .dropdown{background-color:#f4f4f4;display:none;left:0;padding:6px 15px;position:absolute;top:39px;width:300px;z-index:9999}
+
+
+nav[role=navigation] ul li .dropdown ul,.info-nav li .dropdown ul{width:300px;list-style-type:none}
+nav[role=navigation] ul li .dropdown li,.info-nav li .dropdown li{display:block;float:none;font-size:16px;line-height:40px;margin:0;padding:0;z-index:auto; border-bottom:1px solid #9b9b9b;}
+nav[role=navigation] ul li .dropdown li a,.info-nav li .dropdown li a{background-color:#4d0048;color:#500049;display:block;font-size:12px;line-height:24px;margin:0;padding:0;text-shadow:0 0 transparent}
+
+nav[role=navigation] ul li .dropdown li:hover,.info-nav li .dropdown li:hover{background:transparent}
+nav[role=navigation] ul li .dropdown a:hover,.info-nav li .dropdown a:hover{background:transparent;color:#d8ab4c;text-decoration:none}
+
+
+nav[role=navigation] ul a,.info-nav a{border-bottom:1px solid transparent;color:#ffffff;font-size:13px;line-height:18px;margin-top:9px;padding:6px 10px;position:relative;display:inline-block;text-shadow:0 0 0 transparent, 0 1px rgba(29, 29, 29, 0.2);top:-1px}
+nav[role=navigation] ul li:hover a,.info-nav li:hover a{border-bottom:1px solid #9b9b9b;color:#d8ab4c;text-decoration:none;}
+
+nav[role=navigation] ul li:hover div,.info-nav li:hover div{display:block}
+nav[role=navigation] ul li:hover div a,.info-nav li:hover div a{background:transparent;border-bottom:0}
+
+nav[role=navigation] .search-container{display:block;float:left;padding:10px 0px 0px 0px;position:relative;width:230px; margin-right:0px;}
+nav[role=navigation] .search-container:after{display:block;height:0;clear:both;overflow:hidden;visibility:hidden}
+
+.ie7 nav[role=navigation] .search-container{width:230px}.clearfix:after{clear:both;content:".";display:block;height:0;visibility:hidden;font-size:0}
+
+.info-nav{float:right;list-style:none;margin:17px 0 0;padding:0;width:auto;z-index:3200}.info-nav a{color:#7E7E7E;*display:block;margin-top:0}
+
+.info-nav div.dropdown{top:30px;z-index:7000}
+
+.tab_bachelor{
+    background-color:#560051; text-align:center; margin-bottom:2px; color:#dcdcdc}
+
+#tabpage1 table{
+    width:400px;
+    border-collapse:collapse;
+    table-layout:auto;
+    vertical-align:top;
+    margin-top:20px;
+    margin-bottom:15px;
+    background-color:#f4f4f4;
+    font-size:12px;
+    color:#00264b;
+    margin-left:10px;
+    
+    
+}
+
+#tabpage1 table tbody th{
+    color:#363636;
+    background-color:#a9aeb5;
+    border:1px solid #bbbbbb;
+    border-collapse:collapse;
+    
+    table-layout:auto;
+    vertical-align:middle;
+    padding:3px 10px 3px 10px;
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+#tabpage1 table tbody td{
+    vertical-align:top;
+    border-collapse:collapse;
+    border-left:1px solid #bbbbbb;
+    border-right:1px solid #bbbbbb;
+    border-top:1px solid #bbbbbb;
+    border-bottom:1px solid #bbbbbb;
+    
+    
+}
+
+#tabpage1 table thead th, table tbody td{
+    padding:5px;
+    border-collapse:collapse;
+}

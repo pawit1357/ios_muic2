@@ -10,11 +10,14 @@
 
 @interface ModelConfig : NSObject{
 
-NSInteger id;
-NSInteger app_version;
+    NSInteger id;
+    NSInteger app_version;
+    NSString *udid;
 }
 
 @property (nonatomic) NSInteger id;
 @property (nonatomic) NSInteger app_version;
+@property (nonatomic) NSString *udid;
+
 
 @end

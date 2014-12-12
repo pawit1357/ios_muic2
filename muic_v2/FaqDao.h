@@ -27,6 +27,6 @@
 - (BOOL) deleteQuestion:(ModelFaq*)model;
 - (BOOL) deleteAllQuestion;
 - (NSMutableArray *) getAllQuestion;
-- (NSMutableArray *) getSingleQuestion:(NSInteger) id;
+- (ModelFaq *) getSingleQuestion:(NSInteger) id;
 
 @end
