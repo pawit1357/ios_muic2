@@ -742,6 +742,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -760,7 +761,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "cf635a30-d1b1-4b32-a48e-dedc3e5fb05e";
+				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -793,7 +794,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				PROVISIONING_PROFILE = "cf635a30-d1b1-4b32-a48e-dedc3e5fb05e";
+				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -808,6 +809,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
+				DEVELOPMENT_TEAM = E947792PQ4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "muic_v2/muic_v2-Prefix.pch";
 				INFOPLIST_FILE = "muic_v2/muic_v2-Info.plist";
@@ -818,7 +820,8 @@
 					/Users/pawit/Documents/workspace_ios/Ed.Tech/build/lib/arm,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cf635a30-d1b1-4b32-a48e-dedc3e5fb05e";
+				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
+				PROVISIONING_PROFILE_SPECIFIER = MUIC;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
@@ -832,6 +835,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
+				DEVELOPMENT_TEAM = E947792PQ4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "muic_v2/muic_v2-Prefix.pch";
 				INFOPLIST_FILE = "muic_v2/muic_v2-Info.plist";
@@ -842,7 +846,8 @@
 					/Users/pawit/Documents/workspace_ios/Ed.Tech/build/lib/arm,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cf635a30-d1b1-4b32-a48e-dedc3e5fb05e";
+				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
+				PROVISIONING_PROFILE_SPECIFIER = MUIC;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

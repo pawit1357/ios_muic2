@@ -25,15 +25,15 @@
 
 @implementation Webservice
 
-    NSString *URL_BANNER= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBanner";
-    NSString *URL_MENU= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetMenu";
-    NSString *URL_CONTENT= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContent";
+    NSString *URL_BANNER= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetBanner";
+    NSString *URL_MENU= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetMenu";
+    NSString *URL_CONTENT= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetContent";
     //NSString *URL_CONTENT_NEWS= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContentNews";
-    NSString *URL_BOOK= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetBook";
-    NSString *URL_QUESTION= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetQuestion";
-    NSString *URL_REGISTER= @"http://prdapp.net/itechservice/index.php/ServiceApp/Register/udid/%@/phone_type/%d";
-    NSString *URL_VERSION =@"http://prdapp.net/itechservice/index.php/ServiceApp/GetVersion";
-    NSString *URL_POPUP=@"http://prdapp.net/itechservice/index.php/ServiceLife/PushNews";
+    NSString *URL_BOOK= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetBook";
+    NSString *URL_QUESTION= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetQuestion";
+    NSString *URL_REGISTER= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/Register/udid/%@/phone_type/%d";
+    NSString *URL_VERSION =@"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetVersion";
+    NSString *URL_POPUP=@"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceLife/PushNews";
 
 static Webservice *_webservice = nil;
 
