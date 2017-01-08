@@ -28,7 +28,7 @@
     NSString *URL_BANNER= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetBanner";
     NSString *URL_MENU= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetMenu";
     NSString *URL_CONTENT= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetContent";
-    //NSString *URL_CONTENT_NEWS= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContentNews";
+    //NSString *URL_CONTENT_NEWS= @"http://prdapp.net/itechservice/index.php/ServiceApp/GetContentNews-";
     NSString *URL_BOOK= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetBook";
     NSString *URL_QUESTION= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/GetQuestion";
     NSString *URL_REGISTER= @"https://ed.muic.mahidol.ac.th/itech2/index.php/ServiceApp/Register/udid/%@/phone_type/%d";
