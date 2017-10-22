@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		100BA262BFAA007CA73874A5 /* Pods_muic_v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFD86E352E52D76C2E80EDD /* Pods_muic_v2.framework */; };
 		623AAFD019B1C95800FA2EF3 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 623AAFCF19B1C95800FA2EF3 /* libsqlite3.0.dylib */; };
 		6243D15719D115290008F5F7 /* LibraryDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6243D15619D115290008F5F7 /* LibraryDetailController.m */; };
 		6243D15D19D118830008F5F7 /* PromotoinSubDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6243D15C19D118830008F5F7 /* PromotoinSubDetailController.m */; };
@@ -14,6 +15,7 @@
 		624A18D319C9F91100C9DAEB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A18D219C9F91100C9DAEB /* MainViewController.m */; };
 		62629FFE19B4328C00C25244 /* muicv2.db in Resources */ = {isa = PBXBuildFile; fileRef = 62629FFD19B4328C00C25244 /* muicv2.db */; };
 		626C530E19B2E1DB005C03C8 /* ModelApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 626C530D19B2E1DB005C03C8 /* ModelApp.m */; };
+		626D33851EDAAAC9007BFC48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 626D33841EDAAAC9007BFC48 /* GoogleService-Info.plist */; };
 		6271EE1819E980E500CD19D0 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 6271EE1719E980E500CD19D0 /* style.css */; };
 		627B77DB19ED718500C96DBF /* menu_ico_r.png in Resources */ = {isa = PBXBuildFile; fileRef = 627B77D919ED718500C96DBF /* menu_ico_r.png */; };
 		627B77DC19ED718500C96DBF /* menu_ico.png in Resources */ = {isa = PBXBuildFile; fileRef = 627B77DA19ED718500C96DBF /* menu_ico.png */; };
@@ -25,6 +27,9 @@
 		627C480619E6F97B00D54716 /* anounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 627C480419E6F97B00D54716 /* anounce.png */; };
 		627C480919E6FA1800D54716 /* news.png in Resources */ = {isa = PBXBuildFile; fileRef = 627C480819E6FA1800D54716 /* news.png */; };
 		628518DD19DA7922001EEA16 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 628518DC19DA7922001EEA16 /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6292B03F1E87F9EB00548C2D /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6292B03E1E87F9EB00548C2D /* FirebaseCore.framework */; };
+		6292B0411E8801A400548C2D /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6292B0401E8801A400548C2D /* FirebaseInstanceID.framework */; };
+		6292B0441E88036800548C2D /* FirebaseMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6292B0431E88036800548C2D /* FirebaseMessaging.framework */; };
 		62A3887919CBE65700C73023 /* ModelContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 62A3887819CBE65700C73023 /* ModelContent.m */; };
 		62A3887C19CBE77300C73023 /* ContentDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 62A3887B19CBE77300C73023 /* ContentDao.m */; };
 		62A3887F19CC23C500C73023 /* MenuDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62A3887E19CC23C500C73023 /* MenuDetailController.m */; };
@@ -60,6 +65,7 @@
 		62FEC47219E90FE700ED2871 /* BookSubDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FEC47119E90FE700ED2871 /* BookSubDetailController.m */; };
 		62FEC47419E9170400ED2871 /* news_layout.png in Resources */ = {isa = PBXBuildFile; fileRef = 62FEC47319E9170400ED2871 /* news_layout.png */; };
 		62FEC47619E9178200ED2871 /* calendar_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 62FEC47519E9178200ED2871 /* calendar_2.png */; };
+		CE0DD854547EF95E4C72C518 /* Pods_muic_v2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3816B981FDFA029200047A34 /* Pods_muic_v2Tests.framework */; };
 		D5C438F6198E871D004D9294 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5C438F5198E871D004D9294 /* Foundation.framework */; };
 		D5C438F8198E871D004D9294 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5C438F7198E871D004D9294 /* CoreGraphics.framework */; };
 		D5C438FA198E871D004D9294 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5C438F9198E871D004D9294 /* UIKit.framework */; };
@@ -96,6 +102,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6292B0381E87F8B300548C2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6292B0321E87F8B200548C2D /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E179A68CF800261CFF45C543168ABC57;
+			remoteInfo = GoogleToolboxForMac;
+		};
+		6292B03A1E87F8B300548C2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6292B0321E87F8B200548C2D /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 669709C0C5990E1ABE3FA199F9539602;
+			remoteInfo = "Pods-muic_v2";
+		};
+		6292B03C1E87F8B300548C2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6292B0321E87F8B200548C2D /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 508CA2BB03C4BBDC39F92D476C9CF696;
+			remoteInfo = "Pods-muic_v2Tests";
+		};
+		6292B0491E88036800548C2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6292B0321E87F8B200548C2D /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 26529942F76E22EB816642B98CEFC6F4;
+			remoteInfo = Protobuf;
+		};
 		D5C4391B198E871D004D9294 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D5C438EA198E871D004D9294 /* Project object */;
@@ -106,6 +140,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15931E784A266B89974C3D91 /* Pods-muic_v2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-muic_v2Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-muic_v2Tests/Pods-muic_v2Tests.release.xcconfig"; sourceTree = "<group>"; };
+		34D7C0FC995869A52EF10CAC /* Pods-muic_v2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-muic_v2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-muic_v2Tests/Pods-muic_v2Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		3816B981FDFA029200047A34 /* Pods_muic_v2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_muic_v2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52E3358E466BEC2FF7DC394F /* Pods-muic_v2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-muic_v2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-muic_v2/Pods-muic_v2.debug.xcconfig"; sourceTree = "<group>"; };
+		5CFD86E352E52D76C2E80EDD /* Pods_muic_v2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_muic_v2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EBE5EEA6077681591AE3CF3 /* Pods-muic_v2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-muic_v2.release.xcconfig"; path = "Pods/Target Support Files/Pods-muic_v2/Pods-muic_v2.release.xcconfig"; sourceTree = "<group>"; };
 		623AAFCF19B1C95800FA2EF3 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6243D15519D115290008F5F7 /* LibraryDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryDetailController.h; sourceTree = "<group>"; };
 		6243D15619D115290008F5F7 /* LibraryDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryDetailController.m; sourceTree = "<group>"; };
@@ -118,6 +158,7 @@
 		62629FFD19B4328C00C25244 /* muicv2.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = muicv2.db; sourceTree = "<group>"; };
 		626C530C19B2E1DB005C03C8 /* ModelApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelApp.h; sourceTree = "<group>"; };
 		626C530D19B2E1DB005C03C8 /* ModelApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelApp.m; sourceTree = "<group>"; };
+		626D33841EDAAAC9007BFC48 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6271EE1719E980E500CD19D0 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		627B77D919ED718500C96DBF /* menu_ico_r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_ico_r.png; sourceTree = "<group>"; };
 		627B77DA19ED718500C96DBF /* menu_ico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_ico.png; sourceTree = "<group>"; };
@@ -132,6 +173,10 @@
 		627C480819E6FA1800D54716 /* news.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = news.png; sourceTree = "<group>"; };
 		628518DB19DA7922001EEA16 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		628518DC19DA7922001EEA16 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		6292B0321E87F8B200548C2D /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		6292B03E1E87F9EB00548C2D /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Pods/FirebaseCore/Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
+		6292B0401E8801A400548C2D /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Pods/FirebaseInstanceID/Frameworks/FirebaseInstanceID.framework; sourceTree = "<group>"; };
+		6292B0431E88036800548C2D /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = Pods/FirebaseMessaging/Frameworks/FirebaseMessaging.framework; sourceTree = "<group>"; };
 		62A3887719CBE65700C73023 /* ModelContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelContent.h; sourceTree = "<group>"; };
 		62A3887819CBE65700C73023 /* ModelContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelContent.m; sourceTree = "<group>"; };
 		62A3887A19CBE77300C73023 /* ContentDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentDao.h; sourceTree = "<group>"; };
@@ -239,10 +284,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6292B0441E88036800548C2D /* FirebaseMessaging.framework in Frameworks */,
+				6292B0411E8801A400548C2D /* FirebaseInstanceID.framework in Frameworks */,
+				6292B03F1E87F9EB00548C2D /* FirebaseCore.framework in Frameworks */,
 				623AAFD019B1C95800FA2EF3 /* libsqlite3.0.dylib in Frameworks */,
 				D5C438F8198E871D004D9294 /* CoreGraphics.framework in Frameworks */,
 				D5C438FA198E871D004D9294 /* UIKit.framework in Frameworks */,
 				D5C438F6198E871D004D9294 /* Foundation.framework in Frameworks */,
+				100BA262BFAA007CA73874A5 /* Pods_muic_v2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,12 +302,24 @@
 				D5C43918198E871D004D9294 /* XCTest.framework in Frameworks */,
 				D5C4391A198E871D004D9294 /* UIKit.framework in Frameworks */,
 				D5C43919198E871D004D9294 /* Foundation.framework in Frameworks */,
+				CE0DD854547EF95E4C72C518 /* Pods_muic_v2Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06FFE58D3E3295C95691B9CB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				52E3358E466BEC2FF7DC394F /* Pods-muic_v2.debug.xcconfig */,
+				5EBE5EEA6077681591AE3CF3 /* Pods-muic_v2.release.xcconfig */,
+				34D7C0FC995869A52EF10CAC /* Pods-muic_v2Tests.debug.xcconfig */,
+				15931E784A266B89974C3D91 /* Pods-muic_v2Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		623AAFD319B1CA3000FA2EF3 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +363,17 @@
 				62B04C2B19E3DBAD0029227E /* NSString_stripHtml.m */,
 			);
 			name = lib;
+			sourceTree = "<group>";
+		};
+		6292B0331E87F8B200548C2D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6292B0391E87F8B300548C2D /* GoogleToolboxForMac.framework */,
+				6292B03B1E87F8B300548C2D /* Pods_muic_v2.framework */,
+				6292B03D1E87F8B300548C2D /* Pods_muic_v2Tests.framework */,
+				6292B04A1E88036800548C2D /* Protobuf.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		62B5340619C92840002B6DFC /* icon */ = {
@@ -393,6 +465,7 @@
 				D5C438F4198E871D004D9294 /* Frameworks */,
 				D5C4391D198E871D004D9294 /* muic_v2Tests */,
 				D5C438F3198E871D004D9294 /* Products */,
+				06FFE58D3E3295C95691B9CB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -408,11 +481,17 @@
 		D5C438F4198E871D004D9294 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6292B0431E88036800548C2D /* FirebaseMessaging.framework */,
+				6292B0401E8801A400548C2D /* FirebaseInstanceID.framework */,
+				6292B03E1E87F9EB00548C2D /* FirebaseCore.framework */,
+				6292B0321E87F8B200548C2D /* Pods.xcodeproj */,
 				623AAFCF19B1C95800FA2EF3 /* libsqlite3.0.dylib */,
 				D5C438F5198E871D004D9294 /* Foundation.framework */,
 				D5C438F7198E871D004D9294 /* CoreGraphics.framework */,
 				D5C438F9198E871D004D9294 /* UIKit.framework */,
 				D5C43917198E871D004D9294 /* XCTest.framework */,
+				5CFD86E352E52D76C2E80EDD /* Pods_muic_v2.framework */,
+				3816B981FDFA029200047A34 /* Pods_muic_v2Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -420,6 +499,7 @@
 		D5C438FB198E871D004D9294 /* muic_v2 */ = {
 			isa = PBXGroup;
 			children = (
+				626D33841EDAAAC9007BFC48 /* GoogleService-Info.plist */,
 				D5C43904198E871D004D9294 /* AppDelegate.h */,
 				D5C43905198E871D004D9294 /* AppDelegate.m */,
 				624A18D119C9F91100C9DAEB /* MainViewController.h */,
@@ -518,9 +598,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D5C43927198E871D004D9294 /* Build configuration list for PBXNativeTarget "muic_v2" */;
 			buildPhases = (
+				DDB120AD146B2FE78FDDA6FC /* [CP] Check Pods Manifest.lock */,
 				D5C438EE198E871D004D9294 /* Sources */,
 				D5C438EF198E871D004D9294 /* Frameworks */,
 				D5C438F0198E871D004D9294 /* Resources */,
+				977A7229AC8DAC804D4B800B /* [CP] Embed Pods Frameworks */,
+				91EA1ACC9969DF711B1ACF2B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -535,9 +618,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D5C4392A198E871D004D9294 /* Build configuration list for PBXNativeTarget "muic_v2Tests" */;
 			buildPhases = (
+				C6D2369B7EC8A31E3785D3B9 /* [CP] Check Pods Manifest.lock */,
 				D5C43912198E871D004D9294 /* Sources */,
 				D5C43913198E871D004D9294 /* Frameworks */,
 				D5C43914198E871D004D9294 /* Resources */,
+				9405717DBBAFD82D2EF7D905 /* [CP] Embed Pods Frameworks */,
+				EB2F6E63CDA1073178827CC0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -555,11 +641,12 @@
 		D5C438EA198E871D004D9294 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = muic;
 				TargetAttributes = {
 					D5C438F1198E871D004D9294 = {
 						DevelopmentTeam = E947792PQ4;
+						ProvisioningStyle = Automatic;
 					};
 					D5C43915198E871D004D9294 = {
 						TestTargetID = D5C438F1198E871D004D9294;
@@ -577,6 +664,12 @@
 			mainGroup = D5C438E9198E871D004D9294;
 			productRefGroup = D5C438F3198E871D004D9294 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6292B0331E87F8B200548C2D /* Products */;
+					ProjectRef = 6292B0321E87F8B200548C2D /* Pods.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D5C438F1198E871D004D9294 /* muic_v2 */,
@@ -584,6 +677,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6292B0391E87F8B300548C2D /* GoogleToolboxForMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GoogleToolboxForMac.framework;
+			remoteRef = 6292B0381E87F8B300548C2D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6292B03B1E87F8B300548C2D /* Pods_muic_v2.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_muic_v2.framework;
+			remoteRef = 6292B03A1E87F8B300548C2D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6292B03D1E87F8B300548C2D /* Pods_muic_v2Tests.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_muic_v2Tests.framework;
+			remoteRef = 6292B03C1E87F8B300548C2D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6292B04A1E88036800548C2D /* Protobuf.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Protobuf.framework;
+			remoteRef = 6292B0491E88036800548C2D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D5C438F0198E871D004D9294 /* Resources */ = {
@@ -607,6 +731,7 @@
 				62B5131C19B3166900D33CF8 /* Main_iPhone.storyboard in Resources */,
 				D5C4394D198E8759004D9294 /* life152x152.png in Resources */,
 				D5C43942198E8759004D9294 /* life48x48.png in Resources */,
+				626D33851EDAAAC9007BFC48 /* GoogleService-Info.plist in Resources */,
 				D5C43911198E871D004D9294 /* Images.xcassets in Resources */,
 				D5C43952198E8759004D9294 /* splash-iphone-gen4-2x.png in Resources */,
 				D5C43900198E871D004D9294 /* InfoPlist.strings in Resources */,
@@ -641,6 +766,98 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		91EA1ACC9969DF711B1ACF2B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-muic_v2/Pods-muic_v2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9405717DBBAFD82D2EF7D905 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-muic_v2Tests/Pods-muic_v2Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		977A7229AC8DAC804D4B800B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-muic_v2/Pods-muic_v2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C6D2369B7EC8A31E3785D3B9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DDB120AD146B2FE78FDDA6FC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+		};
+		EB2F6E63CDA1073178827CC0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-muic_v2Tests/Pods-muic_v2Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D5C438EE198E871D004D9294 /* Sources */ = {
@@ -739,14 +956,20 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -759,7 +982,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
 				SDKROOT = iphoneos;
@@ -780,20 +1003,25 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -803,25 +1031,33 @@
 		};
 		D5C43928198E871D004D9294 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 52E3358E466BEC2FF7DC394F /* Pods-muic_v2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = E947792PQ4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/FirebaseCore/Frameworks",
+					"$(PROJECT_DIR)/Pods/FirebaseInstanceID/Frameworks",
+					"$(PROJECT_DIR)/Pods/FirebaseMessaging/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "muic_v2/muic_v2-Prefix.pch";
 				INFOPLIST_FILE = "muic_v2/muic_v2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/pawit/Documents/workspace_ios/Ed.Tech/build/lib/arm,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mu.muic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
-				PROVISIONING_PROFILE_SPECIFIER = MUIC;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
@@ -829,31 +1065,40 @@
 		};
 		D5C43929198E871D004D9294 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EBE5EEA6077681591AE3CF3 /* Pods-muic_v2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mahidol University International College (E947792PQ4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = E947792PQ4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/FirebaseCore/Frameworks",
+					"$(PROJECT_DIR)/Pods/FirebaseInstanceID/Frameworks",
+					"$(PROJECT_DIR)/Pods/FirebaseMessaging/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "muic_v2/muic_v2-Prefix.pch";
 				INFOPLIST_FILE = "muic_v2/muic_v2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/pawit/Documents/workspace_ios/Ed.Tech/build/lib/arm,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mu.muic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3b21a663-78fd-4db7-abad-25ecc571ce3a";
-				PROVISIONING_PROFILE_SPECIFIER = MUIC;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
 		D5C4392B198E871D004D9294 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34D7C0FC995869A52EF10CAC /* Pods-muic_v2Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/muic_v2.app/muic_v2";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -868,6 +1113,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "muic_v2Tests/muic_v2Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mu.muic.v2.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -876,6 +1122,7 @@
 		};
 		D5C4392C198E871D004D9294 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15931E784A266B89974C3D91 /* Pods-muic_v2Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/muic_v2.app/muic_v2";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -886,6 +1133,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "muic_v2/muic_v2-Prefix.pch";
 				INFOPLIST_FILE = "muic_v2Tests/muic_v2Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mu.muic.v2.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

@@ -266,17 +266,24 @@
              ModelMenu *modifyMenu = [[ModelMenu alloc] init];
             if (childMenu.parent != -1) {
                 ModelMenu *parentMenu= (ModelMenu*)[[MenuDao MenuDao] getSingleMenu:childMenu.parent];
-                modifyMenu.name   = [NSString stringWithFormat: @" :: Pevios menu[%@] ::",parentMenu.name ];
+                modifyMenu.name   = [NSString stringWithFormat: @" :: Back to %@ ::",parentMenu.name ];
                 modifyMenu.description = @"";//parentMenu.name;
             }else{
-                modifyMenu.name   = @"Home";
-                modifyMenu.description =@" ";
+                modifyMenu.name   = @"Main menu";
+                modifyMenu.description =@"Select menu at below.";
             }
             //----------------- END -------------------
 
             cell.textLabel.text =modifyMenu.name;
             cell.detailTextLabel.text = modifyMenu.description;
-            cell.imageView.image =[UIImage imageNamed:@"home_menu.png"];
+            UIImage *originalImage=   [UIImage imageNamed:@"ListFilled_50.png"];
+                
+            UIImage  *resizedImage = [self imageWithImage:originalImage scaledToSize:CGSizeMake(25,25)];
+
+            cell.imageView.image =resizedImage;
+            
+                
+                
             }else{
                 cell.textLabel.text =menu.name;
                 cell.detailTextLabel.text = menu.description;
@@ -328,6 +335,7 @@
             }
             
         }
+        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     }
     
     return cell;
@@ -394,8 +402,22 @@
         }
     }
     }
+    
+    
 }
 
+
+- (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 
 
 

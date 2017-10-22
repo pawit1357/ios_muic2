@@ -23,7 +23,7 @@ NSString *databasePath;
 - (BOOL) saveModel:(ModelBanner*)model;
 - (BOOL) updateModel:(ModelBanner*)model;
 - (BOOL) deleteModel:(ModelBanner*)model;
-- (BOOL) deleteAll;
+- (BOOL) deleteAllBook;
 - (NSMutableArray *) getAll;
 - (NSArray *) getSingle:(NSInteger) id;
 @end

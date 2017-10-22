@@ -66,7 +66,7 @@ static Webservice *_webservice = nil;
         //NSLog(@"Result = %@",result);
     if( result != nil){
         if( result.count>0 ){
-            [[BannerDao BannerDao] deleteAll];
+            [[BannerDao BannerDao] deleteAllBook];
             for (NSMutableDictionary *dataDict in result)
             {
                 ModelBanner *banner = [[ModelBanner alloc] init];

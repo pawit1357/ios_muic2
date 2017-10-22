@@ -52,7 +52,7 @@
     if(_contentItem){
         
         ModelContent *content = (ModelContent*)_contentItem;
-        self.title = content.title;
+        self.title = [[NSString alloc] initWithData:[NSData dataFromBase64String:content.title] encoding:NSUTF8StringEncoding];
 
         NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"style" ofType:@"css"];
         NSString *css = [NSString stringWithContentsOfFile:cssPath encoding:NSUTF8StringEncoding error:nil];
