@@ -35,7 +35,12 @@
     if(_contentItem){
         
         ModelContent *content = (ModelContent*)_contentItem;
-        self.title = content.title;
+        
+        
+        NSData *titleData = [NSData dataFromBase64String:content.title];
+        NSString *convertedTitleStr = [[NSString alloc] initWithData:titleData encoding:NSUTF8StringEncoding];
+        
+        self.title = convertedTitleStr;
         //update already read content
         content.read = @"1";
         

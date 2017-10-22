@@ -164,7 +164,7 @@ static BookDao *_bookDao = nil;
     
     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
     {
-        NSString *querySQL = @"SELECT id,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where status='A'";
+        NSString *querySQL = @"SELECTid,book_name,book_title,book_cover,book_author,callNo,division,program,type,status,flag,recommended,create_date FROM tb_book Where status='A'";
 
         const char *query_stmt = [querySQL UTF8String];
         

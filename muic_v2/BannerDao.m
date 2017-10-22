@@ -225,29 +225,53 @@ static BannerDao * _bannerDao = nil;
 }
 //delete the employee from the database
 
-- (BOOL) deleteAll
+//- (BOOL) deleteAll
+//{
+//    BOOL success = false;
+//     sqlite3_stmt *statement = NULL;
+//     const char *dbpath = [databasePath UTF8String];
+//     
+//     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+//     {
+//         //NSLog(@"Exitsing data, Delete Please");
+//         NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_banner"];
+//     
+//         const char *delete_stmt = [deleteSQL UTF8String];
+//         sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+//         
+//         if (sqlite3_step(statement) == SQLITE_DONE)
+//         {
+//             success = true;
+//         }
+//     }
+//     sqlite3_finalize(statement);
+//     sqlite3_close(db);
+//    
+//    return success;
+//}
+
+- (BOOL) deleteAllBook
 {
     BOOL success = false;
-     sqlite3_stmt *statement = NULL;
-     const char *dbpath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbpath, &db) == SQLITE_OK)
-     {
-         //NSLog(@"Exitsing data, Delete Please");
-         NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_banner"];
-     
-         const char *delete_stmt = [deleteSQL UTF8String];
-         sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
-         
-         if (sqlite3_step(statement) == SQLITE_DONE)
-         {
-             success = true;
-         }
-     }
-     sqlite3_finalize(statement);
-     sqlite3_close(db);
+    sqlite3_stmt *statement = NULL;
+    const char *dbpath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbpath, &db) == SQLITE_OK)
+    {
+        //NSLog(@"Exitsing data, Delete Please");
+        NSString *deleteSQL = [NSString stringWithFormat:@"delete from tb_banner"];
+        
+        const char *delete_stmt = [deleteSQL UTF8String];
+        sqlite3_prepare_v2(db, delete_stmt, -1, &statement, NULL );
+        
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            success = true;
+        }
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     
     return success;
 }
-
 @end

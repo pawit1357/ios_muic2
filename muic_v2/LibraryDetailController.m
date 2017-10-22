@@ -127,6 +127,8 @@
     
     [spinner startAnimating];
     
+    
+
     NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,[model.book_cover lastPathComponent]];
     
     
@@ -143,6 +145,8 @@
         // download the image asynchronously
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSLog(@"Books: Downloading Started");
+//            NSString * urlImg = [self URLEncodeString:@"https://ed.muic.mahidol.ac.th/itech2/images/muiclogo.png"];
+
             NSURL  *url = [NSURL URLWithString:model.book_cover];
             NSData *urlData = [NSData dataWithContentsOfURL:url];
             if ( urlData )
@@ -160,7 +164,43 @@
             
         });
     }
+     
     return cell;
+}
+
+
+
+
+-(BOOL)downloadMedia :(NSString*)url_ :(NSString*)name{
+    NSString *stringURL = url_;
+    NSURL  *url = [NSURL URLWithString:stringURL];
+    NSError* error = nil;
+    
+    NSData *urlData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    } else {
+        NSLog(@"Data has loaded successfully.");
+    }
+    
+    if ( urlData )
+    {
+        NSArray       *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString  *documentsDirectory = [paths objectAtIndex:0];
+        
+        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,name];
+        [urlData writeToFile:filePath atomically:YES];
+        return YES;
+    }
+    return NO;
+}
+
+-(UIImage*)loadMedia :(NSString*)name{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,     NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:name];
+    UIImage *img_ = [UIImage imageWithContentsOfFile:getImagePath];
+    return img_;
 }
 
 #pragma mark -
@@ -168,6 +208,16 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+}
+
+-(NSString *) URLEncodeString:(NSString *) str
+{
+    
+    NSMutableString *tempStr = [NSMutableString stringWithString:str];
+    [tempStr replaceOccurrencesOfString:@" " withString:@"+" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [tempStr length])];
+    
+    
+    return [[NSString stringWithFormat:@"%@",tempStr] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 #pragma mark -

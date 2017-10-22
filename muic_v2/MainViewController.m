@@ -71,7 +71,7 @@
     
     
 
-    [self showToolBar];
+    //[self showToolBar];
     [self prepareContent];
     
     InternetStatus *internet  = [[InternetStatus alloc]init];
@@ -91,7 +91,7 @@
 
 -(void) showAlertPopup:(ModelPopup *)model{
     CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
-    UIView *demoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width-20, 100)];
+    UIView *demoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width-20, 150)];
     // Add some custom content to the alert view
     [alertView setContainerView:demoView];
     
@@ -111,7 +111,7 @@
     [spinner setColor:[UIColor grayColor]];
     [demoView addSubview:spinner];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width/2)-110, 10, 220, 81)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, self.view.bounds.size.width-38, 81)];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSURL  *url = [NSURL URLWithString:model.url];
@@ -133,10 +133,12 @@
     
 
     //
-    //UILabel *lbText =[[UILabel alloc] initWithFrame:CGRectMake(50,0,self.view.bounds.size.width-20,50)];
-    //lbText.textColor = [UIColor redColor];
-    //[demoView addSubview:lbText];
-    
+    UILabel *lbText =[[UILabel alloc] initWithFrame:CGRectMake(10,0,self.view.bounds.size.width-20,50)];
+    lbText.textColor = [UIColor brownColor];
+    lbText.font=[UIFont boldSystemFontOfSize:11.0];
+    lbText.text = model.message;
+    [demoView addSubview:lbText];
+//
 
     
     
@@ -395,7 +397,11 @@
     
 
     lbTitle = (UILabel *)[cell viewWithTag:101];
-    lbTitle.text = app.title;
+    
+    NSData *dataTitle = [NSData dataFromBase64String:app.title];
+    NSString *convertedTitleStr = [[NSString alloc] initWithData:dataTitle encoding:NSUTF8StringEncoding];
+    
+    lbTitle.text = [convertedTitleStr stripHtml];
     
     lbDesc = (UILabel *)[cell viewWithTag:102];
     NSData *data = [NSData dataFromBase64String:app.description];
